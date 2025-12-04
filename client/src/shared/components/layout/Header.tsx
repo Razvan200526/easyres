@@ -1,3 +1,4 @@
+import { H4 } from '@client/common/components/typography';
 import { Logo } from '@client/common/icons/Logo';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useAppSidebarStore } from '../../../appStore';
@@ -21,9 +22,10 @@ export const Header = () => {
 
   return (
     <div className="flex items-center justify-between pt-2 pr-2">
-      <div className="flex items-center gap-2 px-2">
-        <div className="bg-background flex h-8 w-8 items-center justify-center rounded-full">
+      <div className="flex items-center gap-2 px-2 w-full">
+        <div className="flex w-full items-center text-center gap-3">
           <Logo className="size-8" />
+          {isMinimized && <H4 className="text-primary pt-1">EasyRes</H4>}
         </div>
       </div>
       <div className="flex items-center justify-end gap-1.5">

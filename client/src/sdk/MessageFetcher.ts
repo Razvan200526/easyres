@@ -2,18 +2,18 @@ import type { Fetcher } from './Fetcher';
 import type { ResponseType } from './types';
 
 export class MessageFetcher {
-  constructor(readonly fetcher: Fetcher) {}
+  constructor(readonly fetcher: Fetcher) { }
 
   public readonly coverletter = {
     message: async (payload: {
       question: string;
       id: string;
     }): Promise<ResponseType> => {
-      this.fetcher.config.baseURL = import.meta.env.VITE_PY_URL;
+      this.fetcher.config.baseURL = import.meta.env.VITE_PY_URL as string;
       const res = this.fetcher.post(`/api/coverletters/message/${payload.id}`, {
         message: payload.question,
       });
-      this.fetcher.config.baseURL = import.meta.env.VITE_APP_URL;
+      this.fetcher.config.baseURL = import.meta.env.VITE_APP_URL as string;
       return res;
     },
   };
@@ -23,11 +23,11 @@ export class MessageFetcher {
       question: string;
       id: string;
     }): Promise<ResponseType> => {
-      this.fetcher.config.baseURL = import.meta.env.VITE_PY_URL;
+      this.fetcher.config.baseURL = import.meta.env.VITE_PY_URL as string;
       const res = this.fetcher.post(`/api/resumes/message/${payload.id}`, {
         message: payload.question,
       });
-      this.fetcher.config.baseURL = import.meta.env.VITE_APP_URL;
+      this.fetcher.config.baseURL = import.meta.env.VITE_APP_URL as string;
       return res;
     },
   };

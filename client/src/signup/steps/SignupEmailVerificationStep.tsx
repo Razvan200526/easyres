@@ -1,3 +1,4 @@
+import { Toast } from '@client/common/components/toast';
 import { backend } from '@client/shared/backend';
 import { Form, Spinner } from '@heroui/react';
 import { Button } from '@shared/components/button';
@@ -27,6 +28,12 @@ export const SignupEmailVerificationStep = () => {
       email: data.email,
       otp,
     });
+    if (!response.data.success) {
+      Toast.error({ description: 'Invalid OTP' });
+      setIsInvalid(true);
+      setIsLoading(false);
+      return;
+    }
 
     setTimeout(async () => {
       setIsLoading(false);

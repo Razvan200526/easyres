@@ -20,7 +20,7 @@ export class AuthFetcher {
     checkOtp: async (payload: {
       email: string;
       otp: string;
-    }): Promise<ResponseType<{ status: boolean }>> => {
+    }): Promise<ResponseType<{ error: string; success: boolean }>> => {
       return await this.fetcher.post(
         `/api/auth/signup/check-otp?email=${payload.email}&code=${payload.otp}`,
       );

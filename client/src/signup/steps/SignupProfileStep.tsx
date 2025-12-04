@@ -29,14 +29,13 @@ export const SignupProfileStep = () => {
       return;
     }
 
-    await backend.auth.signup.email({
+    const res = await backend.auth.signup.email({
       email: data.email,
       password: data.password,
       firstName: data.firstName,
       lastName: data.lastName,
       image: data.image,
     });
-    const res = await backend.auth.signup.sendOTP({ email: data.email });
 
     if (!res.success) {
       Toast.error({ description: 'Failed to send Email OTP' });

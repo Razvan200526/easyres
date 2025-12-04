@@ -10,7 +10,7 @@ import type {
 } from './types';
 
 export class CoverLetterFetcher {
-  constructor(readonly fetcher: Fetcher) {}
+  constructor(readonly fetcher: Fetcher) { }
 
   public readonly coverletter = {
     retrieve: async (payload: { userId: string }): Promise<ResponseType> => {
@@ -45,17 +45,17 @@ export class CoverLetterFetcher {
       );
     },
     getSuggestions: async (payload: { id: string }): Promise<ResponseType> => {
-      this.fetcher.config.baseURL = import.meta.env.VITE_PY_URL;
+      this.fetcher.config.baseURL = import.meta.env.VITE_PY_URL as string;
       const res = this.fetcher.get(
         `/api/suggestions/coverletter/${payload.id}`,
       );
-      this.fetcher.config.baseURL = import.meta.env.VITE_APP_URL;
+      this.fetcher.config.baseURL = import.meta.env.VITE_APP_URL as string;
       return res;
     },
   };
 
   public readonly create = (payload: { url: string }) => {
-    const socket = new Socket(import.meta.env.VITE_APP_URL);
+    const socket = new Socket(import.meta.env.VITE_PY_URL as string);
 
     socket.on<{ coverletter: CoverLetterType }>('message', (response) => {
       queryClient.invalidateQueries();
@@ -90,7 +90,7 @@ export class CoverLetterFetcher {
       ws: Socket,
     ) => void;
   }) => {
-    const socket = new Socket(import.meta.env.VITE_PY_URL);
+    const socket = new Socket(import.meta.env.VITE_PY_URL as string);
     socket.on(
       'message',
       (response: SocketResponseType<ResumeChatResponseType>) => {
