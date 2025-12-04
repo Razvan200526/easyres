@@ -1,0 +1,149 @@
+import { Chip, cn } from '@heroui/react';
+import { Icon } from '@iconify/react';
+import type { ApplicationType } from '@sdk/types';
+import { Card } from '@shared/components/card';
+import { H4 } from '@shared/components/typography';
+import { formatDate } from '@shared/utils';
+
+const statusConfig = {
+  applied: {
+    color: 'bg-blue-500/10 text-blue-700 border-blue-500/20',
+    label: 'Applied',
+  },
+  interviewing: {
+    color: 'bg-amber-500/10 text-amber-700 border-amber-500/20',
+    label: 'Interviewing',
+  },
+  accepted: {
+    color: 'bg-green-500/10 text-green-700 border-green-500/20',
+    label: 'Accepted',
+  },
+  rejected: {
+    color: 'bg-red-500/10 text-red-700 border-red-500/20',
+    label: 'Rejected',
+  },
+};
+
+const platformConfig = {
+  linkedin: {
+    icon: 'mdi:linkedin',
+    color: 'text-[#0077B5]',
+  },
+  glassdoor: {
+    icon: 'simple-icons:glassdoor',
+    color: 'text-[#0CAA41]',
+  },
+  other: {
+    icon: 'heroicons:briefcase',
+    color: 'text-primary',
+  },
+};
+
+export const ApplicationCard = ({
+  application,
+}: {
+  application: ApplicationType;
+}) => {
+  const statusInfo = statusConfig[application.status];
+  const platformInfo = platformConfig[application.platform];
+
+  return (
+    <Card className="flex flex-col gap-3 max-w-full transition-all hover:border-border-hover duration-300 ease-in cursor-pointer group">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <Icon
+              icon={platformInfo.icon}
+              className={cn('size-4 shrink-0', platformInfo.color)}
+            />
+            <H4 className="truncate text-primary">{application.jobTitle}</H4>
+          </div>
+          <p className="text-sm font-semibold text-secondary-text truncate">
+            {application.employer}
+          </p>
+        </div>
+
+        <Chip
+          size="sm"
+          variant="flat"
+          className={cn(
+            'text-xs font-semibold px-2.5 py-0.5 border',
+            statusInfo.color,
+          )}
+        >
+          {statusInfo.label}
+        </Chip>
+      </div>
+
+      <div className="flex items-center gap-4 text-xs text-muted">
+        <div className="flex items-center gap-1.5">
+          <Icon icon="heroicons:map-pin" className="size-3.5" />
+          <span className="font-medium">{application.location}</span>
+        </div>
+        {application.salaryRange && (
+          <>
+            <span className="text-border">•</span>
+            <div className="flex items-center gap-1.5">
+              <Icon icon="heroicons:banknotes" className="size-3.5" />
+              <span className="font-medium">{application.salaryRange}</span>
+            </div>
+          </>
+        )}
+      </div>
+
+      <div className="flex items-center justify-between pt-2 border-t border-border">
+        <div className="flex items-center gap-2">
+          <p className="text-xs text-muted font-semibold">
+            Updated {formatDate(application.updatedAt)}
+          </p>
+
+          {application.contact && (
+            <>
+              <span className="text-border text-xs">•</span>
+              <div className="flex items-center gap-1">
+                <Icon
+                  icon="heroicons:envelope"
+                  className="size-3 text-primary"
+                />
+                <span className="text-xs text-primary font-medium">
+                  Contact
+                </span>
+              </div>
+            </>
+          )}
+        </div>
+
+        {application.jobUrl && (
+          <Icon
+            icon="heroicons:arrow-top-right-on-square"
+            className="size-4 text-muted group-hover:text-primary transition-colors duration-200"
+          />
+        )}
+      </div>
+
+      {(application.comments.length > 0 ||
+        application.suggestions.length > 0) && (
+        <div className="flex items-center gap-3 text-xs">
+          {application.comments.length > 0 && (
+            <div className="flex items-center gap-1.5 text-muted">
+              <Icon icon="heroicons:chat-bubble-left" className="size-3.5" />
+              <span className="font-medium">
+                {application.comments.length} comment
+                {application.comments.length !== 1 ? 's' : ''}
+              </span>
+            </div>
+          )}
+          {application.suggestions.length > 0 && (
+            <div className="flex items-center gap-1.5 text-muted">
+              <Icon icon="heroicons:light-bulb" className="size-3.5" />
+              <span className="font-medium">
+                {application.suggestions.length} suggestion
+                {application.suggestions.length !== 1 ? 's' : ''}
+              </span>
+            </div>
+          )}
+        </div>
+      )}
+    </Card>
+  );
+};

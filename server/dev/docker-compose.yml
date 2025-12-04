@@ -1,0 +1,15 @@
+services:
+  maildev:
+     image: maildev/maildev
+     container_name: maildev
+     ports:
+       - "1080:1080"
+       - "1025:1025"
+  db:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: resai
+      POSTGRES_PASSWORD: resai
+      POSTGRES_DB: resai

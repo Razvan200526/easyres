@@ -1,0 +1,109 @@
+import { Toast } from '../common/components/toast';
+import { queryClient } from '../shared/QueryClient';
+import type { Fetcher } from './Fetcher';
+import { Socket } from './Socket';
+import type {
+  CoverLetterType,
+  ResponseType,
+  ResumeChatResponseType,
+  SocketResponseType,
+} from './types';
+
+export class CoverLetterFetcher {
+  constructor(readonly fetcher: Fetcher) {}
+
+  public readonly coverletter = {
+    retrieve: async (payload: { userId: string }): Promise<ResponseType> => {
+      return this.fetcher.get(`/api/coverletters/${payload.userId}`);
+    },
+    // upload: async (payload: {
+    //   userId: string;
+    //   url: string;
+    // }): Promise<ResponseType> => {
+    //   return this.fetcher.post(
+    //     `/api/coverletter/${payload.userId}/upload`,
+    //     payload,
+    //   );
+    // },
+    get: async (payload: { id: string }): Promise<ResponseType> => {
+      return this.fetcher.get(`/api/coverletter/${payload.id}`);
+    },
+    delete: async (payload: {
+      coverletterIds: string[];
+      userId: string;
+    }): Promise<ResponseType> => {
+      return this.fetcher.delete('/api/coverletter/delete', payload);
+    },
+
+    rename: async (payload: {
+      coverletterId: string;
+      newName: string;
+    }): Promise<ResponseType> => {
+      return this.fetcher.patch(
+        `/api/coverletter/${payload.coverletterId}/rename`,
+        { newName: payload.newName },
+      );
+    },
+    getSuggestions: async (payload: { id: string }): Promise<ResponseType> => {
+      this.fetcher.config.baseURL = import.meta.env.VITE_PY_URL;
+      const res = this.fetcher.get(
+        `/api/suggestions/coverletter/${payload.id}`,
+      );
+      this.fetcher.config.baseURL = import.meta.env.VITE_APP_URL;
+      return res;
+    },
+  };
+
+  public readonly create = (payload: { url: string }) => {
+    const socket = new Socket(import.meta.env.VITE_APP_URL);
+
+    socket.on<{ coverletter: CoverLetterType }>('message', (response) => {
+      queryClient.invalidateQueries();
+
+      const isReady = response.data.coverletter.isReady;
+      const isFailed = response.data.coverletter.state === 'failed';
+
+      if (isReady || isFailed) {
+        socket.close();
+      }
+
+      if (isReady) {
+        Toast.success({ description: 'Coverletter uploaded sucessfully' });
+      }
+
+      socket.send({
+        channelName: 'coverletter:create',
+        data: {
+          url: payload.url,
+        },
+      });
+    });
+
+    Toast.info({ description: 'Uploading coverletter' });
+  };
+
+  public readonly chat = (payload: {
+    coverletterId: string;
+    query: string;
+    onMessage: (
+      response: SocketResponseType<ResumeChatResponseType>,
+      ws: Socket,
+    ) => void;
+  }) => {
+    const socket = new Socket(import.meta.env.VITE_PY_URL);
+    socket.on(
+      'message',
+      (response: SocketResponseType<ResumeChatResponseType>) => {
+        payload.onMessage(response, socket);
+      },
+    );
+    socket.send({
+      channelName: 'coverletter:chat',
+      data: {
+        coverletterId: payload.coverletterId,
+        query: payload.query,
+      },
+    });
+    return socket;
+  };
+}

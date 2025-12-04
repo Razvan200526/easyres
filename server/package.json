@@ -1,0 +1,45 @@
+{
+  "name": "server",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "bun run dev/run.ts"
+  },
+  "dependencies": {
+    "shared": "workspace:*",
+    "@aws-sdk/client-s3": "^3.940.0",
+    "@heroui/react": "^2.8.5",
+    "better-auth": "^1.4.4",
+    "concurrently": "^9.2.1",
+    "console-log-colors": "^0.5.0",
+    "framer-motion": "^12.23.24",
+    "hono": "^4.10.7",
+    "husky": "^9.1.7",
+    "nodemailer": "^7.0.11",
+    "nuqs": "^2.8.1",
+    "pg": "^8.16.3",
+    "prettier": "^3.7.1",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "pretty-error": "^4.0.0",
+    "reflect-metadata": "^0.2.2",
+    "remark-gfm": "^4.0.1",
+    "resend": "^6.5.2",
+    "typeorm": "^0.3.27",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@biomejs/biome": "2.3.4",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/nodemailer": "^7.0.4",
+    "@types/pg": "^8.15.6",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "better-sqlite3": "^12.4.6",
+    "serve": "^14.2.5",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  }
+}
