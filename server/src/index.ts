@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import '@shared/env';
 import { env } from '@shared/env';
 import { pe } from '@shared/utils';
-import { color } from 'console-log-colors';
 import { app } from './App';
 import { PrimaryDatabase } from './shared/database/PrimaryDatabase';
 
@@ -31,25 +30,25 @@ async function initializeDatabase(retries = 5, delay = 1000) {
   }
 }
 
-async function startServer() {
-  await initializeDatabase();
-  const port = Number(env.PORT || 2000);
-  try {
-    Bun.serve({
-      port: port,
-      fetch: app.fetch,
-    });
-    console.debug(color.magentaBright(`Server started on port : ${port}`));
-  } catch (e) {
-    if (e instanceof Error) {
-      console.error(pe.render(e));
-    }
-    console.error(e);
-    process.exit(1);
-  }
-}
+await initializeDatabase();
+// async function startServer() {
+//   const port = Number(env.PORT || 2000);
+//   try {
+//     Bun.serve({
+//       port: port,
+//       fetch: app.fetch,
+//     });
+//     console.debug(color.magentaBright(`Server started on port : ${port}`));
+//   } catch (e) {
+//     if (e instanceof Error) {
+//       console.error(pe.render(e));
+//     }
+//     console.error(e);
+//     process.exit(1);
+//   }
+// }
 
-startServer();
+// startServer();
 
 export default {
   port: Number(env.PORT),
