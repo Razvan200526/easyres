@@ -1,7 +1,7 @@
-import type { HtmlEscapedString } from 'hono/utils/html';
+import { renderToStaticMarkup } from 'react-dom/server';
+import type { ReactElement } from 'react';
 
-export async function renderTemplate(
-  element: Promise<HtmlEscapedString> | HtmlEscapedString,
-): Promise<string> {
-  return `<!doctype html>${await element}`;
+export function renderTemplate(element: ReactElement): string {
+  const html = renderToStaticMarkup(element);
+  return `<!doctype html>${html}`;
 }

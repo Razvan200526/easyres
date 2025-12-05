@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import { Logo } from './Logo';
 
 export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
@@ -16,11 +17,11 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
       </head>
       <body
         style={{
-          backgroundColor: '#f3f4f6', 
+          backgroundColor: '#FBF7FD', // primary-50 approx
           margin: 0,
           padding: '40px 20px',
           lineHeight: '1.6',
-          color: '#374151', 
+          color: '#374151',
         }}
       >
         <table
@@ -34,18 +35,17 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
             backgroundColor: '#ffffff',
             borderRadius: '16px',
             overflow: 'hidden',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)', // Deeper, sleeker shadow
             border: '1px solid #e5e7eb',
           }}
         >
           <tbody>
-            {/* Header with Logo */}
             <tr>
               <td
                 style={{
-                  padding: '40px 40px 32px 40px',
+                  padding: '48px 40px 32px 40px',
                   textAlign: 'center',
-                  background: 'linear-gradient(to bottom, #ffffff, #fafafa)',
+                  background: 'linear-gradient(to bottom, #ffffff, #FBF7FD)', // Subtle gradient fade
                 }}
               >
                 <div style={{ marginBottom: '24px' }}>
@@ -56,17 +56,18 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
                     color: '#3E1E60', // Primary Brand Color
                     margin: 0,
                     fontSize: '28px',
-                    fontWeight: '700',
-                    letterSpacing: '-0.02em',
+                    fontWeight: '800',
+                    letterSpacing: '-0.03em',
                   }}
                 >
                   Verify Your Identity
                 </h1>
                 <p
                   style={{
-                    margin: '12px 0 0 0',
+                    margin: '16px 0 0 0',
                     fontSize: '16px',
-                    color: '#6b7280', // gray-500
+                    color: '#4b5563', 
+                    fontWeight: '500',
                   }}
                 >
                   Thank you for signing up with Resume Tracker.
@@ -74,58 +75,70 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
               </td>
             </tr>
 
-            {/* Main Content */}
             <tr>
-              <td style={{ padding: '0 40px 40px 40px' }}>
+              <td style={{backgroundColor: '#FBF7FD', padding: '0 40px 40px 40px' }}>
                 <p
                   style={{
-                    margin: '0 0 24px 0',
+                    margin: '0 0 32px 0',
                     fontSize: '16px',
                     color: '#374151',
                     textAlign: 'center',
-                    lineHeight: '24px',
+                    lineHeight: '26px',
                   }}
                 >
                   Please use the following One-Time Password (OTP) to complete your
                   registration. This code is valid for 60 minutes.
                 </p>
 
-                {/* OTP Box */}
-                <div
+                {/* OTP Digits */}
+                <table
+                  role="presentation"
+                  cellPadding={0}
+                  cellSpacing={0}
                   style={{
-                    margin: '32px 0',
-                    textAlign: 'center',
+                    margin: '32px auto',
                   }}
                 >
-                  <div
-                    style={{
-                      display: 'inline-block',
-                      background: 'rgba(62, 30, 96, 0.05)', 
-                      border: '2px dashed #3E1E60', 
-                      borderRadius: '12px',
-                      padding: '20px 40px',
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: 'Monaco, "Courier New", monospace',
-                        fontSize: '32px',
-                        fontWeight: '700',
-                        letterSpacing: '8px',
-                        color: '#E97950', 
-                      }}
-                    >
-                      {otp}
-                    </span>
-                  </div>
-                </div>
+                  <tbody>
+                    <tr>
+                      {otp.split('').map((digit, index) => (
+                        <td key={index} style={{ padding: '0 6px' }}>
+                          <div
+                            style={{
+                              width: '52px',
+                              height: '64px',
+                              backgroundColor: '#FBF7FD',
+                              border: '2px solid #3E1E60',
+                              borderRadius: '8px',
+                              display: 'table-cell',
+                              verticalAlign: 'middle',
+                              textAlign: 'center',
+                            }}
+                          >
+                            <span
+                              style={{
+                                fontFamily: '"Saira Stencil One", Monaco, monospace',
+                                fontSize: '28px',
+                                fontWeight: '700',
+                                color: '#da4d26',
+                              }}
+                            >
+                              {digit}
+                            </span>
+                          </div>
+                        </td>
+                      ))}
+                    </tr>
+                  </tbody>
+                </table>
 
                 <p
                   style={{
                     fontSize: '14px',
-                    color: '#9ca3af',
+                    color: '#6b7280',
                     textAlign: 'center',
                     margin: '0',
+                    fontStyle: 'italic',
                   }}
                 >
                   If you didn't request this email, you can safely ignore it.
@@ -137,8 +150,8 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
             <tr>
               <td
                 style={{
-                  backgroundColor: '#f9fafb',
-                  padding: '24px 40px',
+                  backgroundColor: '#FBF7FD',
+                  padding: '32px 40px',
                   textAlign: 'center',
                   borderTop: '1px solid #f3f4f6',
                 }}
@@ -146,13 +159,15 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
                 <p
                   style={{
                     margin: 0,
-                    fontSize: '12px',
+                    fontSize: '11px',
                     color: '#9ca3af',
-                    fontWeight: '500',
+                    fontWeight: '600',
                     marginBottom: '8px',
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
                   }}
                 >
-                  SECURE &middot; PRIVATE &middot; RELIABLE
+                  Secure &middot; Private &middot; Reliable
                 </p>
                 <p
                   style={{
