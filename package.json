@@ -23,7 +23,7 @@
     "type-check": "turbo type-check",
     "test": "turbo test",
     "format": "biome format . --write",
-    "start" : "bun run server/dist/index.js"
+    "start" : "bun run server/dist/server/src/index.js"
   },
   "keywords": [
     "bun",
