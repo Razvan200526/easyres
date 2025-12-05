@@ -1,22 +1,26 @@
+import { Logo } from './Logo';
+
 export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
   return (
     <html
       lang="en"
       style={{
         fontFamily:
-          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          'Montserrat, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       }}
     >
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Verify your email</title>
       </head>
       <body
         style={{
-          backgroundColor: '#fafafa',
+          backgroundColor: '#f3f4f6', 
           margin: 0,
-          padding: '60px 20px',
+          padding: '40px 20px',
           lineHeight: '1.6',
+          color: '#374151', 
         }}
       >
         <table
@@ -25,147 +29,139 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
           cellPadding={0}
           cellSpacing={0}
           style={{
-            maxWidth: '480px',
+            maxWidth: '560px',
             margin: '0 auto',
             backgroundColor: '#ffffff',
-            borderRadius: '12px',
+            borderRadius: '16px',
             overflow: 'hidden',
-            boxShadow: '0 2px 12px rgba(0, 0, 0, 0.08)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
+            border: '1px solid #e5e7eb',
           }}
         >
           <tbody>
-            {/* Clean header */}
+            {/* Header with Logo */}
             <tr>
               <td
                 style={{
-                  padding: '48px 40px 32px 40px',
+                  padding: '40px 40px 32px 40px',
                   textAlign: 'center',
-                  borderBottom: '1px solid #f0f0f0',
+                  background: 'linear-gradient(to bottom, #ffffff, #fafafa)',
                 }}
               >
-                <div
-                  style={{
-                    width: '48px',
-                    height: '48px',
-                    backgroundColor: '#6366f1',
-                    borderRadius: '50%',
-                    margin: '0 auto 24px auto',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                    <polyline
-                      points="22,6 12,13 2,6"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                  </svg>
+                <div style={{ marginBottom: '24px' }}>
+                  <Logo width={80} height={80} style={{ margin: '0 auto' }} />
                 </div>
                 <h1
                   style={{
-                    color: '#1f2937',
+                    color: '#3E1E60', // Primary Brand Color
                     margin: 0,
-                    fontSize: '24px',
-                    fontWeight: '600',
+                    fontSize: '28px',
+                    fontWeight: '700',
                     letterSpacing: '-0.02em',
                   }}
                 >
-                  Verify your email
+                  Verify Your Identity
                 </h1>
+                <p
+                  style={{
+                    margin: '12px 0 0 0',
+                    fontSize: '16px',
+                    color: '#6b7280', // gray-500
+                  }}
+                >
+                  Thank you for signing up with Resume Tracker.
+                </p>
               </td>
             </tr>
 
-            {/* Main content */}
+            {/* Main Content */}
             <tr>
-              <td style={{ padding: '40px' }}>
+              <td style={{ padding: '0 40px 40px 40px' }}>
                 <p
                   style={{
-                    margin: '0 0 32px 0',
+                    margin: '0 0 24px 0',
                     fontSize: '16px',
-                    color: '#6b7280',
+                    color: '#374151',
                     textAlign: 'center',
+                    lineHeight: '24px',
                   }}
                 >
-                  Enter this code to complete your signup
+                  Please use the following One-Time Password (OTP) to complete your
+                  registration. This code is valid for 60 minutes.
                 </p>
 
-                {/* OTP Code - clean and minimal */}
+                {/* OTP Box */}
                 <div
                   style={{
-                    textAlign: 'center',
                     margin: '32px 0',
+                    textAlign: 'center',
                   }}
                 >
                   <div
                     style={{
                       display: 'inline-block',
-                      backgroundColor: '#f8fafc',
-                      border: '2px solid #e5e7eb',
-                      borderRadius: '8px',
-                      padding: '24px 32px',
+                      background: 'rgba(62, 30, 96, 0.05)', 
+                      border: '2px dashed #3E1E60', 
+                      borderRadius: '12px',
+                      padding: '20px 40px',
                     }}
                   >
-                    <div
+                    <span
                       style={{
-                        color: '#1f2937',
-                        fontSize: '36px',
+                        fontFamily: 'Monaco, "Courier New", monospace',
+                        fontSize: '32px',
                         fontWeight: '700',
                         letterSpacing: '8px',
-                        fontFamily: 'Monaco, "Courier New", monospace',
+                        color: '#E97950', 
                       }}
                     >
                       {otp}
-                    </div>
+                    </span>
                   </div>
                 </div>
 
-                {/* Simple info text */}
                 <p
                   style={{
-                    margin: '32px 0 0 0',
                     fontSize: '14px',
                     color: '#9ca3af',
                     textAlign: 'center',
+                    margin: '0',
                   }}
                 >
-                  Code expires in 60 minutes
+                  If you didn't request this email, you can safely ignore it.
                 </p>
               </td>
             </tr>
 
-            {/* Minimal footer */}
+            {/* Footer */}
             <tr>
               <td
                 style={{
-                  padding: '32px 40px',
+                  backgroundColor: '#f9fafb',
+                  padding: '24px 40px',
                   textAlign: 'center',
-                  borderTop: '1px solid #f0f0f0',
+                  borderTop: '1px solid #f3f4f6',
                 }}
               >
                 <p
                   style={{
                     margin: 0,
-                    fontSize: '14px',
-                    color: '#6b7280',
+                    fontSize: '12px',
+                    color: '#9ca3af',
+                    fontWeight: '500',
+                    marginBottom: '8px',
                   }}
                 >
-                  Resume Tracker
+                  SECURE &middot; PRIVATE &middot; RELIABLE
                 </p>
                 <p
                   style={{
-                    margin: '4px 0 0 0',
+                    margin: 0,
                     fontSize: '12px',
-                    color: '#9ca3af',
+                    color: '#d1d5db',
                   }}
                 >
-                  &copy; {new Date().getFullYear()} All rights reserved
+                  &copy; {new Date().getFullYear()} Resume Tracker. All rights reserved.
                 </p>
               </td>
             </tr>
