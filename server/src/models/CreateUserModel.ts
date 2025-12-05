@@ -1,4 +1,5 @@
-import type { UserType } from '@sdk/types';
+
+import type { UserType } from '@server/sdk/types';
 import * as z from 'zod';
 export type CreateUserModel = {
   email: string;
