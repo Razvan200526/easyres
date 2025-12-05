@@ -19,11 +19,15 @@ export class PrimaryMailer implements Mailer {
 
   public async send({ to, subject, html }: SendMailParams): Promise<void> {
 
-    await this.resend.emails.send({
+    const { error } = await this.resend.emails.send({
       from: '"EasyRes" <welcome@resumetracker.me>',
       to,
       subject,
-      react: html,
+      html,
     });
+    if (error) {
+      console.error('Failed to send email:', error);
+      throw error;
+    }
   }
 }
