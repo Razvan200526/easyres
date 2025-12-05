@@ -23,6 +23,7 @@ import { ErrorFallback } from '@shared/components/ErrorFallback';
 import { NotFoundPage } from '@shared/NotFoundPage';
 import { ErrorBoundary } from 'react-error-boundary';
 import { createBrowserRouter, Outlet } from 'react-router';
+
 export const ErrorBoundaryLayout = () => (
   <ErrorBoundary FallbackComponent={ErrorFallback}>
     <Outlet />
