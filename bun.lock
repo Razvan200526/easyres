@@ -6,6 +6,7 @@
       "name": "bhvr",
       "dependencies": {
         "hono": "^4.10.7",
+        "resend": "^6.5.2",
       },
       "devDependencies": {
         "@biomejs/biome": "^2.3.8",
