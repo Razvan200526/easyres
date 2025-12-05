@@ -1,6 +1,5 @@
 import type { ResourceReadyState } from '@shared/types';
 
-
 export type UserType = {
   id: string;
   email: string;

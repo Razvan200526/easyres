@@ -1,5 +1,7 @@
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import { ChatMessageEntity } from '@server/entities/ChatMessageEntity';
+import type { ApiResponse } from '@server/sdk/types';
 import {
   type PrimaryDatabase,
   primaryDatabase,
@@ -17,14 +19,16 @@ export class GetChatMessagesController {
     this.database = primaryDatabase;
   }
 
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<ChatMessageEntity[]>> {
     try {
       const sessionId = c.req.param('sessionId');
       if (!sessionId) {
-        return c.json(
+        return apiResponse(
+          c,
           {
-            success: false,
+            data: [],
             message: 'Session ID is required',
+            isClientError: true,
           },
           400,
         );
@@ -36,16 +40,18 @@ export class GetChatMessagesController {
         order: { timestamp: 'ASC' },
       });
 
-      return c.json({
-        success: true,
+      return apiResponse(c, {
         data: messages,
+        message: 'Chat messages retrieved successfully',
       });
     } catch (error) {
       console.error('Error fetching chat messages:', error);
-      return c.json(
+      return apiResponse(
+        c,
         {
-          success: false,
+          data: [],
           message: 'Failed to fetch chat messages',
+          isServerError: true,
         },
         500,
       );

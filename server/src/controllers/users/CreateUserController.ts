@@ -1,13 +1,15 @@
 import { AuthService } from '@server/auth/services/AuthService';
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import type { CreateUserModel } from '@server/models/CreateUserModel';
+import type { ApiResponse } from '@server/sdk/types';
 import type { Context } from 'hono';
 
 const authService = new AuthService(process.env.DATABASE_URL || '');
 
 @Route('POST', '/api/auth/signup', 'Creates a new user account')
 export class SignUpController {
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<null>> {
     try {
       const userData = (await c.req.json()) as CreateUserModel;
 
@@ -20,16 +22,32 @@ export class SignUpController {
       });
 
       if (!result) {
-        return c.json(
-          { message: 'Failed to create user', success: false },
+        return apiResponse(
+          c,
+          {
+            data: null,
+            message: 'Failed to create user',
+            isClientError: true,
+          },
           400,
         );
       }
 
-      return c.json({ success: true });
+      return apiResponse(c, {
+        data: null,
+        message: 'User created successfully',
+      });
     } catch (error) {
       console.error('Error creating user:', error);
-      return c.json({ message: 'Failed to create user' }, 500);
+      return apiResponse(
+        c,
+        {
+          data: null,
+          message: 'Failed to create user',
+          isServerError: true,
+        },
+        500,
+      );
     }
   }
 }

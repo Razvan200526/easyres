@@ -1,96 +1,66 @@
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import { userRepository } from '@server/repositories/UserRepository';
-import { env } from '@shared/env';
+import type { ApiResponse } from '@server/sdk/types';
 import { isEmailValid } from '@shared/validators/isEmailValid';
-
 import type { Context } from 'hono';
-
-const url = env.APP_URL;
 
 @Route('GET', '/api/user-exists', 'Checks if a user exists')
 export class CheckUserExistsController {
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<{ exists: boolean }>> {
     const email = c.req.query('email');
     if (!email) {
-      return c.json({
-        data: {
-          exists: false,
+      return apiResponse(
+        c,
+        {
+          data: { exists: false },
+          message: 'Invalid email',
+          isClientError: true,
         },
-        message: 'Invalid email',
-        success: false,
-        status: 400,
-        isClientError: true,
-        isServerError: false,
-        isNotFound: false,
-        isUnauthorized: false,
-        isForbidden: false,
-        app: {
-          url,
-        },
-      });
+        400,
+      );
     }
     if (!isEmailValid(email)) {
-      return c.json({
-        data: {
-          exists: false,
+      return apiResponse(
+        c,
+        {
+          data: { exists: false },
+          message: 'Invalid email',
+          isClientError: true,
         },
-        message: 'Invalid email',
-        success: false,
-        status: 400,
-        isClientError: true,
-        isServerError: false,
-        isNotFound: false,
-        isUnauthorized: false,
-        isForbidden: false,
-        app: {
-          url,
-        },
-      });
+        400,
+      );
     }
     let user: any;
     try {
       user = await userRepository.findByEmail(email);
     } catch (e: any) {
       console.error('Error in findByEmail:', e);
-      return c.json(
-        { error: 'Failed to check user existence', details: e.message },
+      return apiResponse(
+        c,
+        {
+          data: { exists: false },
+          message: 'Failed to check user existence',
+          isServerError: true,
+        },
         500,
       );
     }
 
     if (user) {
-      return c.json({
-        data: {
-          exists: true,
+      return apiResponse(
+        c,
+        {
+          data: { exists: true },
+          message: 'User exists, try another email',
+          isClientError: true,
         },
-        message: 'User exists,try another email',
-        success: true,
-        status: 400,
-        isClientError: true,
-        isServerError: false,
-        isNotFound: false,
-        isUnauthorized: false,
-        isForbidden: false,
-        app: {
-          url,
-        },
-      });
+        400,
+      );
     }
-    return c.json({
-      data: {
-        exists: false,
-      },
+    return apiResponse(c, {
+      data: { exists: false },
       message: 'User does not exist',
-      success: true,
-      status: 200,
-      isClientError: false,
-      isServerError: false,
-      isNotFound: false,
-      isUnauthorized: false,
-      isForbidden: false,
-      app: {
-        url,
-      },
     });
   }
 }

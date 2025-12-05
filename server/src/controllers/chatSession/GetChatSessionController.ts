@@ -1,10 +1,18 @@
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import { ChatSessionEntity } from '@server/entities/ChatSessionEntity';
+import type { ApiResponse } from '@server/sdk/types';
 import {
   type PrimaryDatabase,
   primaryDatabase,
 } from '@server/shared/database/PrimaryDatabase';
 import type { Context } from 'hono';
+
+type ChatSessionWithSummary = ChatSessionEntity & {
+  messageCount: number;
+  lastMessage: string;
+  lastMessageAt: Date | null | undefined;
+};
 
 @Route('GET', '/api/chat/sessions/:userId', 'Get all chat sessions for user')
 export class GetChatSessionsController {
@@ -13,14 +21,16 @@ export class GetChatSessionsController {
     this.database = primaryDatabase;
   }
 
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<ChatSessionWithSummary[]>> {
     try {
       const userId = c.req.param('userId');
       if (!userId) {
-        return c.json(
+        return apiResponse(
+          c,
           {
-            success: false,
+            data: [],
             message: 'User ID is required',
+            isClientError: true,
           },
           400,
         );
@@ -36,9 +46,9 @@ export class GetChatSessionsController {
 
       // If there are no sessions, return empty array
       if (!sessions || sessions.length === 0) {
-        return c.json({
-          success: true,
+        return apiResponse(c, {
           data: [],
+          message: 'No chat sessions found',
         });
       }
 
@@ -60,17 +70,18 @@ export class GetChatSessionsController {
           session.updatedAt,
       }));
 
-      return c.json({
-        success: true,
+      return apiResponse(c, {
         data: sessionsWithSummary,
+        message: 'Chat sessions retrieved successfully',
       });
     } catch (error) {
       console.error('Error fetching chat sessions:', error);
-      return c.json(
+      return apiResponse(
+        c,
         {
-          success: false,
-          message: 'Failed to fetch chat sessions',
           data: [],
+          message: 'Failed to fetch chat sessions',
+          isServerError: true,
         },
         500,
       );

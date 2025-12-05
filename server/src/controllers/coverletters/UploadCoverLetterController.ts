@@ -1,6 +1,7 @@
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import { CoverletterEntity } from '@server/entities';
-
+import type { ApiResponse } from '@server/sdk/types';
 import {
   type StorageService,
   storageService,
@@ -20,7 +21,7 @@ export class UploadCoverLetterController {
     this.database = primaryDatabase;
     this.storageService = storageService;
   }
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<{ url: string } | null>> {
     try {
       const data = (await c.req.formData()) as FormData;
       const coverletter = data.get('coverletter') as File;
@@ -28,18 +29,12 @@ export class UploadCoverLetterController {
       const name = data.get('name') as string;
 
       if (!coverletter) {
-        return c.json(
+        return apiResponse(
+          c,
           {
-            data: {},
-            success: false,
-            isClientError: true,
-            status: 400,
-            ifNotFound: false,
-            isUnauthorized: false,
-            isForbidden: false,
-            debug: false,
-            isServerError: false,
+            data: null,
             message: 'Cover letter is required',
+            isClientError: true,
           },
           400,
         );
@@ -47,18 +42,12 @@ export class UploadCoverLetterController {
 
       const url = await this.storageService.uploadCoverletter(coverletter);
       if (!url) {
-        return c.json(
+        return apiResponse(
+          c,
           {
-            data: {},
-            success: false,
-            isClientError: true,
-            status: 400,
-            ifNotFound: false,
-            isUnauthorized: false,
-            isForbidden: false,
-            debug: false,
-            isServerError: false,
+            data: null,
             message: 'Failed to upload cover letter',
+            isClientError: true,
           },
           400,
         );
@@ -66,18 +55,12 @@ export class UploadCoverLetterController {
       const filename = coverletter.name;
       const uploadedAt = new Date();
       if (!userId) {
-        return c.json(
+        return apiResponse(
+          c,
           {
-            data: {},
-            success: false,
-            isClientError: true,
-            status: 400,
-            ifNotFound: false,
-            isUnauthorized: false,
-            isForbidden: false,
-            debug: false,
-            isServerError: false,
+            data: null,
             message: 'User ID is required',
+            isClientError: true,
           },
           400,
         );
@@ -94,46 +77,28 @@ export class UploadCoverLetterController {
 
       const savedCoverletter = await repo.save(coverletterEntity);
       if (!savedCoverletter) {
-        return c.json(
+        return apiResponse(
+          c,
           {
-            data: {},
-            success: false,
-            isClientError: true,
-            status: 500,
-            ifNotFound: false,
-            isUnauthorized: false,
-            isForbidden: false,
-            debug: false,
-            isServerError: false,
+            data: null,
             message: 'Resume upload failed(database)',
+            isServerError: true,
           },
           500,
         );
       }
-      return c.json({
-        success: true,
+      return apiResponse(c, {
         data: { url },
-        isClientError: false,
-        isServerError: false,
-        isUnauthorized: false,
-        isForbidden: false,
-        debug: false,
-        isNotFound: false,
+        message: 'Cover letter uploaded successfully',
       });
     } catch (e) {
       console.error(e);
-      return c.json(
+      return apiResponse(
+        c,
         {
-          data: {},
-          success: false,
-          isClientError: true,
-          status: 500,
-          ifNotFound: false,
-          isUnauthorized: false,
-          isForbidden: false,
-          debug: false,
-          isServerError: true,
+          data: null,
           message: 'Internal Server Error',
+          isServerError: true,
         },
         500,
       );

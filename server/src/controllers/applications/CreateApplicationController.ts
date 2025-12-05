@@ -1,4 +1,4 @@
-import type { CreateApplicationType } from '@sdk/types';
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import {
   ApplicationEntity,
@@ -6,11 +6,11 @@ import {
   ResumeEntity,
 } from '@server/entities';
 import { userRepository } from '@server/repositories/UserRepository';
+import type { ApiResponse, CreateApplicationType } from '@server/sdk/types';
 import {
   type PrimaryDatabase,
   primaryDatabase,
 } from '@server/shared/database/PrimaryDatabase';
-import { env } from '@shared/env';
 import type { Context } from 'hono';
 
 @Route('POST', '/api/applications/create', 'Create a new application')
@@ -20,46 +20,36 @@ export class CreateApplicationController {
   constructor() {
     this.db = primaryDatabase;
   }
-  async handler(c: Context) {
+  async handler(
+    c: Context,
+  ): Promise<ApiResponse<{ newApplication: ApplicationEntity } | null>> {
     const body = (await c.req.json()) as CreateApplicationType;
     const { data, userId } = body;
 
     const applicationRepository = await this.db.open(ApplicationEntity);
     if (!applicationRepository.exists()) {
-      return c.json({
-        success: false,
-        isClientError: false,
-        isServerError: true,
-        data: null,
-        message: 'Database error',
-        status: 500,
-        isNotFound: false,
-        isForbidden: false,
-        isUnauthorized: false,
-        debug: false,
-        app: {
-          url: env.APP_URL,
+      return apiResponse(
+        c,
+        {
+          data: null,
+          message: 'Database error',
+          isServerError: true,
         },
-      });
+        500,
+      );
     }
 
     const user = await userRepository.findOneOrFail(userId);
     if (user.id !== userId) {
-      return c.json({
-        success: false,
-        isClientError: true,
-        isServerError: true,
-        data: null,
-        message: 'Server error',
-        status: 500,
-        isNotFound: false,
-        isForbidden: false,
-        isUnauthorized: true,
-        debug: false,
-        app: {
-          url: env.APP_URL,
+      return apiResponse(
+        c,
+        {
+          data: null,
+          message: 'Server error',
+          isUnauthorized: true,
         },
-      });
+        500,
+      );
     }
 
     const appEntity = new ApplicationEntity();
@@ -96,38 +86,19 @@ export class CreateApplicationController {
     const newApplication = applicationRepository.create(appEntity);
     await applicationRepository.save(newApplication);
     if (!newApplication) {
-      return c.json({
-        success: false,
-        isClientError: false,
-        isServerError: true,
-        data: null,
-        message: 'Error creating application',
-        status: 500,
-        isNotFound: false,
-        isForbidden: false,
-        isUnauthorized: true,
-        debug: false,
-        app: {
-          url: env.APP_URL,
+      return apiResponse(
+        c,
+        {
+          data: null,
+          message: 'Error creating application',
+          isServerError: true,
         },
-      });
+        500,
+      );
     }
-    return c.json({
-      success: true,
-      isClientError: false,
-      isServerError: false,
-      data: {
-        newApplication,
-      },
+    return apiResponse(c, {
+      data: { newApplication },
       message: 'Application created successfully',
-      status: 200,
-      isNotFound: false,
-      isForbidden: false,
-      isUnauthorized: false,
-      debug: false,
-      app: {
-        url: env.APP_URL,
-      },
     });
   }
 }

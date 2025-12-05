@@ -13,22 +13,23 @@ import type { Context } from 'hono';
 export class DeleteResumeController {
   private readonly resumeRepository = resumeRepository;
 
-  async handler(c: Context): Promise<ApiResponse<{ success: boolean, deletedCount: number }>> {
+  async handler(
+    c: Context,
+  ): Promise<ApiResponse<{ success: boolean; deletedCount: number }>> {
     try {
       const { resumeIds, userId } = await c.req.json();
 
       if (!resumeIds || !Array.isArray(resumeIds) || resumeIds.length === 0) {
-
         return apiResponse(c, {
           data: { success: false, deletedCount: 0 },
-          message: 'Invalid resume'
-        })
+          message: 'Invalid resume',
+        });
       }
       if (!userId) {
         return apiResponse(c, {
           data: { success: false, deletedCount: 0 },
-          message: 'User ID is required'
-        })
+          message: 'User ID is required',
+        });
       }
       const resumes = await this.resumeRepository.findByIds(resumeIds);
 
@@ -45,24 +46,19 @@ export class DeleteResumeController {
 
       const result = await this.resumeRepository.deleteByIds(resumeIds);
 
-      return apiResponse(c,
-        {
-          data: {
-            success: true,
-            deletedCount: result.affected || 0,
-          },
-          message: `Successfully deleted ${result.affected || 0} resume(s)`,
+      return apiResponse(c, {
+        data: {
+          success: true,
+          deletedCount: result.affected || 0,
         },
-      );
+        message: `Successfully deleted ${result.affected || 0} resume(s)`,
+      });
     } catch (error) {
-      if (error instanceof Error)
-        console.error(pe.render(error));
-      return apiResponse(c,
-        {
-          data: { success: false, deletedCount: 0 },
-          message: 'Internal server error occurred while deleting resumes',
-        }
-      );
+      if (error instanceof Error) console.error(pe.render(error));
+      return apiResponse(c, {
+        data: { success: false, deletedCount: 0 },
+        message: 'Internal server error occurred while deleting resumes',
+      });
     }
   }
 }

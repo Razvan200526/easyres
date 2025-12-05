@@ -50,3 +50,9 @@ async function startServer() {
 }
 
 startServer();
+
+export default {
+  port: Number(env.PORT),
+  hostname: "0.0.0.0",
+  fetch: app.fetch
+}

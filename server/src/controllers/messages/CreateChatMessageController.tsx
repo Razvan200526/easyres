@@ -1,6 +1,8 @@
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import { ChatMessageEntity } from '@server/entities/ChatMessageEntity';
 import { ChatSessionEntity } from '@server/entities/ChatSessionEntity';
+import type { ApiResponse } from '@server/sdk/types';
 import {
   type PrimaryDatabase,
   primaryDatabase,
@@ -14,25 +16,29 @@ export class CreateChatMessageController {
     this.database = primaryDatabase;
   }
 
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<ChatMessageEntity | null>> {
     try {
       const { sessionId, content, sender } = await c.req.json();
 
       if (!sessionId || !content || !sender) {
-        return c.json(
+        return apiResponse(
+          c,
           {
-            success: false,
+            data: null,
             message: 'Missing required fields: sessionId, content, sender',
+            isClientError: true,
           },
           400,
         );
       }
 
       if (!['user', 'ai'].includes(sender)) {
-        return c.json(
+        return apiResponse(
+          c,
           {
-            success: false,
+            data: null,
             message: 'Sender must be either "user" or "ai"',
+            isClientError: true,
           },
           400,
         );
@@ -52,16 +58,18 @@ export class CreateChatMessageController {
       // Update the session's updatedAt timestamp
       await chatSessionRepo.update(sessionId, { updatedAt: new Date() });
 
-      return c.json({
-        success: true,
+      return apiResponse(c, {
         data: savedMessage,
+        message: 'Chat message created successfully',
       });
     } catch (error) {
       console.error('Error creating chat message:', error);
-      return c.json(
+      return apiResponse(
+        c,
         {
-          success: false,
+          data: null,
           message: 'Failed to create chat message',
+          isServerError: true,
         },
         500,
       );
