@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "hono": "^4.10.7",
+    "react-email": "^5.0.5",
     "resend": "^6.5.2"
   }
 }

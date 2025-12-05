@@ -1,6 +1,5 @@
 import { env } from '@shared/env';
 import { color } from 'console-log-colors';
-import { createTransport } from 'nodemailer';
 import { Resend } from 'resend';
 import type { Mailer, SendMailParams } from './types';
 export class PrimaryMailer implements Mailer {
