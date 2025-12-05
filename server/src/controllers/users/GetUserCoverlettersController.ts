@@ -1,9 +1,12 @@
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import { CoverletterEntity } from '@server/entities';
+import type { ApiResponse } from '@server/sdk/types';
 import {
   type PrimaryDatabase,
   primaryDatabase,
 } from '@server/shared/database/PrimaryDatabase';
+import { pe } from '@shared/utils';
 import type { Context } from 'hono';
 
 @Route('GET', '/api/coverletters/:id', 'Get all cover letters')
@@ -12,23 +15,19 @@ export class GetUserCoverlettersController {
   constructor() {
     this.database = primaryDatabase;
   }
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<CoverletterEntity[] | null>> {
     try {
       const userId = c.req.param('id');
       if (!userId) {
-        return c.json({
-          data: {},
-          message: null,
-          success: true,
-          status: 200,
-          isClientError: false,
-          isServerError: false,
-          isNotFound: false,
-          isUnauthorized: false,
-          isForbidden: false,
-          debug: process.env.NODE_ENV !== 'production',
-          app: { url: process.env.APP_URL || '' },
-        });
+        return apiResponse(
+          c,
+          {
+            data: [],
+            message: 'User ID is required',
+            isClientError: true,
+          },
+          400,
+        );
       }
 
       const coverLetterRepo = await this.database.open(CoverletterEntity);
@@ -36,33 +35,23 @@ export class GetUserCoverlettersController {
         where: { user: { id: userId } },
       });
 
-      return c.json({
+      return apiResponse(c, {
         data: allCoverLetters,
-        message: null,
-        success: true,
-        status: 200,
-        isClientError: false,
-        isServerError: false,
-        isNotFound: false,
-        isUnauthorized: false,
-        isForbidden: false,
-        debug: process.env.NODE_ENV !== 'production',
-        app: { url: process.env.APP_URL || '' },
+        message: 'Cover letters retrieved successfully',
       });
     } catch (error) {
-      return c.json({
-        data: {},
-        message: error,
-        success: false,
-        status: 500,
-        isClientError: false,
-        isServerError: true,
-        isNotFound: false,
-        isUnauthorized: false,
-        isForbidden: false,
-        debug: process.env.NODE_ENV !== 'production',
-        app: { url: process.env.APP_URL || '' },
-      });
+      if (error instanceof Error) {
+        console.error(pe.render(error));
+      }
+      return apiResponse(
+        c,
+        {
+          data: null,
+          message: 'Failed to retrieve cover letters',
+          isServerError: true,
+        },
+        500,
+      );
     }
   }
 }

@@ -1,6 +1,7 @@
-import type { ResponseType } from '@sdk/types';
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import { CoverletterEntity } from '@server/entities';
+import type { ApiResponse } from '@server/sdk/types';
 import {
   type PrimaryDatabase,
   primaryDatabase,
@@ -15,7 +16,7 @@ export class RenameCoverLetterController {
     this.primaryDatabase = primaryDatabase;
   }
 
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<null>> {
     const id = c.req.param('id');
     const { newName } = await c.req.json();
 
@@ -23,26 +24,23 @@ export class RenameCoverLetterController {
     const coverLetter = await repo.findOne({ where: { id: id } });
 
     if (!coverLetter) {
-      return c.json({ error: 'Cover letter not found' }, 404);
+      return apiResponse(
+        c,
+        {
+          data: null,
+          message: 'Cover letter not found',
+          isNotFound: true,
+        },
+        404,
+      );
     }
 
     coverLetter.name = newName;
     await repo.save(coverLetter);
 
-    return c.json<ResponseType>({
-      data: {},
-      success: true,
+    return apiResponse(c, {
+      data: null,
       message: 'Cover letter renamed successfully',
-      status: 200,
-      isClientError: false,
-      isServerError: false,
-      isNotFound: false,
-      isUnauthorized: false,
-      isForbidden: false,
-      debug: false,
-      app: {
-        url: c.req.url,
-      },
     });
   }
 }

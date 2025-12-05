@@ -1,6 +1,7 @@
-import type { ResponseType } from '@sdk/types';
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import { ResumeEntity } from '@server/entities';
+import type { ApiResponse } from '@server/sdk/types';
 import {
   type PrimaryDatabase,
   primaryDatabase,
@@ -15,7 +16,7 @@ export class RenameResumeController {
     this.primaryDatabase = primaryDatabase;
   }
 
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<null>> {
     const id = c.req.param('id');
     const { newName } = await c.req.json();
 
@@ -23,26 +24,23 @@ export class RenameResumeController {
     const resume = await repo.findOne({ where: { id: id } });
 
     if (!resume) {
-      return c.json({ error: 'Resume not found' }, 404);
+      return apiResponse(
+        c,
+        {
+          data: null,
+          message: 'Resume not found',
+          isNotFound: true,
+        },
+        404,
+      );
     }
 
     resume.name = newName;
     await repo.save(resume);
 
-    return c.json<ResponseType>({
-      data: {},
-      success: true,
+    return apiResponse(c, {
+      data: null,
       message: 'Resume renamed successfully',
-      status: 200,
-      isClientError: false,
-      isServerError: false,
-      isNotFound: false,
-      isUnauthorized: false,
-      isForbidden: false,
-      debug: false,
-      app: {
-        url: c.req.url,
-      },
     });
   }
 }

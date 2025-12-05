@@ -1,5 +1,7 @@
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import { CoverletterEntity } from '@server/entities';
+import type { ApiResponse } from '@server/sdk/types';
 import {
   type PrimaryDatabase,
   primaryDatabase,
@@ -12,7 +14,7 @@ export class GetCoverletterController {
   constructor() {
     this.database = primaryDatabase;
   }
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<CoverletterEntity | null>> {
     const id = c.req.param('id');
 
     const coverLetterRepo = await this.database.open(CoverletterEntity);
@@ -22,24 +24,19 @@ export class GetCoverletterController {
     });
 
     if (!coverLetter) {
-      return c.json({
-        data: {},
-        message: 'Cover letter not found',
-        isClientError: true,
-        isServerError: true,
-        app: {
-          url: Bun.env.APP_URL,
+      return apiResponse(
+        c,
+        {
+          data: null,
+          message: 'Cover letter not found',
+          isNotFound: true,
         },
-      });
+        404,
+      );
     }
-    return c.json({
+    return apiResponse(c, {
       data: coverLetter,
       message: 'Cover letter found',
-      isClientError: false,
-      isServerError: false,
-      app: {
-        url: Bun.env.APP_URL,
-      },
     });
   }
 }

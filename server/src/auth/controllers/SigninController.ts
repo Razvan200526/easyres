@@ -1,4 +1,6 @@
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
+import type { ApiResponse } from '@server/sdk/types';
 import { isEmailValid } from '@shared/validators/isEmailValid';
 import { isUserPasswordValid } from '@shared/validators/isUserPasswordValid';
 import type { Context } from 'hono';
@@ -14,13 +16,30 @@ export class SignInController {
   constructor() {
     this.authService = authService;
   }
-  async handler(c: Context) {
+  async handler(
+    c: Context,
+  ): Promise<
+    ApiResponse<{
+      error?: string;
+      success: boolean;
+      user?: any;
+      token?: string;
+    }>
+  > {
     const { email, password } = await c.req.json();
     if (!isEmailValid(email)) {
-      return c.json({ data: { error: 'Invalid email', success: false } });
+      return apiResponse(
+        c,
+        { data: { error: 'Invalid email', success: false } },
+        400,
+      );
     }
     if (!isUserPasswordValid(password)) {
-      return c.json({ data: { error: 'Invalid password', success: false } });
+      return apiResponse(
+        c,
+        { data: { error: 'Invalid password', success: false } },
+        400,
+      );
     }
     try {
       const result = await this.authService.signInEmail(
@@ -33,13 +52,29 @@ export class SignInController {
         c.header('Set-Cookie', setCookieHeader);
       }
 
-      return c.json({
-        data: { user: result.response.user, token: result.response.token },
-        success: true,
-        user: result.response.user,
-      });
-    } catch (e: any) {
-      return c.json({ data: { error: e.message, success: false } });
+      return apiResponse(
+        c,
+        {
+          data: {
+            user: result.response.user,
+            token: result.response.token,
+            success: true,
+          },
+        },
+        200,
+      );
+    } catch (e) {
+      if (e instanceof Error)
+        return apiResponse(
+          c,
+          { data: { error: e.message, success: false } },
+          500,
+        );
+      return apiResponse(
+        c,
+        { data: { error: 'Something went wrong', success: false } },
+        500,
+      );
     }
   }
 }

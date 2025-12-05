@@ -24,10 +24,14 @@ export class GetResumeController {
     });
 
     if (!resume) {
-      return apiResponse(c, {
-        data: null,
-        message: 'Resume not found',
-      }, 404);
+      return apiResponse(
+        c,
+        {
+          data: null,
+          message: 'Resume not found',
+        },
+        404,
+      );
     }
 
     return apiResponse(c, {

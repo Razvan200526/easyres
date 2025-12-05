@@ -1,5 +1,7 @@
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import { ChatSessionEntity } from '@server/entities/ChatSessionEntity';
+import type { ApiResponse } from '@server/sdk/types';
 import {
   type PrimaryDatabase,
   primaryDatabase,
@@ -17,14 +19,16 @@ export class GetChatSessionByResourceController {
     this.database = primaryDatabase;
   }
 
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<ChatSessionEntity | null>> {
     try {
       const userId = c.get('userId');
       if (!userId) {
-        return c.json(
+        return apiResponse(
+          c,
           {
-            success: false,
+            data: null,
             message: 'Unauthorized',
+            isUnauthorized: true,
           },
           401,
         );
@@ -34,10 +38,12 @@ export class GetChatSessionByResourceController {
       const resourceId = c.req.param('resourceId');
 
       if (!resourceType || !resourceId) {
-        return c.json(
+        return apiResponse(
+          c,
           {
-            success: false,
+            data: null,
             message: 'Resource type and ID are required',
+            isClientError: true,
           },
           400,
         );
@@ -54,16 +60,18 @@ export class GetChatSessionByResourceController {
         order: { updatedAt: 'DESC' },
       });
 
-      return c.json({
-        success: true,
+      return apiResponse(c, {
         data: session,
+        message: session ? 'Chat session found' : 'No chat session found',
       });
     } catch (error) {
       console.error('Error fetching chat session by resource:', error);
-      return c.json(
+      return apiResponse(
+        c,
         {
-          success: false,
+          data: null,
           message: 'Failed to fetch chat session',
+          isServerError: true,
         },
         500,
       );

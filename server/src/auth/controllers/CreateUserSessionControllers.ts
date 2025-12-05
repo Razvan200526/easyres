@@ -1,3 +1,4 @@
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import { UserSessionEntity } from '@server/entities';
 import {
@@ -8,6 +9,7 @@ import {
   type UserSessionRepository,
   userSessionRepository,
 } from '@server/repositories/UserSessionRepository';
+import type { ApiResponse } from '@server/sdk/types';
 
 import type { Context } from 'hono';
 
@@ -20,23 +22,22 @@ export class CreateUserSessionController {
     this.userSessionRepository = userSessionRepository;
   }
 
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<UserSessionEntity | null>> {
     const { sessionData } = await c.req.json();
-    // if (isSessionValid(sessionData)) {
-    //   console.debug('valid');
-    // } else {
-    //   console.error('Invalid session');
-    // }
     const user = await this.userRepository.findOne(sessionData.userId);
     if (!user) {
-      return c.json({ message: 'User not found' }, 404);
+      return apiResponse(c, { data: null, message: 'User not found' }, 404);
     }
 
     const existingSession = await this.userSessionRepository.findByToken(
       sessionData.token,
     );
     if (existingSession) {
-      return c.json({ message: 'Session token already exists' }, 409);
+      return apiResponse(
+        c,
+        { data: null, message: 'Session token already exists' },
+        409,
+      );
     }
 
     const entity = new UserSessionEntity();
@@ -47,6 +48,10 @@ export class CreateUserSessionController {
     entity.userAgent = sessionData.userAgent;
 
     const newSession = await this.userSessionRepository.create(entity);
-    return c.json(newSession, 201);
+    return apiResponse(
+      c,
+      { data: newSession, message: 'Session created successfully' },
+      201,
+    );
   }
 }

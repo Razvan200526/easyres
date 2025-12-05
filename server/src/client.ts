@@ -1,17 +1,15 @@
-import { hc } from 'hono/client';
-import type { app } from './App';
-import type { Context } from 'hono';
-import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import type { ResponseType } from '@server/sdk/types';
 import { env } from '@shared/env';
-
+import type { Context } from 'hono';
+import { hc } from 'hono/client';
+import type { ContentfulStatusCode } from 'hono/utils/http-status';
+import type { app } from './App';
 
 export type AppType = typeof app;
 export type Client = ReturnType<typeof hc<AppType>>;
 
 export const hcWithType = (...args: Parameters<typeof hc>): Client =>
   hc<AppType>(...args);
-
 
 type PartialResponse<T> = {
   data: T;
@@ -29,7 +27,7 @@ type PartialResponse<T> = {
 export function apiResponse<T, S extends ContentfulStatusCode = 200>(
   c: Context,
   response: PartialResponse<T>,
-  status: S = 200 as S
+  status: S = 200 as S,
 ): Response & { _data: ResponseType<T> } {
   const fullResponse: ResponseType<T> = {
     data: response.data,
@@ -47,5 +45,7 @@ export function apiResponse<T, S extends ContentfulStatusCode = 200>(
     },
   };
 
-  return c.json(fullResponse, status) as unknown as Response & { _data: ResponseType<T> };
+  return c.json(fullResponse, status) as unknown as Response & {
+    _data: ResponseType<T>;
+  };
 }

@@ -1,3 +1,4 @@
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import type { ApplicationEntity } from '@server/entities';
 import {
@@ -8,7 +9,7 @@ import {
   type UserRepository,
   userRepository,
 } from '@server/repositories/UserRepository';
-import { env } from '@shared/env';
+import type { ApiResponse } from '@server/sdk/types';
 import type { Context } from 'hono';
 
 @Route('GET', '/api/applications/:id', 'Retrieve all applications')
@@ -19,45 +20,28 @@ export class RetrieveApplicationsController {
     this.userRepo = userRepository;
     this.appRepo = applicationRepository;
   }
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<ApplicationEntity[] | null>> {
     const userId = c.req.param('id');
 
     const user = await this.userRepo.findOne(userId);
     if (!user) {
-      return c.json({
-        success: false,
-        data: null,
-        message: 'User not found',
-        status: 404,
-        isClientError: false,
-        isServerError: true,
-        isNotFound: true,
-        isForbidden: true,
-        isUnauthorized: true,
-        debug: false,
-        app: {
-          url: env.APP_URL,
+      return apiResponse(
+        c,
+        {
+          data: null,
+          message: 'User not found',
+          isNotFound: true,
         },
-      });
+        404,
+      );
     }
 
     const applications: ApplicationEntity[] =
       await this.appRepo.findByUser(userId);
 
-    return c.json({
-      success: true,
+    return apiResponse(c, {
       data: applications,
       message: 'Applications retrieved successfully',
-      status: 200,
-      isServerError: false,
-      isClientError: false,
-      debug: false,
-      isNotFound: false,
-      isForbidden: false,
-      isUnauthorized: false,
-      app: {
-        url: env.APP_URL,
-      },
     });
   }
 }

@@ -54,7 +54,6 @@ export class AuthService {
           expiresIn: 3600,
           allowedAttempts: 5,
           overrideDefaultEmailVerification: true,
-          sendVerificationOnSignUp: true,
           sendVerificationOTP: async function sendVerificationOTPHandler({
             email,
             otp,

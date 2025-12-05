@@ -1,6 +1,7 @@
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import { ResumeEntity } from '@server/entities';
-
+import type { ApiResponse } from '@server/sdk/types';
 import {
   type PrimaryDatabase,
   primaryDatabase,
@@ -14,11 +15,19 @@ export class GetUserResumeController {
     this.database = primaryDatabase;
   }
 
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<ResumeEntity[] | null>> {
     try {
       const userId = c.req.param('id');
       if (!userId) {
-        throw new Error('Invalid user id');
+        return apiResponse(
+          c,
+          {
+            data: null,
+            message: 'Invalid user id',
+            isClientError: true,
+          },
+          400,
+        );
       }
 
       const resumesRepo = await this.database.open(ResumeEntity);
@@ -26,33 +35,20 @@ export class GetUserResumeController {
         where: { user: { id: userId } },
       });
 
-      return c.json({
+      return apiResponse(c, {
         data: allResumes,
-        message: null,
-        success: true,
-        status: 200,
-        isClientError: false,
-        isServerError: false,
-        isNotFound: false,
-        isUnauthorized: false,
-        isForbidden: false,
-        debug: process.env.NODE_ENV !== 'production',
-        app: { url: process.env.APP_URL || '' },
+        message: 'Resumes retrieved successfully',
       });
     } catch (error: any) {
-      return c.json({
-        data: null,
-        message: error.message || 'Unknown error',
-        success: false,
-        status: 500,
-        isClientError: false,
-        isServerError: true,
-        isNotFound: false,
-        isUnauthorized: false,
-        isForbidden: false,
-        debug: process.env.NODE_ENV !== 'production',
-        app: { url: process.env.APP_URL || '' },
-      });
+      return apiResponse(
+        c,
+        {
+          data: null,
+          message: error.message || 'Unknown error',
+          isServerError: true,
+        },
+        500,
+      );
     }
   }
 }

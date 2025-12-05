@@ -22,8 +22,8 @@
     "fmt": "biome check --write",
     "type-check": "turbo type-check",
     "test": "turbo test",
-    "postinstall": "turbo build --filter=shared --filter=server",
-    "format": "biome format . --write"
+    "format": "biome format . --write",
+    "start" : "bun run server/dist/index.js"
   },
   "keywords": [
     "bun",

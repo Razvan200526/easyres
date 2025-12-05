@@ -71,5 +71,8 @@
     "vite": "^7.2.2",
     "zod": "4.1.12",
     "zustand": "^5.0.4"
+  },
+  "devDependencies": {
+    "@types/react-image-crop": "^9.0.2"
   }
 }

@@ -1,10 +1,11 @@
+import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import { ApplicationEntity } from '@server/entities';
+import type { ApiResponse } from '@server/sdk/types';
 import {
   type PrimaryDatabase,
   primaryDatabase,
 } from '@server/shared/database/PrimaryDatabase';
-import { env } from '@shared/env';
 import type { Context } from 'hono';
 
 @Route('GET', '/api/application/:id', 'Retrieve a single application ')
@@ -14,41 +15,26 @@ export class GetApplicationController {
   constructor() {
     this.db = primaryDatabase;
   }
-  async handler(c: Context) {
+  async handler(c: Context): Promise<ApiResponse<ApplicationEntity | null>> {
     const id: string = c.req.param('id');
 
     const appRepo = await this.db.open(ApplicationEntity);
     const application = await appRepo.findOneOrFail({ where: { id: id } });
     if (!application) {
-      return c.json({
-        data: {},
-        message: 'Failed to retrieve application',
-        success: false,
-        isNotFound: true,
-        isForbidden: false,
-        isClientError: false,
-        isServerError: false,
-        isUnauthorized: false,
-        debug: false,
-        app: {
-          url: env.APP_URL,
+      return apiResponse(
+        c,
+        {
+          data: null,
+          message: 'Failed to retrieve application',
+          isNotFound: true,
         },
-      });
+        404,
+      );
     }
 
-    return c.json({
+    return apiResponse(c, {
       data: application,
       message: 'Retrieved application successfully',
-      success: true,
-      isNotFound: false,
-      isForbidden: false,
-      isClientError: false,
-      isServerError: false,
-      isUnauthorized: false,
-      debug: false,
-      app: {
-        url: Bun.env.APP_URL,
-      },
     });
   }
 }
