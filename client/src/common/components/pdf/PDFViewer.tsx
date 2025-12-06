@@ -122,7 +122,7 @@ export const PdfViewer = ({
         </div>
       ) : null}
 
-      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
+      <Worker workerUrl="https://unpkg.com/pdfjs-dist@5.4.449/build/pdf.worker.min.js">
         <Viewer
           fileUrl={src}
           initialPage={initialPage}

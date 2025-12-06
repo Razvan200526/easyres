@@ -1,4 +1,4 @@
-import { cn, Input as HeroInput, type InputProps } from '@heroui/react';
+import { Button, cn, Input as HeroInput, type InputProps } from '@heroui/react';
 
 export type InputPropsType = Omit<
   InputProps,

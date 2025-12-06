@@ -7,9 +7,7 @@ export const Button = (props: ButtonPropsType) => {
     className,
     children,
     size = 'sm',
-    variant = 'solid',
-    color = 'primary',
-    radius = 'sm',
+    variant = 'primary',
     isIconOnly = false,
     ...rest
   } = props;
@@ -17,9 +15,7 @@ export const Button = (props: ButtonPropsType) => {
   return (
     <HeroButton
       size={size}
-      radius={radius}
       {...rest}
-      color={color}
       variant={variant}
       isIconOnly={isIconOnly}
       className={cn(
