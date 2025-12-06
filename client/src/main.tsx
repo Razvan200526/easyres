@@ -7,6 +7,21 @@ import { router } from './__init__/routes';
 import { queryClient } from './shared/QueryClient';
 import './tailwind.css';
 import { ToastProvider } from './common/components/toast';
+import * as Sentry from '@sentry/react';
+
+
+Sentry.init({
+  dsn: import.meta.env.VITE_SENTRY_URL,
+  sendDefaultPii: true,
+  integrations: [
+    Sentry.replayIntegration()
+  ],
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1.0,
+  enableLogs: true,
+  tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
+
+});
 
 try {
   const elem = document.getElementById('root');
@@ -14,19 +29,24 @@ try {
     throw new Error('Root element not found');
   }
 
-  window.addEventListener('auth:unautorized', () => {
-    throw new Error('Error');
-  });
+
   const root = ReactDOM.createRoot(elem);
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <ToastProvider>
-          <NuqsAdapter>
-            <RouterProvider router={router} />
-          </NuqsAdapter>
-        </ToastProvider>
+      <Sentry.ErrorBoundary fallback={
+        <div>
+          <h1>Something went wrong</h1>
+          <p>Please try again later</p>
+        </div>
+      }>
+        <QueryClientProvider client={queryClient}>
+          <ToastProvider>
+            <NuqsAdapter>
+              <RouterProvider router={router} />
+            </NuqsAdapter>
+          </ToastProvider>
       </QueryClientProvider>
+      </Sentry.ErrorBoundary>
     </StrictMode>,
   );
 } catch (error) {
