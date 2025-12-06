@@ -8,7 +8,10 @@ import { queryClient } from './shared/QueryClient';
 import './tailwind.css';
 import { ToastProvider } from './common/components/toast';
 import * as Sentry from '@sentry/react';
+<<<<<<< HEAD
 import { HeroUIProvider } from '@heroui/react';
+=======
+>>>>>>> 2d0ef95f8919314dacf5b5e51730546d9d855ab1
 
 
 Sentry.init({
@@ -40,7 +43,10 @@ try {
           <p>Please try again later</p>
         </div>
       }>
+<<<<<<< HEAD
         <HeroUIProvider>
+=======
+>>>>>>> 2d0ef95f8919314dacf5b5e51730546d9d855ab1
         <QueryClientProvider client={queryClient}>
           <ToastProvider>
             <NuqsAdapter>
@@ -48,7 +54,10 @@ try {
             </NuqsAdapter>
           </ToastProvider>
       </QueryClientProvider>
+<<<<<<< HEAD
       </HeroUIProvider>
+=======
+>>>>>>> 2d0ef95f8919314dacf5b5e51730546d9d855ab1
       </Sentry.ErrorBoundary>
     </StrictMode>,
   );
