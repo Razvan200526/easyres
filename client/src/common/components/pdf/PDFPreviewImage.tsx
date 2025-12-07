@@ -29,7 +29,7 @@ export const PdfPreviewImage = ({ src }: { src: string }) => {
 
       // @ts-ignore: trust me
       const context = canvas.getContext('2d');
-      await page.render({ canvasContext: context, viewport }).promise;
+      await page.render({ canvasContext: context, viewport, canvas }).promise;
 
       // @ts-ignore: trust me
       const dataUrl = canvas.toDataURL('image/png');

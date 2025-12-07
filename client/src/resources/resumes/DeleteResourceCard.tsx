@@ -11,8 +11,7 @@ export const DeleteResourceCard = ({ ref }: { ref: ModalRefType | null }) => {
   const { deletingResumeIds, stopDeleting, deletingCoverletterIds } =
     useDeleteStore();
   const { data: user } = useAuth();
-  // biome-ignore lint/style/noNonNullAssertion: <trust me>˝˝
-  const { mutateAsync: deleteResumeMutation } = useDeleteResumes(user!.id);
+  const { mutateAsync: deleteResumeMutation } = useDeleteResumes(user?.id || '');
   const { mutateAsync: deleteCoverletterMutation } = useDeleteCoverLetters(
     user?.id || '',
   );
@@ -61,7 +60,7 @@ export const DeleteResourceCard = ({ ref }: { ref: ModalRefType | null }) => {
       </p>
 
       <div className="flex flex-row gap-2 justify-end">
-        <Button variant="light" color="default" onPress={handleCancel}>
+        <Button variant="light" color="primary" onPress={handleCancel}>
           Cancel
         </Button>
         <Button variant="solid" color="danger" onPress={handleDelete}>

@@ -17,30 +17,43 @@ export class RenameCoverLetterController {
   }
 
   async handler(c: Context): Promise<ApiResponse<null>> {
-    const id = c.req.param('id');
-    const { newName } = await c.req.json();
+    try {
+      const id = c.req.param('id');
+      const { newName } = await c.req.json();
 
-    const repo = await this.primaryDatabase.open(CoverletterEntity);
-    const coverLetter = await repo.findOne({ where: { id: id } });
+      const repo = await this.primaryDatabase.open(CoverletterEntity);
+      const coverLetter = await repo.findOne({ where: { id: id } });
 
-    if (!coverLetter) {
+      if (!coverLetter) {
+        return apiResponse(
+          c,
+          {
+            data: null,
+            message: 'Cover letter not found',
+            isNotFound: true,
+          },
+          404,
+        );
+      }
+
+      coverLetter.name = newName;
+      await repo.save(coverLetter);
+
+      return apiResponse(c, {
+        data: null,
+        message: 'Cover letter renamed successfully',
+      });
+    } catch (e) {
+      console.error(e);
       return apiResponse(
         c,
         {
           data: null,
-          message: 'Cover letter not found',
-          isNotFound: true,
+          message: 'Failed to rename cover letter',
+          isServerError: true,
         },
-        404,
+        500,
       );
     }
-
-    coverLetter.name = newName;
-    await repo.save(coverLetter);
-
-    return apiResponse(c, {
-      data: null,
-      message: 'Cover letter renamed successfully',
-    });
   }
 }

@@ -17,30 +17,43 @@ export class RenameResumeController {
   }
 
   async handler(c: Context): Promise<ApiResponse<null>> {
-    const id = c.req.param('id');
-    const { newName } = await c.req.json();
+    try {
+      const id = c.req.param('id');
+      const { newName } = await c.req.json();
 
-    const repo = await this.primaryDatabase.open(ResumeEntity);
-    const resume = await repo.findOne({ where: { id: id } });
+      const repo = await this.primaryDatabase.open(ResumeEntity);
+      const resume = await repo.findOne({ where: { id: id } });
 
-    if (!resume) {
+      if (!resume) {
+        return apiResponse(
+          c,
+          {
+            data: null,
+            message: 'Resume not found',
+            isNotFound: true,
+          },
+          404,
+        );
+      }
+
+      resume.name = newName;
+      await repo.save(resume);
+
+      return apiResponse(c, {
+        data: null,
+        message: 'Resume renamed successfully',
+      });
+    } catch (e) {
+      console.error(e);
       return apiResponse(
         c,
         {
           data: null,
-          message: 'Resume not found',
-          isNotFound: true,
+          message: 'Failed to rename resume',
+          isServerError: true,
         },
-        404,
+        500,
       );
     }
-
-    resume.name = newName;
-    await repo.save(resume);
-
-    return apiResponse(c, {
-      data: null,
-      message: 'Resume renamed successfully',
-    });
   }
 }
