@@ -8,13 +8,13 @@ import { retrieveCurrentUserService } from '../services/RetrieveCurrentUserServi
 export class RetrieveSessionController {
   async handler(
     c: Context,
-  ): Promise<ApiResponse<{ success: boolean; data: any }>> {
+  ): Promise<ApiResponse<{ user: any }>> {
     const userId = c.get('userId');
     if (!userId) {
       return apiResponse(
         c,
-        { data: { success: false, data: null }, message: 'Unauthorized' },
-        401,
+        { data: { user: null }, success: true },
+        200,
       );
     }
 
@@ -27,7 +27,7 @@ export class RetrieveSessionController {
       return apiResponse(
         c,
         {
-          data: { success: false, data: null },
+          data: { user: null },
           message: 'Failed to retrieve session',
         },
         500,
