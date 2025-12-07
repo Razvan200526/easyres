@@ -52,6 +52,7 @@
     "@react-email/render": "^2.0.0",
     "framer-motion": "^12.23.25",
     "hono": "^4.10.7",
+    "pdfjs-dist": "5.4.449",
     "react-email": "^5.0.5",
     "react-pdf-viewer": "^0.1.0",
     "resend": "^6.5.2"

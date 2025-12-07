@@ -4,7 +4,7 @@ import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
 import { useEffect, useRef, useState } from 'react';
 
 const workerSrc =
-  'https://unpkg.com/pdfjs-dist@5.4.449/build/pdf.worker.min.js';
+  'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
 GlobalWorkerOptions.workerSrc = workerSrc;
 export const PdfPreviewImage = ({ src }: { src: string }) => {
   const canvasRef = useRef(null);
@@ -29,7 +29,7 @@ export const PdfPreviewImage = ({ src }: { src: string }) => {
 
       // @ts-ignore: trust me
       const context = canvas.getContext('2d');
-      await page.render({ canvasContext: context, viewport }).promise;
+      await page.render({ canvasContext: context, viewport , canvas : canvas }).promise;
 
       // @ts-ignore: trust me
       const dataUrl = canvas.toDataURL('image/png');
