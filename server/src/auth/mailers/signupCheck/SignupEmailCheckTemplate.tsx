@@ -70,7 +70,7 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
                     fontWeight: '500',
                   }}
                 >
-                  Thank you for signing up with Resume Tracker.
+                  Thank you for signing up with EasyResPlus.
                 </p>
               </td>
             </tr>
@@ -182,7 +182,7 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
                     color: '#d1d5db',
                   }}
                 >
-                  &copy; {new Date().getFullYear()} Resume Tracker. All rights
+                  &copy; {new Date().getFullYear()} EasyResPlus. All rights
                   reserved.
                 </p>
               </td>
