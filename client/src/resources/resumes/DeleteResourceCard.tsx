@@ -61,7 +61,7 @@ export const DeleteResourceCard = ({ ref }: { ref: ModalRefType | null }) => {
       </p>
 
       <div className="flex flex-row gap-2 justify-end">
-        <Button variant="light" color="default" onPress={handleCancel}>
+        <Button variant="light" color="primary" onPress={handleCancel}>
           Cancel
         </Button>
         <Button variant="solid" color="danger" onPress={handleDelete}>

@@ -67,7 +67,7 @@ export const DeleteCoverLetterCard = ({
       </p>
 
       <div className="flex flex-row gap-4 justify-end mt-4">
-        <Button variant="light" color="default" onPress={handleCancel}>
+        <Button variant="light" color="primary" onPress={handleCancel}>
           Cancel
         </Button>
         <Button variant="solid" color="danger" onPress={handleDelete}>
