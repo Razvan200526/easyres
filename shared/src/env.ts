@@ -15,7 +15,7 @@ const CommonEnv = z.object({
   R2_ACCOUNT_ID: z.string(),
   SMTP_PORT: z.string(),
   ACCESS_TOKEN: z.string(),
-  COOKIE_DOMAIN: z.string(),
+  COOKIE_DOMAIN: z.string().optional(),
   COOKIE_NAME: z.string(),
   COOKIE_SAMESITE: z.enum(['lax', 'strict', 'none']),
 });
