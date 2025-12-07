@@ -8,12 +8,12 @@ export const useApplications = (userId: string) => {
   return useQuery({
     queryKey: ['applications', 'retrieve'],
     queryFn: async () => {
+      console.debug('User id', userId);
       const res = await backend.apps.apps.retrieve({
         userId: userId,
       });
-      return res.data as ApplicationType[];
+      return res.data;
     },
-    throwOnError: true,
   });
 };
 
