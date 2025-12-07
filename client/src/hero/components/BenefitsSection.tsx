@@ -17,7 +17,7 @@ export const BenefitsSection = () => {
               Proven Results
             </H2>
             <P className="mt-4 text-lg leading-8 text-gray-400">
-              Don't just take our word for it. See the impact ResAI has on job
+              Don't just take our word for it. See the impact EasyresPlus has on job
               search success.
             </P>
           </div>

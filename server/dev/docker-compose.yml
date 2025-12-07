@@ -10,6 +10,6 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: resai
-      POSTGRES_PASSWORD: resai
-      POSTGRES_DB: resai
+      POSTGRES_USER: EasyresPlus
+      POSTGRES_PASSWORD: EasyresPlus
+      POSTGRES_DB: EasyresPlus
