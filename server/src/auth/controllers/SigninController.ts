@@ -16,9 +16,7 @@ export class SignInController {
   constructor() {
     this.authService = authService;
   }
-  async handler(
-    c: Context,
-  ): Promise<
+  async handler(c: Context): Promise<
     ApiResponse<{
       error?: string;
       success: boolean;

@@ -1,6 +1,6 @@
+import { EmailIcon } from '@client/common/icons/EmailIcon';
+import { isEmailValid } from '@client/common/validators/isEmailValid';
 import { cn } from '@heroui/react';
-import { EmailIcon } from '@shared/icons/EmailIcon';
-import { isEmailValid } from '@shared/validators/isEmailValid';
 import { useImperativeHandle, useState } from 'react';
 import { Input } from './Input';
 
@@ -41,7 +41,6 @@ export const InputEmail = ({
 
   const icon = (
     <EmailIcon
-      color={isFocused || initialValue.length > 0 ? '#007ab7' : '#97caea'}
       className={cn(
         'size-4.5',
         isFocused || initialValue.length > 0

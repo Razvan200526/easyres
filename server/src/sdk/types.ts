@@ -4,7 +4,7 @@ import type { Context } from 'hono';
 export type IController = {
   constructor: () => void;
   handler: (c: Context) => ApiResponse<any>;
-}
+};
 
 export type UserType = {
   id: string;

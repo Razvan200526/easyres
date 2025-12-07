@@ -1,35 +1,37 @@
-import { type ButtonProps, cn, Button as HeroButton } from '@heroui/react';
+import { type ButtonProps, Button as HeroButton } from '@heroui/button';
+import { cn } from '@heroui/theme';
 
-export type ButtonPropsType = ButtonProps;
+export type ButtonPropsType = Omit<ButtonProps, 'color'> & {
+  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+};
 
 export const Button = (props: ButtonPropsType) => {
   const {
     className,
     children,
     size = 'sm',
-    variant = 'primary',
-    isIconOnly = false,
+    variant = 'solid',
+    color = 'primary',
     ...rest
   } = props;
 
   return (
     <HeroButton
       size={size}
+      radius="sm"
       {...rest}
+      color={color}
       variant={variant}
-      isIconOnly={isIconOnly}
       className={cn(
-        'font-medium tracking-wide min-w-3 min-h-0 py-0 flex items-center justify-center',
+        'font-medium tracking-wide rounded',
         'data-[focus=true]:outline-2 data-[focus=true]:outline-offset-2',
-        size === 'sm' ? 'text-xs h-7.5' : 'text-sm',
+        'data-[focus=true]:outline-primary',
+        size === 'sm' ? 'text-xs' : 'text-sm',
         variant === 'bordered' ? 'border-small' : '',
         color === 'primary' && variant === 'light'
-          ? 'data-[hover=true]:bg-primary-200/40'
+          ? 'data-[hover=true]:bg-primary-100'
           : '',
         color === 'primary' && variant === 'flat' ? 'text-primary' : '',
-        radius === 'full' ? 'rounded-full' : 'rounded',
-        isIconOnly ? 'p-0' : 'px-3',
-
         className,
       )}
     >

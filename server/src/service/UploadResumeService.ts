@@ -1,4 +1,3 @@
-
 import { ResumeEntity } from '@server/entities';
 import type { UserType } from '@server/sdk/types';
 import { storageService } from '@server/service/StorageService';

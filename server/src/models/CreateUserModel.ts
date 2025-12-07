@@ -1,4 +1,3 @@
-
 import type { UserType } from '@server/sdk/types';
 import * as z from 'zod';
 export type CreateUserModel = {

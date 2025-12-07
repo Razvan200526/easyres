@@ -52,6 +52,6 @@ await initializeDatabase();
 
 export default {
   port: Number(env.PORT),
-  hostname: "0.0.0.0",
-  fetch: app.fetch
-}
+  hostname: '0.0.0.0',
+  fetch: app.fetch,
+};

@@ -12,7 +12,7 @@ export const CreateResourceModal = () => {
   return (
     <>
       <Button
-        variant="shadow"
+        variant="flat"
         isIconOnly={true}
         radius="md"
         onPress={() => ref.current?.open()}
@@ -22,7 +22,7 @@ export const CreateResourceModal = () => {
 
       <Modal
         size={'5xl'}
-        className="bg-light rounded"
+        className="bg-background rounded"
         modalRef={ref}
         hideCloseButton={true}
       >

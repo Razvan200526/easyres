@@ -34,16 +34,12 @@ import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 export const app = new Hono();
 
-<<<<<<< HEAD
-if (env!.NODE_ENV === 'development') {
-=======
 if (env.NODE_ENV === 'development') {
->>>>>>> 2d0ef95f8919314dacf5b5e51730546d9d855ab1
   app.use(logger());
 }
 app.use(
   cors({
-    origin: env!.CORS_ORIGINS?.split(','),
+    origin: env.CORS_ORIGINS?.split(','),
     allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization'],
     credentials: true,

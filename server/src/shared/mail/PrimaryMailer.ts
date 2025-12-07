@@ -18,7 +18,6 @@ export class PrimaryMailer implements Mailer {
   }
 
   public async send({ to, subject, html }: SendMailParams): Promise<void> {
-
     const { error } = await this.resend.emails.send({
       from: '"EasyRes" <welcome@resumetracker.me>',
       to,

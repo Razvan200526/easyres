@@ -66,7 +66,7 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
                   style={{
                     margin: '16px 0 0 0',
                     fontSize: '16px',
-                    color: '#4b5563', 
+                    color: '#4b5563',
                     fontWeight: '500',
                   }}
                 >
@@ -76,7 +76,12 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
             </tr>
 
             <tr>
-              <td style={{backgroundColor: '#FBF7FD', padding: '0 40px 40px 40px' }}>
+              <td
+                style={{
+                  backgroundColor: '#FBF7FD',
+                  padding: '0 40px 40px 40px',
+                }}
+              >
                 <p
                   style={{
                     margin: '0 0 32px 0',
@@ -86,8 +91,8 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
                     lineHeight: '26px',
                   }}
                 >
-                  Please use the following One-Time Password (OTP) to complete your
-                  registration. This code is valid for 60 minutes.
+                  Please use the following One-Time Password (OTP) to complete
+                  your registration. This code is valid for 60 minutes.
                 </p>
 
                 {/* OTP Digits */}
@@ -117,7 +122,8 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
                           >
                             <span
                               style={{
-                                fontFamily: '"Saira Stencil One", Monaco, monospace',
+                                fontFamily:
+                                  '"Saira Stencil One", Monaco, monospace',
                                 fontSize: '28px',
                                 fontWeight: '700',
                                 color: '#da4d26',
@@ -176,7 +182,8 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
                     color: '#d1d5db',
                   }}
                 >
-                  &copy; {new Date().getFullYear()} Resume Tracker. All rights reserved.
+                  &copy; {new Date().getFullYear()} Resume Tracker. All rights
+                  reserved.
                 </p>
               </td>
             </tr>
