@@ -52,7 +52,7 @@ export const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Logo className="size-8" />
-              <span className="text-2xl font-bold text-primary">EasyRes</span>
+              <span className="text-2xl font-bold text-primary">EasyresPlus</span>
             </div>
             <P className="text-sm leading-6 text-secondary-text">
               Empowering your career with AI-driven resume optimization.
@@ -72,10 +72,10 @@ export const Footer = () => {
             <div className="flex items-center gap-2 text-primary-200">
               <Mail className="h-5 w-5" />
               <a
-                href="mailto:contact@resai.ro"
+                href="mailto:contact@EasyresPlus.ro"
                 className="text-sm hover:text-primary"
               >
-                contact@resai.ro
+                contact@EasyresPlus.ro
               </a>
             </div>
           </div>
@@ -116,7 +116,7 @@ export const Footer = () => {
         </div>
         <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 lg:mt-24">
           <p className="text-xs leading-5 text-gray-400">
-            &copy; {new Date().getFullYear()} ResAI. Toate drepturile rezervate.
+            &copy; {new Date().getFullYear()} EasyResPlus. Toate drepturile rezervate.
           </p>
         </div>
       </div>
