@@ -10,7 +10,7 @@ import type {
 } from './types';
 
 export class CoverLetterFetcher {
-  constructor(readonly fetcher: Fetcher) {}
+  constructor(readonly fetcher: Fetcher) { }
 
   public readonly coverletter = {
     retrieve: async (payload: { userId: string }): Promise<ResponseType> => {
@@ -54,7 +54,7 @@ export class CoverLetterFetcher {
     },
   };
 
-  public readonly create = (payload: { url: string }) => {
+  public readonly create = async (payload: { url: string }) => {
     const socket = new Socket(import.meta.env.VITE_PY_URL as string);
 
     socket.on<{ coverletter: CoverLetterType }>('message', (response) => {

@@ -19,7 +19,6 @@ export interface ChatMessage {
   timestamp: Date;
 }
 
-// Add these new hooks to the existing hooks.ts file
 
 export const useChatSessions = (userId: string) => {
   return useQuery({

@@ -52,7 +52,7 @@ export const Dropdown = ({
                 onAction={item.onAction}
                 key={item.key}
                 className={cn('p-0', item.className)}
-                closeOnSelect={false}
+                closeOnSelect={true}
                 textValue={
                   typeof item.label === 'string' ? item.label : item.key
                 }

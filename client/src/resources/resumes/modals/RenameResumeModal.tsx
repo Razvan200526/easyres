@@ -9,7 +9,7 @@ import { Modal, type ModalRefType } from '@shared/components/Modal';
 import { Toast } from '@shared/components/toast';
 import { H5 } from '@shared/components/typography';
 import { useRef } from 'react';
-import { useRenameResume } from './hooks';
+import { useRenameResume } from '../hooks';
 
 interface RenameResumeModalProps {
   modalRef: React.RefObject<ModalRefType | null>;

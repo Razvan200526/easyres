@@ -1,7 +1,7 @@
 import type { ResumeType } from '@sdk/types';
 import { Modal, type ModalRefType } from '@shared/components/Modal';
 import type { RefObject } from 'react';
-import { DeleteResumeCard } from './DeleteResumeCard';
+import { DeleteResumeCard } from '../cards/DeleteResumeCard';
 
 type DeleteResourceModalProps = {
   modalRef: RefObject<ModalRefType | null>;

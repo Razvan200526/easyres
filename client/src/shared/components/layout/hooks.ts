@@ -27,19 +27,20 @@ export const useSideBarItems = () => {
       title: 'Applications',
     },
     {
-      key: 'settings',
-      href: 'settings',
-      icon: SettingsIcon,
-      title: 'Settings',
+      key: 'ask',
+      href: 'ask',
+      icon: AiChatIcon,
+      title: 'Ask AI',
     },
+
   ];
 
   const secondaryItems = [
     {
-      key: 'ask',
-      href: 'ask',
-      icon: AiChatIcon,
-      title: 'ask',
+      key: 'settings',
+      href: 'settings',
+      icon: SettingsIcon,
+      title: 'Settings',
     },
   ];
 

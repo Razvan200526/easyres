@@ -3,8 +3,8 @@ import { useAuth } from '@client/shared/hooks';
 import { Skeleton } from '@heroui/react';
 import { PdfViewer } from '@shared/components/pdf/PDFViewer';
 import { useGetResume } from './hooks';
-import { NoResumes } from './NoResumes';
-import { ResumeChat } from './ResumeChat';
+import { NoResumes } from './components/NoResumes';
+import { ResumeChat } from './components/ResumeChat';
 
 export const ResumeInspectPage = () => {
   const { data: user } = useAuth();
@@ -30,7 +30,7 @@ export const ResumeInspectPage = () => {
             toolbar={true}
             src={resumeData.url}
             initialPage={0}
-            className="rounded border border-resume/20"
+            className="rounded border border-border"
           />
         ) : (
           <Skeleton />

@@ -13,7 +13,6 @@ export class ApplicationFetcher {
     getApp: async (payload: { applicationId: string }): Promise<ResponseType<ApplicationType>> => {
       return this.fetcher.get(`/api/application/${payload.applicationId}`);
     },
-
     create: async (payload: {
       data: CreateApplicationFormData;
       userId: string;

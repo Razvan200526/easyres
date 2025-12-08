@@ -5,7 +5,7 @@ import { Socket, type SocketResponseType } from './Socket';
 import type { ResponseType, ResumeChatResponseType, ResumeType } from './types';
 
 export class ResumeFetcher {
-  constructor(readonly fetcher: Fetcher) {}
+  constructor(readonly fetcher: Fetcher) { }
 
   public readonly resumes = {
     retrieve: async (payload: { userId: string }): Promise<ResponseType> => {
@@ -45,8 +45,8 @@ export class ResumeFetcher {
     },
   };
 
-  public readonly create = (payload: { url: string }) => {
-    const socket = new Socket('ws://localhost:2000');
+  public readonly create = async (payload: { url: string }) => {
+    const socket = new Socket(import.meta.env.VITE_PY_URL);
 
     socket.on<{ resume: ResumeType }>('message', (response) => {
       queryClient.invalidateQueries();

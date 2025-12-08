@@ -8,7 +8,7 @@ import { Toast } from '@shared/components/toast';
 import { H6 } from '@shared/components/typography';
 import type { RefObject } from 'react';
 import { useNavigate } from 'react-router';
-import { useDeleteResumes } from './hooks';
+import { useDeleteResumes } from '../hooks';
 
 export const DeleteResumeCard = ({
   modalRef,

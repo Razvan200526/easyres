@@ -4,8 +4,8 @@ import { Card } from '@shared/components/card';
 import type { ModalRefType } from '@shared/components/Modal';
 import { Toast } from '@shared/components/toast';
 import { H6 } from '@shared/components/typography';
-import { useDeleteStore } from '../store';
-import { useDeleteCoverLetters, useDeleteResumes } from './hooks';
+import { useDeleteStore } from '../../store';
+import { useDeleteCoverLetters, useDeleteResumes } from '../hooks';
 
 export const DeleteResourceCard = ({ ref }: { ref: ModalRefType | null }) => {
   const { deletingResumeIds, stopDeleting, deletingCoverletterIds } =

@@ -1,43 +1,16 @@
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-import '@react-pdf-viewer/page-navigation/lib/styles/index.css';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
 
 import { cn } from '@heroui/react';
-import {
-  type PageLayout,
-  type RenderPageProps,
-  SpecialZoomLevel,
-  Viewer,
-  ViewMode,
-  Worker,
-} from '@react-pdf-viewer/core';
-import type { ToolbarSlot } from '@react-pdf-viewer/default-layout';
-import { pageNavigationPlugin } from '@react-pdf-viewer/page-navigation';
+import { useState, useCallback } from 'react';
+import { Document, Page, pdfjs } from 'react-pdf';
 
-import { toolbarPlugin } from '@react-pdf-viewer/toolbar';
-
-const renderPage = (props: RenderPageProps) => {
-  return (
-    <>
-      {props.canvasLayer.children}
-      <div
-        style={
-          {
-            //   userSelect: 'none',
-          }
-        }
-      >
-        {props.textLayer.children}
-      </div>
-      {props.annotationLayer.children}
-    </>
-  );
-};
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export const PdfViewer = ({
   src,
   toolbar = false,
-  initialPage = 0,
+  initialPage = 1,
   className,
   render,
 }: {
@@ -47,96 +20,108 @@ export const PdfViewer = ({
   className?: string;
   render?: () => { endPage: number; startPage: number };
 }) => {
-  const toolbarPluginInstance = toolbarPlugin();
-  const { Toolbar } = toolbarPluginInstance;
-  const pageNavigationPluginInstance = pageNavigationPlugin();
+  const [numPages, setNumPages] = useState<number | null>(null);
+  const [pageNumber, setPageNumber] = useState(initialPage);
+  const [scale, setScale] = useState(1.0);
 
-  const pageLayout: PageLayout = {
-    transformSize: ({ size }) => ({
-      height: size.height + 10,
-      width: size.width + 10,
-    }),
-  };
+  const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
+    setNumPages(numPages);
+  }, []);
+
+  const goToPrevPage = () => setPageNumber((prev) => Math.max(prev - 1, 1));
+  const goToNextPage = () => setPageNumber((prev) => Math.min(prev + 1, numPages || prev));
+  const zoomIn = () => setScale((prev) => Math.min(prev + 0.2, 3.0));
+  const zoomOut = () => setScale((prev) => Math.max(prev - 0.2, 0.5));
+
+  // Determine which pages to render
+  const pagesToRender: number[] = [];
+  if (render) {
+    const { startPage, endPage } = render();
+    for (let i = startPage; i <= endPage && i <= (numPages || endPage); i++) {
+      pagesToRender.push(i);
+    }
+  } else if (numPages) {
+    for (let i = 1; i <= numPages; i++) {
+      pagesToRender.push(i);
+    }
+  }
 
   return (
     <div
       className={cn(
-        'h-full w-full relative bg-light',
+        'h-full w-full relative bg-light overflow-auto',
         toolbar ? 'pt-14' : 'pt-0',
         className,
       )}
     >
-      {toolbar ? (
-        <div className="justify-center w-fit m-auto rounded absolute top-2 left-0 right-0 z-50 hidden md:flex">
-          <Toolbar>
-            {(slots: ToolbarSlot) => {
-              const {
-                CurrentPageInput,
-                EnterFullScreen,
-                GoToNextPage,
-                GoToPreviousPage,
-                NumberOfPages,
-                ShowSearchPopover,
-                Zoom,
-                ZoomIn,
-                ZoomOut,
-                SwitchViewMode,
-              } = slots;
-              return (
-                <div className="flex items-start gap-2 px-1 pt-1 w-fit rounded bg-transparent">
-                  <div>
-                    <ShowSearchPopover />
-                  </div>
-                  <div>
-                    <ZoomOut />
-                  </div>
-                  <div>
-                    <Zoom />
-                  </div>
-                  <div>
-                    <ZoomIn />
-                  </div>
-                  <div>
-                    <GoToPreviousPage />
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <CurrentPageInput />
-                    <NumberOfPages />
-                  </div>
-                  <div>
-                    <GoToNextPage />
-                  </div>
-                  <div>
-                    <EnterFullScreen />
-                  </div>
-                  <div>
-                    <SwitchViewMode mode={ViewMode.DualPage} />
-                  </div>
-                  <div>
-                    <SwitchViewMode mode={ViewMode.SinglePage} />
-                  </div>
-                </div>
-              );
-            }}
-          </Toolbar>
+      {toolbar && (
+        <div className="justify-center w-fit m-auto rounded absolute top-2 left-0 right-0 z-50 hidden md:flex bg-white/90 shadow-md">
+          <div className="flex items-center gap-2 px-3 py-2">
+            <button
+              onClick={zoomOut}
+              className="px-2 py-1 rounded hover:bg-gray-200"
+              type="button"
+            >
+              -
+            </button>
+            <span className="text-sm">{Math.round(scale * 100)}%</span>
+            <button
+              onClick={zoomIn}
+              className="px-2 py-1 rounded hover:bg-gray-200"
+              type="button"
+            >
+              +
+            </button>
+            <div className="w-px h-6 bg-gray-300 mx-2" />
+            <button
+              onClick={goToPrevPage}
+              disabled={pageNumber <= 1}
+              className="px-2 py-1 rounded hover:bg-gray-200 disabled:opacity-50"
+              type="button"
+            >
+              ←
+            </button>
+            <span className="text-sm">
+              {pageNumber} / {numPages || '?'}
+            </span>
+            <button
+              onClick={goToNextPage}
+              disabled={pageNumber >= (numPages || 1)}
+              className="px-2 py-1 rounded hover:bg-gray-200 disabled:opacity-50"
+              type="button"
+            >
+              →
+            </button>
+          </div>
         </div>
-      ) : null}
+      )}
 
-      <Worker workerUrl="https://unpkg.com/pdfjs-dist@5.4.449/build/pdf.worker.min.js">
-        <Viewer
-          fileUrl={src}
-          initialPage={initialPage}
-          defaultScale={SpecialZoomLevel.PageWidth}
-          enableSmoothScroll
-          // scrollMode={ScrollMode.Vertical}
-          plugins={[toolbarPluginInstance, pageNavigationPluginInstance]}
-          pageLayout={pageLayout}
-          renderPage={renderPage}
-          setRenderRange={render}
-          //   withCredentials={false}
-          //   localization={lang as unknown as LocalizationMap}
-        />
-      </Worker>
+      <Document
+        file={src}
+        onLoadSuccess={onDocumentLoadSuccess}
+        className="flex flex-col items-center gap-4 p-4"
+      >
+        {pagesToRender.length > 0 ? (
+          pagesToRender.map((page) => (
+            <Page
+              key={page}
+              pageNumber={page}
+              scale={scale}
+              className="shadow-lg"
+              renderTextLayer={true}
+              renderAnnotationLayer={true}
+            />
+          ))
+        ) : (
+          <Page
+            pageNumber={pageNumber}
+            scale={scale}
+            className="shadow-lg"
+            renderTextLayer={true}
+            renderAnnotationLayer={true}
+          />
+        )}
+      </Document>
     </div>
   );
 };

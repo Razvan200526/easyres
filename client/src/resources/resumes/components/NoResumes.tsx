@@ -1,6 +1,6 @@
 import { H6 } from '@shared/components/typography';
 import { PdfIcon } from '@shared/icons/PdfIcon';
-import { CreateResumeButton } from './CreateResumeButton';
+import { CreateResumeButton } from '../buttons/CreateResumeButton';
 
 export const NoResumes = () => {
   return (

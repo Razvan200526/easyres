@@ -2,9 +2,9 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 import { Button } from '@shared/components/button';
 import { Modal, type ModalRefType } from '@shared/components/Modal';
 import { useRef } from 'react';
-import { CreateCoverLetterCard } from '../cover-letter/CreateCoverLetterCard';
+import { CreateCoverLetterCard } from '../../cover-letter/CreateCoverLetterCard';
 // import { CreatePortfolioCard } from '../portfolio/CreatePortfolioCard';
-import { CreateResumeCard } from './CreateResumeCard';
+import { CreateResumeCard } from '../cards/CreateResumeCard';
 
 export const CreateResourceModal = () => {
   const ref = useRef<ModalRefType | null>(null);
@@ -26,7 +26,7 @@ export const CreateResourceModal = () => {
         modalRef={ref}
         hideCloseButton={true}
       >
-        <div className="p-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <CreateResumeCard />
           <CreateCoverLetterCard />
         </div>

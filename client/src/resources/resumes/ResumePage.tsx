@@ -1,65 +1,68 @@
-import { useAuth } from '@client/shared/hooks';
+import { PageLoader } from '@client/shared/components/PageLoader';
 import { ScrollShadow } from '@heroui/react';
 import type { ResumeType } from '@sdk/types';
-import { useMemo, useState } from 'react';
 import { Link } from 'react-router';
-import { filterAndSortResumes } from './filterUtils';
-import { useResumes } from './hooks';
-import { NoResumes } from './NoResumes';
-import { ResumeCard } from './ResumeCard';
-import { ResumeFilterSidebar, type ResumeFilters } from './ResumeFilterSidebar';
+import { NoResumes } from './components/NoResumes';
+import { ResumeCard } from './cards/ResumeCard';
+import { SearchIcon } from '@client/common/icons/SearchIcon';
+import { useResourceContext } from '../ResourceLayout';
 
 export const ResumePage = () => {
-  const { data: user } = useAuth();
   const {
-    data: resumes,
-    isLoading: resumesLoading,
-    error,
-  } = useResumes(user ? user.id : '');
+    filteredResumes,
+    resumesLoading,
+    totalResumes,
+  } = useResourceContext();
 
-  const [filters, setFilters] = useState<ResumeFilters>({
-    searchQuery: '',
-    sortBy: 'uploadedAt',
-    sortOrder: 'desc',
-    dateRange: 'all',
-    state: 'all',
-  });
-
-  const filteredResumes = useMemo(() => {
-    if (!resumes) return [];
-    return filterAndSortResumes(resumes, filters);
-  }, [resumes, filters]);
-
-  if (resumesLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading resumes</div>;
-  if (!resumes || resumes.length === 0) {
+  if (resumesLoading) return <PageLoader />;
+  if (totalResumes === 0) {
     return <NoResumes />;
   }
 
   return (
-    <div className="m-4 bg-background h-[calc(100dvh-7rem)] rounded flex">
-      <ScrollShadow size={8} className="flex-1 overflow-y-scroll">
-        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {filteredResumes.length > 0 ? (
-            filteredResumes.map((resume: ResumeType) => (
-              <Link to={`/home/resources/resumes/${resume.id}`} key={resume.id}>
-                <ResumeCard resume={resume} />
-              </Link>
-            ))
-          ) : (
-            <div className="col-span-full text-center py-12">
-              <p className="text-muted">
-                No resumes found matching your filters.
-              </p>
-            </div>
-          )}
+    <div className="m-4 bg-background h-[calc(100dvh-7rem)] rounded">
+      <ScrollShadow size={8} className="h-full overflow-y-scroll">
+        <div className="p-4">
+          {/* Results summary */}
+          <div className="mb-4">
+            <p className="text-sm text-primary font-semibold">
+              Showing{' '}
+              <span className="font-bold text-secondary">
+                {filteredResumes.length}
+              </span>{' '}
+              of{' '}
+              <span className="font-bold text-secondary">{totalResumes}</span>{' '}
+              {totalResumes === 1 ? 'resume' : 'resumes'}
+            </p>
+          </div>
+
+          {/* Resume grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {filteredResumes.length > 0 ? (
+              filteredResumes.map((resume: ResumeType) => (
+                <Link
+                  to={`/home/resources/resumes/${resume.id}`}
+                  key={resume.id}
+                >
+                  <ResumeCard resume={resume} />
+                </Link>
+              ))
+            ) : (
+              <div className="col-span-full h-[calc(100dvh-7rem)] flex flex-col items-center justify-center py-16">
+                <div className="p-4 rounded-full bg-primary/10 border border-border mb-4">
+                  <SearchIcon className="size-8 text-secondary-text" />
+                </div>
+                <p className="text-primary font-medium mb-1">
+                  No resumes found
+                </p>
+                <p className="text-sm text-secondary-text">
+                  Try adjusting your filters
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </ScrollShadow>
-
-      <ResumeFilterSidebar
-        onFilterChange={setFilters}
-        totalResumes={filteredResumes.length}
-      />
     </div>
   );
 };

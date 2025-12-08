@@ -205,7 +205,7 @@ export function printEnvErrors(errors: any[]) {
     message += `${color.yellow('•')} ${color.white(variable)} ${color.gray('→')} ${color.red(cleaned)}\n`;
   });
 
-  const e = new Error(message.trim());
+  const e = new Error(message);
 
   console.error(pe.render(e));
 }

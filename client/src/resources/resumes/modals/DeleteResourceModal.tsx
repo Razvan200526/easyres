@@ -1,6 +1,6 @@
 import { Modal, type ModalRefType } from '@shared/components/Modal';
 import type { RefObject } from 'react';
-import { DeleteResourceCard } from './DeleteResourceCard';
+import { DeleteResourceCard } from '../cards/DeleteResourceCard';
 
 type DeleteResourceModalProps = {
   modalRef: RefObject<ModalRefType | null>;
