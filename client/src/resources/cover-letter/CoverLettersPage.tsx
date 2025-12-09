@@ -1,18 +1,15 @@
+import { SearchIcon } from '@client/common/icons/SearchIcon';
 import { PageLoader } from '@client/shared/components/PageLoader';
 import { ScrollShadow } from '@heroui/react';
 import type { CoverLetterType } from '@sdk/types';
 import { Link } from 'react-router';
+import { useResourceContext } from '../ResourceLayout';
 import { CoverLetterCard } from './CoverLetterCard';
 import { NoCoverLetters } from './NoCoverLetters';
-import { SearchIcon } from '@client/common/icons/SearchIcon';
-import { useResourceContext } from '../ResourceLayout';
 
 export const CoverLettersPage = () => {
-  const {
-    filteredCoverLetters,
-    coverlettersLoading,
-    totalCoverLetters,
-  } = useResourceContext();
+  const { filteredCoverLetters, coverlettersLoading, totalCoverLetters } =
+    useResourceContext();
 
   if (coverlettersLoading) return <PageLoader />;
   if (totalCoverLetters === 0) {
@@ -31,7 +28,9 @@ export const CoverLettersPage = () => {
                 {filteredCoverLetters.length}
               </span>{' '}
               of{' '}
-              <span className="font-bold text-secondary">{totalCoverLetters}</span>{' '}
+              <span className="font-bold text-secondary">
+                {totalCoverLetters}
+              </span>{' '}
               {totalCoverLetters === 1 ? 'cover letter' : 'cover letters'}
             </p>
           </div>

@@ -1,7 +1,7 @@
+import { PdfViewer } from '@client/common/components/pdf/PDFViewer';
 import { PageLoader } from '@client/shared/components/PageLoader';
 import { useAuth } from '@client/shared/hooks';
 import { Skeleton } from '@heroui/react';
-import { PdfViewer } from '@shared/components/pdf/PDFViewer';
 import { useGetCoverLetter } from '../resumes/hooks';
 import { CoverLetterChat } from './CoverLetterChat';
 import { NoCoverLetters } from './NoCoverLetters';

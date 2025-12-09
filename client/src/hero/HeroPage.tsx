@@ -1,6 +1,6 @@
+import { Button } from '@client/common/components/button';
+import { H1, P } from '@client/common/components/typography';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import { Button } from '@shared/components/button';
-import { H1, P } from '@shared/components/typography';
 import { Link } from 'react-router';
 import imgUrl from '../assets/PreviewImage.webp';
 import { BenefitsSection } from './components/BenefitsSection';

@@ -1,7 +1,7 @@
+import { Button } from '@client/common/components/button';
+import { H2, P } from '@client/common/components/typography';
 import { CheckIcon } from '@heroicons/react/20/solid';
 import { Card, CardBody, CardFooter, CardHeader, Chip } from '@heroui/react';
-import { Button } from '@shared/components/button';
-import { H2, P } from '@shared/components/typography';
 import { Link } from 'react-router';
 
 const tiers = [

@@ -1,11 +1,11 @@
+import { Button } from '@client/common/components/button';
+import { InputEmail } from '@client/common/components/input';
+import { Link } from '@client/common/components/Link';
+import { Toast } from '@client/common/components/toast';
+import { H6 } from '@client/common/components/typography';
 import { backend } from '@client/shared/backend';
 import { ArrowRightCircleIcon } from '@heroicons/react/24/outline';
 import { Form } from '@heroui/react';
-import { Button } from '@shared/components/button';
-import { InputEmail } from '@shared/components/input';
-import { Link } from '@shared/components/Link';
-import { Toast } from '@shared/components/toast';
-import { H6 } from '@shared/components/typography';
 import { isEmailValid } from '@shared/validators/isEmailValid';
 import { useState } from 'react';
 import { useSignupStore } from '../signUpStore';

@@ -14,8 +14,8 @@ export class AuthService {
     const ssl =
       env.NODE_ENV === 'production'
         ? {
-          rejectUnauthorized: false,
-        }
+            rejectUnauthorized: false,
+          }
         : false;
     this.pool = new Pool({
       connectionString: this.databaseUrl,

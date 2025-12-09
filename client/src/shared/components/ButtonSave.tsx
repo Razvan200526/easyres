@@ -1,5 +1,5 @@
-import { Button } from '@shared/components/button';
-import { SaveIcon } from '@shared/icons/SaveIcon';
+import { Button } from '@client/common/components/button';
+import { SaveIcon } from '@client/common/icons/SaveIcon';
 
 export const ButtonSave = ({
   onPress,

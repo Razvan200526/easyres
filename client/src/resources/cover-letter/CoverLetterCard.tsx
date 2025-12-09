@@ -1,11 +1,11 @@
+import { Card } from '@client/common/components/card';
+import { SuccessChip } from '@client/common/components/chips/SuccesChip';
+import { PdfPreviewImage } from '@client/common/components/pdf/PDFPreviewImage';
+import { H6 } from '@client/common/components/typography';
 import { Checkbox } from '@heroui/react';
 import type { CoverLetterType } from '@sdk/types';
-import { Card } from '@shared/components/card';
-import { PdfPreviewImage } from '@shared/components/pdf/PDFPreviewImage';
+import { formatDate } from '@shared/utils';
 import { useDeleteStore } from '../store';
-import { SuccessChip } from '@client/common/components/chips/SuccesChip';
-import { formatDate } from '@client/common/utils';
-import { H6 } from '@client/common/components/typography';
 
 type CoverLetterCardProps = {
   coverLetter: CoverLetterType;
@@ -16,7 +16,7 @@ export const CoverLetterCard = ({ coverLetter }: CoverLetterCardProps) => {
     useDeleteStore();
   return (
     <Card className="h-[250px] relative flex flex-col border border-border transition-all duration-300 hover:border-border-hover ease-in-out w-full">
-      <SuccessChip className='absolute top-1 left-1 z-50' >Success</SuccessChip>
+      <SuccessChip className="absolute top-1 left-1 z-50">Success</SuccessChip>
       <div className="h-full w-full rounded flex items-center justify-center">
         {state && (
           <Checkbox
@@ -31,7 +31,7 @@ export const CoverLetterCard = ({ coverLetter }: CoverLetterCardProps) => {
             }}
           />
         )}
-        <div className='object-cover'>
+        <div className="object-cover">
           <PdfPreviewImage src={coverLetter.url} />
         </div>
       </div>

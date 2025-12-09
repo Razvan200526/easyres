@@ -1,6 +1,6 @@
+import { Button } from '@client/common/components/button';
 import { Toast } from '@client/common/components/toast';
 import { Select, SelectItem, Switch } from '@heroui/react';
-import { Button } from '@shared/components/button';
 import { useState } from 'react';
 import { SettingsCard } from '../components/SettingsCard';
 import { SettingsField } from '../components/SettingsField';

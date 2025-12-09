@@ -1,8 +1,8 @@
+import { Card } from '@common/components/card';
+import { H4 } from '@common/components/typography';
 import { Chip, cn } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import type { ApplicationType } from '@sdk/types';
-import { Card } from '@shared/components/card';
-import { H4 } from '@shared/components/typography';
 import { formatDate } from '@shared/utils';
 
 const statusConfig = {

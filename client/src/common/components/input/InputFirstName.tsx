@@ -1,5 +1,5 @@
+import { ProfileIcon } from '@client/common/icons/ProfileIcon';
 import { cn } from '@heroui/react';
-import { ProfileIcon } from '@shared/icons/ProfileIcon';
 import { isNameValid } from '@shared/validators/isNameValid';
 import { useImperativeHandle, useState } from 'react';
 import { Input } from './Input';

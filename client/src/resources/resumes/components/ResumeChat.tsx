@@ -1,22 +1,22 @@
+import { Button } from '@client/common/components/button';
+import {
+  Dropdown,
+  type DropdownItemDataType,
+} from '@client/common/components/dropdown/Dropdown';
+import { EmptyChat } from '@client/common/components/empty/EmptyChat';
+import { InputChat } from '@client/common/components/input/InputChat';
+import type { ModalRefType } from '@client/common/components/Modal';
+import { H1, H2, H3, H6 } from '@client/common/components/typography';
+import { AiChatIcon } from '@client/common/icons/AiChatIcon';
+import { MoreIcon } from '@client/common/icons/MoreIcon';
+import { ThinkingIcon } from '@client/common/icons/ThinkingIcon';
+import type { EditorRefType } from '@client/common/types';
 import { backend } from '@client/shared/backend';
 import { useAuth } from '@client/shared/hooks';
 import { Avatar, cn, ScrollShadow, Tab, Tabs } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import type { Socket } from '@sdk/Socket';
 import type { ResumeType } from '@sdk/types';
-import { Button } from '@shared/components/button';
-import {
-  Dropdown,
-  type DropdownItemDataType,
-} from '@shared/components/Dropdown';
-import { EmptyChat } from '@shared/components/empty/EmptyChat';
-import { InputChat } from '@shared/components/input/InputChat';
-import type { ModalRefType } from '@shared/components/Modal';
-import { H1, H2, H3, H6 } from '@shared/components/typography';
-import { AiChatIcon } from '@shared/icons/AiChatIcon';
-import { MoreIcon } from '@shared/icons/MoreIcon';
-import { ThinkingIcon } from '@shared/icons/ThinkingIcon';
-import type { EditorRefType } from '@shared/types';
 import { formatDate } from '@shared/utils';
 import { useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -29,8 +29,7 @@ const items: DropdownItemDataType[] = [
   {
     key: 'rename',
     label: 'Rename',
-    className:
-      'text-primary data-[hover=true]:bg-primary/20',
+    className: 'text-primary data-[hover=true]:bg-primary/20',
     icon: <Icon icon="heroicons:cursor-arrow-rays" className="size-4" />,
     shortcut: '⌘R',
   },
@@ -328,7 +327,7 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
               </ScrollShadow>
               <div className="p-4 pt-1">
                 <InputChat
-                  placeholder='Chat about your resume...'
+                  placeholder="Chat about your resume..."
                   value={inputValue}
                   onChange={setInputValue}
                   onEnter={handleSubmit}
@@ -338,20 +337,22 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
                 />
               </div>
             </>
-          ) : <div
-            className={cn(
-              'w-full p-8',
-              'h-full flex flex-col justify-center items-center gap-2',
-            )}
-          >
-            {/*<ShowResourceState state={resume.state} />*/}
-            <p className="text-muted">
-              {resume.state === 'failed'
-                ? 'Failed to process your document. Please try again.'
-                : 'Processing your document, please wait...'}
-            </p>
-          </div>
-          }</div>
+          ) : (
+            <div
+              className={cn(
+                'w-full p-8',
+                'h-full flex flex-col justify-center items-center gap-2',
+              )}
+            >
+              {/*<ShowResourceState state={resume.state} />*/}
+              <p className="text-muted">
+                {resume.state === 'failed'
+                  ? 'Failed to process your document. Please try again.'
+                  : 'Processing your document, please wait...'}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
       <RenameResumeModal modalRef={editRef} resume={resume} />
       <DeleteResumeModal modalRef={deleteResumeRef} resume={resume} />

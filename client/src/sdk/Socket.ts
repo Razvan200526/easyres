@@ -1,4 +1,4 @@
-import { Toast } from '@shared/components/toast';
+import { Toast } from '@client/common/components/toast';
 
 export type SocketConfigType = {
   baseURL: string;

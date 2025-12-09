@@ -19,7 +19,6 @@ export interface ChatMessage {
   timestamp: Date;
 }
 
-
 export const useChatSessions = (userId: string) => {
   return useQuery({
     queryKey: ['chatSessions', userId],

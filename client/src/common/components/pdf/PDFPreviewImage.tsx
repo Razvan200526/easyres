@@ -1,7 +1,7 @@
+import { PdfIcon } from '@client/common/icons/PdfIcon';
 import { Image } from '@heroui/react';
-import { PdfIcon } from '@shared/icons/PdfIcon';
-import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
 import type { PDFDocumentProxy, RenderTask } from 'pdfjs-dist';
+import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
 import { useEffect, useRef, useState } from 'react';
 
 const workerSrc =
@@ -75,7 +75,7 @@ export const PdfPreviewImage = ({ src }: { src: string }) => {
         const renderTask = page.render({
           canvasContext: context,
           viewport,
-          canvas
+          canvas,
         });
 
         renderTaskRef.current = renderTask;
@@ -123,7 +123,7 @@ export const PdfPreviewImage = ({ src }: { src: string }) => {
   }, [src]);
 
   return (
-    <div className='h-full w-full'>
+    <div className="h-full w-full">
       <canvas ref={canvasRef} style={{ display: 'none' }} />
       {imageUrl ? (
         <Image

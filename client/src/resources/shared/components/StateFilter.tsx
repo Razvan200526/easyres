@@ -30,10 +30,7 @@ export const StateFilter = ({
             )}
           >
             <div
-              className={cn(
-                'size-2 rounded-full',
-                item.color || 'bg-primary',
-              )}
+              className={cn('size-2 rounded-full', item.color || 'bg-primary')}
             />
             {item.label}
             {isSelected && (

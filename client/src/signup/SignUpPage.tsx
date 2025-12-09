@@ -1,5 +1,5 @@
-import { Card } from '@shared/components/card';
-import { HorizontalSteps } from '@shared/components/HorizontalSteps';
+import { Card } from '@client/common/components/card';
+import { HorizontalSteps } from '@client/common/components/HorizontalSteps';
 import { useSignupStore } from './signUpStore';
 import { SignupEmailStep } from './steps/SignupEmailStep';
 import { SignupEmailVerificationStep } from './steps/SignupEmailVerificationStep';

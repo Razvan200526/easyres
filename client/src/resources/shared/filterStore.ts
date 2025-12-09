@@ -10,26 +10,20 @@ const defaultFilters: ResourceFilters = {
 };
 
 type FilterStoreType = {
-  // Filter state per resource type
   resumeFilters: ResourceFilters;
   coverLetterFilters: ResourceFilters;
 
-  // Actions for filters
   setResumeFilters: (filters: ResourceFilters) => void;
   setCoverLetterFilters: (filters: ResourceFilters) => void;
   setFilters: (resourceType: ResourceType, filters: ResourceFilters) => void;
   resetFilters: (resourceType: ResourceType) => void;
-
-  // Getters
   getFilters: (resourceType: ResourceType) => ResourceFilters;
 };
 
 export const useFilterStore = create<FilterStoreType>((set, get) => ({
-  // Initial state
   resumeFilters: { ...defaultFilters },
   coverLetterFilters: { ...defaultFilters },
 
-  // Filter actions
   setResumeFilters: (filters) => set({ resumeFilters: filters }),
   setCoverLetterFilters: (filters) => set({ coverLetterFilters: filters }),
   setFilters: (resourceType, filters) => {
@@ -47,9 +41,10 @@ export const useFilterStore = create<FilterStoreType>((set, get) => ({
     }
   },
 
-  // Getters
   getFilters: (resourceType) => {
     const state = get();
-    return resourceType === 'resume' ? state.resumeFilters : state.coverLetterFilters;
+    return resourceType === 'resume'
+      ? state.resumeFilters
+      : state.coverLetterFilters;
   },
 }));

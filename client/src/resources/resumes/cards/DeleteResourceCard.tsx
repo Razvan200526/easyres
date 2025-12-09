@@ -1,9 +1,9 @@
+import { Button } from '@client/common/components/button';
+import { Card } from '@client/common/components/card';
+import type { ModalRefType } from '@client/common/components/Modal';
+import { Toast } from '@client/common/components/toast';
+import { H6 } from '@client/common/components/typography';
 import { useAuth } from '@client/shared/hooks';
-import { Button } from '@shared/components/button';
-import { Card } from '@shared/components/card';
-import type { ModalRefType } from '@shared/components/Modal';
-import { Toast } from '@shared/components/toast';
-import { H6 } from '@shared/components/typography';
 import { useDeleteStore } from '../../store';
 import { useDeleteCoverLetters, useDeleteResumes } from '../hooks';
 
@@ -11,7 +11,9 @@ export const DeleteResourceCard = ({ ref }: { ref: ModalRefType | null }) => {
   const { deletingResumeIds, stopDeleting, deletingCoverletterIds } =
     useDeleteStore();
   const { data: user } = useAuth();
-  const { mutateAsync: deleteResumeMutation } = useDeleteResumes(user?.id || '');
+  const { mutateAsync: deleteResumeMutation } = useDeleteResumes(
+    user?.id || '',
+  );
   const { mutateAsync: deleteCoverletterMutation } = useDeleteCoverLetters(
     user?.id || '',
   );

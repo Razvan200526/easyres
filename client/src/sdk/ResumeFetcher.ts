@@ -5,21 +5,12 @@ import { Socket, type SocketResponseType } from './Socket';
 import type { ResponseType, ResumeChatResponseType, ResumeType } from './types';
 
 export class ResumeFetcher {
-  constructor(readonly fetcher: Fetcher) { }
+  constructor(readonly fetcher: Fetcher) {}
 
   public readonly resumes = {
     retrieve: async (payload: { userId: string }): Promise<ResponseType> => {
       return this.fetcher.get(`/api/resumes/${payload.userId}`);
     },
-    // upload: async (payload: {
-    //   userId: string;
-    //   url: string;
-    // }): Promise<ResponseType> => {
-    //   return this.fetcher.post(
-    //     `/api/resumes/${payload.userId}/upload`,
-    //     payload,
-    //   );
-    // },
     delete: async (payload: {
       resumeIds: string[];
       userId: string;
@@ -45,7 +36,7 @@ export class ResumeFetcher {
     },
   };
 
-  public readonly create = async (payload: { url: string }) => {
+  public readonly create = (payload: { url: string }) => {
     const socket = new Socket(import.meta.env.VITE_PY_URL);
 
     socket.on<{ resume: ResumeType }>('message', (response) => {

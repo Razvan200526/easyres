@@ -15,7 +15,9 @@
     "strict": true,
     "paths": {
       "@client/*": ["./src/*"],
-      "@shared/*": ["./src/common/*"],
+      "@common/*": ["./src/common/*"],
+      "@shared/*": ["../shared/src/*"],
+      "@sdk": ["./src/sdk/types.ts"],
       "@sdk/*": ["./src/sdk/*"]
     },
     "noUnusedLocals": true,

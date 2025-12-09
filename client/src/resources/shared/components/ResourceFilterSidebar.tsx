@@ -7,7 +7,11 @@ import {
 } from '@heroicons/react/24/outline';
 import { useFilterStore } from '../filterStore';
 import { buildServerParams } from '../filterUtils';
-import type { FilterConfig, ResourceFilterParams, ResourceFilters } from '../types';
+import type {
+  FilterConfig,
+  ResourceFilterParams,
+  ResourceFilters,
+} from '../types';
 import { CollapsibleSection } from './CollapsibleSection';
 import { DateRangeFilter } from './DateRangeFilter';
 import { FilterHeader } from './FilterHeader';
@@ -34,13 +38,17 @@ export const ResourceFilterSidebar = ({
   } = useFilterStore();
 
   // Get the appropriate state based on resource type
-  const filters = config.resourceType === 'resume' ? resumeFilters : coverLetterFilters;
-  const setFilters = config.resourceType === 'resume' ? setResumeFilters : setCoverLetterFilters;
+  const filters =
+    config.resourceType === 'resume' ? resumeFilters : coverLetterFilters;
+  const setFilters =
+    config.resourceType === 'resume' ? setResumeFilters : setCoverLetterFilters;
 
   const handleFilterChange = (key: keyof ResourceFilters, value: string) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
-    onServerFilterChange?.(buildServerParams(newFilters, config.defaultFilters));
+    onServerFilterChange?.(
+      buildServerParams(newFilters, config.defaultFilters),
+    );
   };
 
   const handleReset = () => {
@@ -58,7 +66,7 @@ export const ResourceFilterSidebar = ({
   const activeFilterCount = [
     filters.searchQuery !== '',
     filters.sortBy !== config.defaultFilters.sortBy ||
-    filters.sortOrder !== config.defaultFilters.sortOrder,
+      filters.sortOrder !== config.defaultFilters.sortOrder,
     filters.dateRange !== config.defaultFilters.dateRange,
     filters.state !== config.defaultFilters.state,
   ].filter(Boolean).length;
@@ -161,7 +169,9 @@ export const ResourceFilterSidebar = ({
             size="sm"
             isLoading={isLoading}
             onPress={() =>
-              onServerFilterChange(buildServerParams(filters, config.defaultFilters))
+              onServerFilterChange(
+                buildServerParams(filters, config.defaultFilters),
+              )
             }
           >
             Apply Filters

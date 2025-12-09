@@ -1,7 +1,7 @@
+import { Button } from '@client/common/components/button';
+import { Card } from '@client/common/components/card';
+import { H4 } from '@client/common/components/typography';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
-import { Button } from '@shared/components/button';
-import { Card } from '@shared/components/card';
-import { H4 } from '@shared/components/typography';
 import { useNavigate } from 'react-router';
 
 export const FeatureNotImplemented = () => {

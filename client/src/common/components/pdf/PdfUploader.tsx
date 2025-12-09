@@ -1,10 +1,10 @@
+import { PdfIcon } from '@client/common/icons/PdfIcon';
 import {
   useAddCoverLetter,
   useCreateResume,
 } from '@client/resources/resumes/hooks';
 import { useAuth } from '@client/shared/hooks';
 import { cn, Progress, ScrollShadow } from '@heroui/react';
-import { PdfIcon } from '@shared/icons/PdfIcon';
 import * as React from 'react';
 import { useState } from 'react';
 import { Button } from '../button';

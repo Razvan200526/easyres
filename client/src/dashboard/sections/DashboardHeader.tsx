@@ -1,4 +1,4 @@
-import { H4 } from '@shared/components/typography';
+import { H4 } from '@client/common/components/typography';
 
 export const DashboardHeader = () => {
   return (

@@ -1,4 +1,4 @@
-import { Modal, type ModalRefType } from '@shared/components/Modal';
+import { Modal, type ModalRefType } from '@client/common/components/Modal';
 import type { RefObject } from 'react';
 import { DeleteResourceCard } from '../cards/DeleteResourceCard';
 

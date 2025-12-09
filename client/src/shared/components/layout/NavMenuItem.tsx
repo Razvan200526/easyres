@@ -1,5 +1,5 @@
+import { Tooltip } from '@client/common/components/Tooltip';
 import { cn } from '@heroui/react';
-import { Tooltip } from '@shared/components/Tooltip';
 import { NavLink } from 'react-router';
 
 export const NavMenuItem = ({

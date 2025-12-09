@@ -1,6 +1,6 @@
 import { Button } from '@client/common/components/button';
-import { cn } from '@heroui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import { cn } from '@heroui/react';
 import { useState } from 'react';
 
 type CollapsibleSectionProps = {

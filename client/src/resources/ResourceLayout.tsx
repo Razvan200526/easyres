@@ -1,33 +1,38 @@
-import { useAuth } from '@client/shared/hooks';
-import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { cn, Tab, Tabs } from '@heroui/react';
-import { Button } from '@shared/components/button';
-import { NumberChip } from '@shared/components/chips/NumberChip';
-import type { ModalRefType } from '@shared/components/Modal';
-import { H4 } from '@shared/components/typography';
-import { useMemo, useRef } from 'react';
-import { Outlet, useLocation, useNavigate, useOutletContext } from 'react-router';
-import { useChatSessions } from './hooks';
-import { DeleteResourceModal } from './resumes/modals/DeleteResourceModal';
-import { useCoverLetters, useResumes } from './resumes/hooks';
-import { useDeleteStore } from './store';
+import { Button } from '@client/common/components/button';
+import { NumberChip } from '@client/common/components/chips/NumberChip';
 import {
   Dropdown,
   type DropdownItemDataType,
-} from '@client/common/components/Dropdown';
-import { backend } from '@client/shared/backend';
-import { Modal } from '@shared/components/Modal';
-import { PdfUploader } from '@shared/components/pdf/PdfUploader';
-import { ResumeIcon } from '@client/common/icons/ResumeIcon';
+} from '@client/common/components/dropdown/Dropdown';
+import type { ModalRefType } from '@client/common/components/Modal';
+import { Modal } from '@client/common/components/Modal';
+import { PdfUploader } from '@client/common/components/pdf/PdfUploader';
+import { H4 } from '@client/common/components/typography';
 import { CoverLetterIcon } from '@client/common/icons/CoverletterIcon';
+import { ResumeIcon } from '@client/common/icons/ResumeIcon';
+import { backend } from '@client/shared/backend';
+import { useAuth } from '@client/shared/hooks';
+import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { cn, Tab, Tabs } from '@heroui/react';
+import type { CoverLetterType, ResumeType } from '@sdk/types';
+import { useMemo, useRef } from 'react';
 import {
+  Outlet,
+  useLocation,
+  useNavigate,
+  useOutletContext,
+} from 'react-router';
+import { useChatSessions } from './hooks';
+import { useCoverLetters, useResumes } from './resumes/hooks';
+import { DeleteResourceModal } from './resumes/modals/DeleteResourceModal';
+import {
+  coverLetterFilterConfig,
+  filterAndSortResources,
   ResourceFilterSidebar,
   resumeFilterConfig,
-  coverLetterFilterConfig,
   useFilterStore,
-  filterAndSortResources,
 } from './shared';
-import type { ResumeType, CoverLetterType } from '@sdk/types';
+import { useDeleteStore } from './store';
 
 type ResourceOutletContext = {
   filteredResumes: ResumeType[];
@@ -38,7 +43,8 @@ type ResourceOutletContext = {
   totalCoverLetters: number;
 };
 
-export const useResourceContext = () => useOutletContext<ResourceOutletContext>();
+export const useResourceContext = () =>
+  useOutletContext<ResourceOutletContext>();
 
 export const ResourceLayout = () => {
   const navigate = useNavigate();
@@ -47,8 +53,11 @@ export const ResourceLayout = () => {
   const deleteModalRef = useRef<ModalRefType | null>(null);
   const uploadResumeRef = useRef<ModalRefType | null>(null);
   const uploadCoverLetterRef = useRef<ModalRefType | null>(null);
-  const { data: resumes, isLoading: resumesLoading } = useResumes(user?.id || '');
-  const { data: coverletters, isLoading: coverlettersLoading } = useCoverLetters(user?.id || '');
+  const { data: resumes, isLoading: resumesLoading } = useResumes(
+    user?.id || '',
+  );
+  const { data: coverletters, isLoading: coverlettersLoading } =
+    useCoverLetters(user?.id || '');
   const { data: chats } = useChatSessions(user?.id || '');
   const {
     state,
@@ -59,7 +68,9 @@ export const ResourceLayout = () => {
   } = useDeleteStore();
 
   const resumeFilters = useFilterStore((state) => state.resumeFilters);
-  const coverLetterFilters = useFilterStore((state) => state.coverLetterFilters);
+  const coverLetterFilters = useFilterStore(
+    (state) => state.coverLetterFilters,
+  );
 
   const filteredResumes = useMemo(() => {
     if (!resumes) return [];
@@ -87,14 +98,16 @@ export const ResourceLayout = () => {
     {
       key: 'resume',
       label: 'Resume',
-      className: 'text-resume data-[hover=true]:bg-resume/10 data-[hover=true]:text-secondary-text',
+      className:
+        'text-resume data-[hover=true]:bg-resume/10 data-[hover=true]:text-secondary-text',
       icon: <ResumeIcon className="size-4" />,
       onAction: () => uploadResumeRef.current?.open(),
     },
     {
       key: 'cover-letter',
       label: 'Cover Letter',
-      className: 'text-coverletter data-[hover=true]:bg-coverletter/10 data-[hover=true]:text-secondary-text',
+      className:
+        'text-coverletter data-[hover=true]:bg-coverletter/10 data-[hover=true]:text-secondary-text',
       icon: <CoverLetterIcon className="size-4" />,
       onAction: () => uploadCoverLetterRef.current?.open(),
     },
@@ -144,14 +157,20 @@ export const ResourceLayout = () => {
     }
   };
 
-  const isInspectPage = location.pathname.includes('/resumes/') || location.pathname.includes('/coverletters/');
-  const showFilterSidebar = !isInspectPage && (activeTabKey === 'resume' || activeTabKey === 'cover');
-  const currentFilterConfig = activeTabKey === 'resume' ? resumeFilterConfig : coverLetterFilterConfig;
+  const isInspectPage =
+    location.pathname.includes('/resumes/') ||
+    location.pathname.includes('/coverletters/');
+  const showFilterSidebar =
+    !isInspectPage && (activeTabKey === 'resume' || activeTabKey === 'cover');
+  const currentFilterConfig =
+    activeTabKey === 'resume' ? resumeFilterConfig : coverLetterFilterConfig;
 
-  const sidebarFilteredCount = activeTabKey === 'resume'
-    ? filteredResumes.length
-    : filteredCoverLetters.length;
-  const sidebarLoading = activeTabKey === 'resume' ? resumesLoading : coverlettersLoading;
+  const sidebarFilteredCount =
+    activeTabKey === 'resume'
+      ? filteredResumes.length
+      : filteredCoverLetters.length;
+  const sidebarLoading =
+    activeTabKey === 'resume' ? resumesLoading : coverlettersLoading;
 
   return (
     <div className="h-[calc(100dvh)] bg-background flex flex-col">
@@ -244,14 +263,16 @@ export const ResourceLayout = () => {
       <div className="flex-1 flex overflow-hidden">
         <div className="flex-1 overflow-y-scroll">
           <Outlet
-            context={{
-              filteredResumes,
-              filteredCoverLetters,
-              resumesLoading,
-              coverlettersLoading: coverlettersLoading,
-              totalResumes: resumes?.length || 0,
-              totalCoverLetters: coverletters?.length || 0,
-            } satisfies ResourceOutletContext}
+            context={
+              {
+                filteredResumes,
+                filteredCoverLetters,
+                resumesLoading,
+                coverlettersLoading: coverlettersLoading,
+                totalResumes: resumes?.length || 0,
+                totalCoverLetters: coverletters?.length || 0,
+              } satisfies ResourceOutletContext
+            }
           />
         </div>
         {showFilterSidebar && (

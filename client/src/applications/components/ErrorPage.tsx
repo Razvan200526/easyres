@@ -1,5 +1,5 @@
+import { H4 } from '@common/components/typography';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
-import { H4 } from '@shared/components/typography';
 
 export const ErrorPage = () => {
   return (

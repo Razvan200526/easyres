@@ -48,8 +48,12 @@ export const filterAndSortResources = <T extends BaseResource>(
         break;
       case 'createdAt': {
         // Fall back to uploadedAt if createdAt doesn't exist
-        const aDate = a.createdAt ? new Date(a.createdAt) : new Date(a.uploadedAt);
-        const bDate = b.createdAt ? new Date(b.createdAt) : new Date(b.uploadedAt);
+        const aDate = a.createdAt
+          ? new Date(a.createdAt)
+          : new Date(a.uploadedAt);
+        const bDate = b.createdAt
+          ? new Date(b.createdAt)
+          : new Date(b.uploadedAt);
         comparison = aDate.getTime() - bDate.getTime();
         break;
       }

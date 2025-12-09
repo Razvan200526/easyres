@@ -1,8 +1,8 @@
 import { Link as RouterLink } from 'react-router';
-import { Button } from './components/button';
-import { Link } from './components/Link';
+import { Button } from '../button';
+import { Link } from '../Link';
 
-import { H1, H6 } from './components/typography';
+import { H1, H6 } from '../typography';
 
 export const NotFoundPage = () => {
   return (

@@ -8,7 +8,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@client': path.resolve(__dirname, './src'),
-      '@shared': path.resolve(__dirname, './src/common'),
+      '@common': path.resolve(__dirname, './src/common'),
+      '@shared': path.resolve(__dirname, '../shared/src'),
       '@sdk': path.resolve(__dirname, './src/sdk'),
     },
   },

@@ -21,7 +21,6 @@ export class RetrieveApplicationsController {
     this.appRepo = applicationRepository;
   }
   async handler(c: Context): Promise<ApiResponse<ApplicationEntity[] | null>> {
-
     try {
       const userId = c.req.param('id');
 

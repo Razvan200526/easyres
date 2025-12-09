@@ -1,3 +1,6 @@
+import { Button } from '@client/common/components/button';
+import { ErrorFallback } from '@client/common/components/pages/ErrorFallback';
+import { H3, H4, H6 } from '@client/common/components/typography';
 import {
   ArrowLeftIcon,
   PencilIcon,
@@ -5,9 +8,6 @@ import {
 } from '@heroicons/react/24/outline';
 import { Chip, ScrollShadow, Spinner } from '@heroui/react';
 import { Icon } from '@iconify/react';
-import { Button } from '@shared/components/button';
-import { ErrorFallback } from '@shared/components/ErrorFallback';
-import { H3, H4, H6 } from '@shared/components/typography';
 import { useNavigate, useParams } from 'react-router';
 
 import { useGetApplication } from '../hooks/applicationHooks';

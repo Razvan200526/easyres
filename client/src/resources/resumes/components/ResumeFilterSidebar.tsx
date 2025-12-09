@@ -2,7 +2,6 @@ import { Button } from '@client/common/components/button';
 import { InputSearch } from '@client/common/components/input/InputSearch';
 import { Selector } from '@client/common/components/select/Selector';
 import { ResetIcon } from '@client/common/icons/ResetIcon';
-import { cn } from '@heroui/react';
 import {
   AdjustmentsHorizontalIcon,
   CalendarDaysIcon,
@@ -10,6 +9,7 @@ import {
   ChevronUpIcon,
   FunnelIcon,
 } from '@heroicons/react/24/outline';
+import { cn } from '@heroui/react';
 import { useState } from 'react';
 
 export type ResumeFilters = {
@@ -65,7 +65,7 @@ const CollapsibleSection = ({
       <Button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        variant='light'
+        variant="light"
         className="w-full px-4 py-3 flex items-center justify-between"
       >
         <div className="flex items-center gap-2 text-primary">

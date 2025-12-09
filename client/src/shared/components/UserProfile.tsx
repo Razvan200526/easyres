@@ -1,3 +1,6 @@
+import { Button } from '@client/common/components/button';
+import { ProfileIcon } from '@client/common/icons/ProfileIcon';
+import { SignoutIcon } from '@client/common/icons/SignoutIcon';
 import {
   cn,
   Dropdown,
@@ -7,9 +10,6 @@ import {
   User,
 } from '@heroui/react';
 import { Icon } from '@iconify/react';
-import { Button } from '@shared/components/button';
-import { ProfileIcon } from '@shared/icons/ProfileIcon';
-import { SignoutIcon } from '@shared/icons/SignoutIcon';
 import { NavLink } from 'react-router';
 import { backend } from '../backend';
 import { useAuth } from '../hooks';

@@ -1,7 +1,7 @@
+import { Button } from '@client/common/components/button';
 import { MessageIcon } from '@client/common/icons/MessageIcon';
 import { StopIcon } from '@heroicons/react/20/solid';
 import { cn, Input as HeroInput, type InputProps } from '@heroui/react';
-import { Button } from '@shared/components/button';
 import { SendIcon } from 'lucide-react';
 import { forwardRef } from 'react';
 
@@ -28,7 +28,7 @@ type ThemeColorsType = {
     borderHover: string;
     borderFocus: string;
     button: string;
-  },
+  };
   resume: {
     text: string;
     placeholder: string;
@@ -36,7 +36,7 @@ type ThemeColorsType = {
     borderHover: string;
     borderFocus: string;
     button: string;
-  },
+  };
   coverletter: {
     text: string;
     placeholder: string;
@@ -44,7 +44,7 @@ type ThemeColorsType = {
     borderHover: string;
     borderFocus: string;
     button: string;
-  },
+  };
   portfolio: {
     text: string;
     placeholder: string;
@@ -52,8 +52,8 @@ type ThemeColorsType = {
     borderHover: string;
     borderFocus: string;
     button: string;
-  }
-}
+  };
+};
 
 export const InputChat = forwardRef<HTMLInputElement, InputChatProps>(
   (props, ref) => {
@@ -135,9 +135,7 @@ export const InputChat = forwardRef<HTMLInputElement, InputChatProps>(
         value={value}
         onKeyDown={handleKeyDown}
         startContent={
-          <MessageIcon
-            className={cn('size-4', `${colors.text}`)}
-          />
+          <MessageIcon className={cn('size-4', `${colors.text}`)} />
         }
         endContent={
           showStopButton ? (
@@ -145,7 +143,7 @@ export const InputChat = forwardRef<HTMLInputElement, InputChatProps>(
               type="button"
               isIconOnly
               size="sm"
-              radius='sm'
+              radius="sm"
               variant="light"
               onPress={onStop}
             >

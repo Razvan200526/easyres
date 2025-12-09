@@ -1,3 +1,4 @@
+import { Button } from '@client/common/components/button';
 import {
   InputEmail,
   type InputEmailRefType,
@@ -12,7 +13,6 @@ import { Toast } from '@client/common/components/toast';
 import { backend } from '@client/shared/backend';
 import { useAuth } from '@client/shared/hooks';
 import { Avatar } from '@heroui/react';
-import { Button } from '@shared/components/button';
 import { useRef, useState } from 'react';
 import { SettingsCard } from '../../components/SettingsCard';
 import { SettingsField } from '../../components/SettingsField';

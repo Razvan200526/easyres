@@ -1,9 +1,9 @@
 import { Icon } from '@iconify/react';
 import * as Sentry from '@sentry/react';
 import { useState } from 'react';
-import { Button } from './button';
-import { Card } from './card';
-import { H3, H6 } from './typography';
+import { Button } from '../button/Button';
+import { Card } from '../card/Card';
+import { H3, H6 } from '../typography/index';
 
 Sentry.init({
   dsn: '',
@@ -24,7 +24,7 @@ export const ErrorFallback = ({ error }: { error: Error }) => {
   return (
     <div
       role="alert"
-      className="min-h-screen bg-gradient-to-br from-primary-100 to-danger-50 flex items-center justify-center p-4"
+      className="min-h-screen bg-linear-to-br from-primary-100 to-danger-50 flex items-center justify-center p-4"
     >
       <Card className="max-w-lg w-full p-8 text-center shadow-md flex flex-col gap-10">
         {/* Error Icon */}
@@ -70,7 +70,7 @@ export const ErrorFallback = ({ error }: { error: Error }) => {
           {showDetails && (
             <div className="p-4 bg-dark-50 rounded flex flex-col gap-4 items-start justify-start w-full">
               <H6 className="text-sm font-semibold">Error Details:</H6>
-              <pre className="text-xs text-danger whitespace-pre-wrap break-words">
+              <pre className="text-xs text-danger whitespace-pre-wrap wrap-break-word">
                 {error.message}
               </pre>
               {error.stack && (
@@ -78,7 +78,7 @@ export const ErrorFallback = ({ error }: { error: Error }) => {
                   <summary className="text-xs text-dark-600 cursor-pointer hover:text-dark-800">
                     Stack trace
                   </summary>
-                  <pre className="text-xs text-dark-500 whitespace-pre-wrap break-words text-left">
+                  <pre className="text-xs text-dark-500 whitespace-pre-wrap wrap-break-word text-left">
                     {error.stack}
                   </pre>
                 </details>

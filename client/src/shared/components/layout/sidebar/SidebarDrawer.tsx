@@ -1,7 +1,7 @@
 import { useAppSidebarStore } from '@client/appStore';
+import { Button } from '@client/common/components/button';
+import { BurgerIcon } from '@client/common/icons/BurgerIcon';
 import { cn, Drawer, DrawerContent } from '@heroui/react';
-import { Button } from '@shared/components/button';
-import { BurgerIcon } from '@shared/icons/BurgerIcon';
 import { Sidebar } from './Sidebar';
 import { SidebarMinimize } from './SidebarMinimize';
 

@@ -1,13 +1,13 @@
-import { useAuth } from '@client/shared/hooks';
-import type { CoverLetterType } from '@sdk/types';
-import { Button } from '@shared/components/button';
+import { Button } from '@client/common/components/button';
 import {
   InputText,
   type InputTextRefType,
-} from '@shared/components/input/InputText';
-import { Modal, type ModalRefType } from '@shared/components/Modal';
-import { Toast } from '@shared/components/toast';
-import { H5 } from '@shared/components/typography';
+} from '@client/common/components/input/InputText';
+import { Modal, type ModalRefType } from '@client/common/components/Modal';
+import { Toast } from '@client/common/components/toast';
+import { H5 } from '@client/common/components/typography';
+import { useAuth } from '@client/shared/hooks';
+import type { CoverLetterType } from '@sdk/types';
 import { useRef } from 'react';
 import { useRenameCoverLetter } from '../resumes/hooks';
 

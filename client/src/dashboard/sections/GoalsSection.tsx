@@ -1,5 +1,5 @@
-import { Card } from '@shared/components/card';
-import { H6 } from '@shared/components/typography';
+import { Card } from '@client/common/components/card';
+import { H6 } from '@client/common/components/typography';
 import { ProgressBar } from '../components/ProgressBar';
 
 export const GoalsSection = () => {

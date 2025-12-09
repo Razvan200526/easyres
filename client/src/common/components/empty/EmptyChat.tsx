@@ -1,4 +1,4 @@
-import { MessageIcon } from '@shared/icons/MessageIcon';
+import { MessageIcon } from '@client/common/icons/MessageIcon';
 import { H6 } from '../typography';
 
 export const EmptyChat = () => {

@@ -19,11 +19,10 @@ import { SettingsLayout } from '@client/settings/SettingsLayout';
 import { AuthLayout } from '@client/shared/components/layout/AuthLayout';
 import { SigninPage } from '@client/signin/SignInPage';
 import { SignupPage } from '@client/signup/SignUpPage';
-import { ErrorFallback } from '@shared/components/ErrorFallback';
-import { NotFoundPage } from '@shared/NotFoundPage';
+import { ErrorFallback } from '@common/components/pages/ErrorFallback';
+import { NotFoundPage } from '@common/components/pages/NotFoundPage';
 import { ErrorBoundary } from 'react-error-boundary';
 import { createBrowserRouter, Outlet } from 'react-router';
-
 export const ErrorBoundaryLayout = () => (
   <ErrorBoundary FallbackComponent={ErrorFallback}>
     <Outlet />

@@ -1,8 +1,8 @@
+import { Button } from '@client/common/components/button';
+import { Modal, type ModalRefType } from '@client/common/components/Modal';
+import { PdfUploader } from '@client/common/components/pdf/PdfUploader';
+import { PdfIcon } from '@client/common/icons/PdfIcon';
 import { backend } from '@client/shared/backend';
-import { Button } from '@shared/components/button';
-import { Modal, type ModalRefType } from '@shared/components/Modal';
-import { PdfUploader } from '@shared/components/pdf/PdfUploader';
-import { PdfIcon } from '@shared/icons/PdfIcon';
 // import { PlusCircleIcon } from '@heroicons/react/24/outline';
 import { useRef } from 'react';
 

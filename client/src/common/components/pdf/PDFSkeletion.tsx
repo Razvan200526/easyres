@@ -1,4 +1,4 @@
-import { PdfIcon } from '@shared/icons/PdfIcon';
+import { PdfIcon } from '@client/common/icons/PdfIcon';
 
 interface PDFPreviewSkeletonProps {
   className?: string;

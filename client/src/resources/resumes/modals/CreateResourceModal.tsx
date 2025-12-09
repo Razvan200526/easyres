@@ -1,6 +1,6 @@
+import { Button } from '@client/common/components/button';
+import { Modal, type ModalRefType } from '@client/common/components/Modal';
 import { PlusIcon } from '@heroicons/react/24/outline';
-import { Button } from '@shared/components/button';
-import { Modal, type ModalRefType } from '@shared/components/Modal';
 import { useRef } from 'react';
 import { CreateCoverLetterCard } from '../../cover-letter/CreateCoverLetterCard';
 // import { CreatePortfolioCard } from '../portfolio/CreatePortfolioCard';

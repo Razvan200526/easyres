@@ -1,7 +1,7 @@
+import { EyelashClosedIcon } from '@client/common/icons/EyelashClosedIcon';
+import { EyeOpenIcon } from '@client/common/icons/EyeOpenIcon';
+import { PasswordIcon } from '@client/common/icons/PasswordIcon';
 import { Button, cn } from '@heroui/react';
-import { EyelashClosedIcon } from '@shared/icons/EyelashClosedIcon';
-import { EyeOpenIcon } from '@shared/icons/EyeOpenIcon';
-import { PasswordIcon } from '@shared/icons/PasswordIcon';
 import { isUserPasswordValid } from '@shared/validators/isUserPasswordValid';
 import { useImperativeHandle, useState } from 'react';
 import { Input } from './Input';

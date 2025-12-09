@@ -1,7 +1,7 @@
-import { AiChatIcon } from '@shared/icons/AiChatIcon';
-import { ApplicationsIcon } from '@shared/icons/ApplicationsIcon';
-import { ResourceIcon } from '@shared/icons/ResourceIcon';
-import { SettingsIcon } from '@shared/icons/SettingsIcon';
+import { AiChatIcon } from '@client/common/icons/AiChatIcon';
+import { ApplicationsIcon } from '@client/common/icons/ApplicationsIcon';
+import { ResourceIcon } from '@client/common/icons/ResourceIcon';
+import { SettingsIcon } from '@client/common/icons/SettingsIcon';
 import { LayoutDashboard } from 'lucide-react';
 
 export const useSideBarItems = () => {
@@ -32,7 +32,6 @@ export const useSideBarItems = () => {
       icon: AiChatIcon,
       title: 'Ask AI',
     },
-
   ];
 
   const secondaryItems = [

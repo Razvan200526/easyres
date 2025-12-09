@@ -1,9 +1,9 @@
+import { Button } from '@client/common/components/button';
+import { NumberChip } from '@client/common/components/chips/NumberChip';
+import { NumberChipSkeleton } from '@client/common/components/chips/NumberChipSkeleton';
+import { H4 } from '@client/common/components/typography';
 import { useAuth } from '@client/shared/hooks';
 import { PlusIcon } from '@heroicons/react/24/outline';
-import { Button } from '@shared/components/button';
-import { NumberChip } from '@shared/components/chips/NumberChip';
-import { NumberChipSkeleton } from '@shared/components/chips/NumberChipSkeleton';
-import { H4 } from '@shared/components/typography';
 import { useState } from 'react';
 import { Outlet } from 'react-router';
 import { CreateApplicationModal } from '../components/CreateApplicationModal';

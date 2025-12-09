@@ -1,4 +1,4 @@
-import { ApplicationsIcon } from '@shared/icons/ApplicationsIcon';
+import { ApplicationsIcon } from '@client/common/icons/ApplicationsIcon';
 
 export const navbarItems = [
   {

@@ -1,7 +1,7 @@
-import { EmailIcon } from '@client/common/icons/EmailIcon';
-import { isEmailValid } from '@client/common/validators/isEmailValid';
+import { EmailIcon } from '@common/icons/EmailIcon';
 import { cn } from '@heroui/react';
 import { useImperativeHandle, useState } from 'react';
+import { isEmailValid } from '../../../../../shared/src/validators/isEmailValid';
 import { Input } from './Input';
 
 export type InputEmailRefType = {

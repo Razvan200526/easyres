@@ -1,4 +1,7 @@
+import { Button } from '@client/common/components/button';
 import { Toast } from '@client/common/components/toast';
+import { EyelashClosedIcon } from '@client/common/icons/EyelashClosedIcon';
+import { EyeOpenIcon } from '@client/common/icons/EyeOpenIcon';
 import { backend } from '@client/shared/backend';
 import { useAuth } from '@client/shared/hooks';
 import {
@@ -6,9 +9,6 @@ import {
   ShieldCheckIcon,
 } from '@heroicons/react/24/outline';
 import { Input } from '@heroui/react';
-import { Button } from '@shared/components/button';
-import { EyelashClosedIcon } from '@shared/icons/EyelashClosedIcon';
-import { EyeOpenIcon } from '@shared/icons/EyeOpenIcon';
 import { useState } from 'react';
 import { SettingsCard } from '../components/SettingsCard';
 import { SettingsField } from '../components/SettingsField';

@@ -1,23 +1,23 @@
+import { Button } from '@client/common/components/button';
+import {
+  Dropdown,
+  type DropdownItemDataType,
+} from '@client/common/components/dropdown/Dropdown';
+import { EmptyChat } from '@client/common/components/empty/EmptyChat';
+import { InputChat } from '@client/common/components/input/InputChat';
+import type { ModalRefType } from '@client/common/components/Modal';
+import { H1, H2, H3, H6 } from '@client/common/components/typography';
+import { AiChatIcon } from '@client/common/icons/AiChatIcon';
+import { MessageIcon } from '@client/common/icons/MessageIcon';
+import { MoreIcon } from '@client/common/icons/MoreIcon';
+import { ThinkingIcon } from '@client/common/icons/ThinkingIcon';
+import type { EditorRefType } from '@client/common/types';
 import { backend } from '@client/shared/backend';
 import { useAuth } from '@client/shared/hooks';
 import { Avatar, cn, ScrollShadow, Tab, Tabs } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import type { Socket } from '@sdk/Socket';
 import type { CoverLetterType } from '@sdk/types';
-import { Button } from '@shared/components/button';
-import {
-  Dropdown,
-  type DropdownItemDataType,
-} from '@shared/components/Dropdown';
-import { EmptyChat } from '@shared/components/empty/EmptyChat';
-import { InputChat } from '@shared/components/input/InputChat';
-import type { ModalRefType } from '@shared/components/Modal';
-import { H1, H2, H3, H6 } from '@shared/components/typography';
-import { AiChatIcon } from '@shared/icons/AiChatIcon';
-import { MessageIcon } from '@shared/icons/MessageIcon';
-import { MoreIcon } from '@shared/icons/MoreIcon';
-import { ThinkingIcon } from '@shared/icons/ThinkingIcon';
-import type { EditorRefType } from '@shared/types';
 import { formatDate } from '@shared/utils';
 import { useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';

@@ -53,6 +53,10 @@ export const coverLetterFilterConfig: FilterConfig = {
   defaultFilters,
 };
 
-export const getFilterConfig = (resourceType: 'resume' | 'coverLetter'): FilterConfig => {
-  return resourceType === 'resume' ? resumeFilterConfig : coverLetterFilterConfig;
+export const getFilterConfig = (
+  resourceType: 'resume' | 'coverLetter',
+): FilterConfig => {
+  return resourceType === 'resume'
+    ? resumeFilterConfig
+    : coverLetterFilterConfig;
 };

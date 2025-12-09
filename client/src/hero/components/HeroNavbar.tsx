@@ -1,7 +1,7 @@
+import { Link } from '@client/common/components/Link';
+import { H6 } from '@client/common/components/typography';
 import { Logo } from '@client/common/icons/Logo';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import { Link } from '@shared/components/Link';
-import { H6 } from '@shared/components/typography';
 export const navigation = [
   { name: 'Dashboard', href: '#dashboard' },
   { name: 'Features', href: '#features' },

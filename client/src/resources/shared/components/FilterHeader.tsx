@@ -1,7 +1,7 @@
 import { Button } from '@client/common/components/button';
 import { ResetIcon } from '@client/common/icons/ResetIcon';
-import { cn } from '@heroui/react';
 import { FunnelIcon } from '@heroicons/react/24/outline';
+import { cn } from '@heroui/react';
 
 type FilterHeaderProps = {
   activeFilterCount: number;
