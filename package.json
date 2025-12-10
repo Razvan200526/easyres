@@ -18,7 +18,7 @@
     "build": "turbo build",
     "build:client": "turbo build --filter=client",
     "build:server": "turbo build --filter=server",
-    "lint": "tsc -b && biome lint .",
+    "lint": "tsc -noEmit && biome lint .",
     "fmt": "biome check --write",
     "type-check": "turbo type-check",
     "test": "turbo test",

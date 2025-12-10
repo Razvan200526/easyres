@@ -90,7 +90,7 @@ export const ResourceLayout = () => {
       return;
     }
     backend.resume.create({
-      url: urls[0],
+      url: urls[0] || '',
     });
   };
 
@@ -100,7 +100,7 @@ export const ResourceLayout = () => {
       return;
     }
     await backend.coverLetter.create({
-      url: urls[0],
+      url: urls[0] || '',
     });
   };
 
@@ -291,7 +291,7 @@ export const ResourceLayout = () => {
               config={currentFilterConfig}
               filteredCount={sidebarFilteredCount}
               isLoading={sidebarLoading}
-              onServerFilterChange={() => {}}
+              onServerFilterChange={() => { }}
             />
           </div>
         )}

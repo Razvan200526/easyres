@@ -16,7 +16,7 @@ export const CreateResumeButton = () => {
       Toast.error({ description: 'Invalid pdf URL' });
     }
     backend.resume.create({
-      url: urls[0],
+      url: urls[0] || '',
     });
   };
 
