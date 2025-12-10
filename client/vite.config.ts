@@ -21,8 +21,6 @@ export default defineConfig({
           'query-vendor': ['@tanstack/react-query'],
           charts: ['recharts'],
           'pdf-viewer': [
-            'react-pdf',
-            'react-pdf-viewer',
             'pdfjs-dist',
           ],
           icons: ['lucide-react', '@heroicons/react'],
