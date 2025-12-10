@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "bunx --bun --hot vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && bunx --bun vite build",
     "fmt": "bunx @biomejs/biome check --write .",
     "preview": "vite preview",
     "typecheck": "tsc -noEmit",

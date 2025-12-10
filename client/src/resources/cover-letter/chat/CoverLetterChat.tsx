@@ -118,7 +118,10 @@ export const CoverLetterChat = ({
         if (response.data.status === 'progress') {
           setIsThinking(true);
           setMessages((prev) => {
-            if (prev.length > 0 && prev[prev.length - 1].role === 'assistant') {
+            if (
+              prev.length > 0 &&
+              prev[prev.length - 1]?.role === 'assistant'
+            ) {
               return [
                 ...prev.slice(0, -1),
                 { role: 'assistant', content: response.data.text },
@@ -136,7 +139,10 @@ export const CoverLetterChat = ({
         if (response.data.status === 'completed') {
           setIsThinking(false);
           setMessages((prev) => {
-            if (prev.length > 0 && prev[prev.length - 1].role === 'assistant') {
+            if (
+              prev.length > 0 &&
+              prev[prev.length - 1]?.role === 'assistant'
+            ) {
               return [
                 ...prev.slice(0, -1),
                 { role: 'assistant', content: response.data.text },

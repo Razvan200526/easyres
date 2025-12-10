@@ -7,6 +7,7 @@ import {
 import type { ModalRefType } from '@client/common/components/Modal';
 import { Modal } from '@client/common/components/Modal';
 import { PdfUploader } from '@client/common/components/pdf/PdfUploader';
+import { Toast } from '@client/common/components/toast';
 import { H4 } from '@client/common/components/typography';
 import { CoverLetterIcon } from '@client/common/icons/CoverletterIcon';
 import { ResumeIcon } from '@client/common/icons/ResumeIcon';
@@ -15,6 +16,7 @@ import { useAuth } from '@client/shared/hooks';
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { cn, Tab, Tabs } from '@heroui/react';
 import type { CoverLetterType, ResumeType } from '@sdk/types';
+import { isUrlValid } from '@shared/validators/isUrlValid';
 import { useMemo, useRef } from 'react';
 import {
   Outlet,
@@ -83,12 +85,20 @@ export const ResourceLayout = () => {
   }, [coverletters, coverLetterFilters]);
 
   const handleUploadResume = async (urls: string[]) => {
+    if (!isUrlValid(urls[0])) {
+      Toast.error({ description: 'Invalid pdf URL' });
+      return;
+    }
     backend.resume.create({
       url: urls[0],
     });
   };
 
   const handleUploadCoverLetter = async (urls: string[]) => {
+    if (!isUrlValid(urls[0])) {
+      Toast.error({ description: 'Invalid pdf URL' });
+      return;
+    }
     await backend.coverLetter.create({
       url: urls[0],
     });

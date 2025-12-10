@@ -1,14 +1,18 @@
 import { apiResponse } from '@server/client';
 import { Route } from '@server/decorators/Route';
 import { CoverletterEntity } from '@server/entities';
-import type { ApiResponse, DateRange, ResumeState, SortOrder } from '@server/sdk/types';
+import type {
+  ApiResponse,
+  DateRange,
+  ResumeState,
+  SortOrder,
+} from '@server/sdk/types';
 import {
   type PrimaryDatabase,
   primaryDatabase,
 } from '@server/shared/database/PrimaryDatabase';
 import type { Context } from 'hono';
 import { Between, type FindOptionsWhere, ILike } from 'typeorm';
-
 
 @Route('GET', '/api/resumes/:userId/filter', 'Get filtered resumes for a user')
 export class RetrieveFilteredCoverlettersController {

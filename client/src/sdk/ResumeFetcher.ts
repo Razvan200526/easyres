@@ -50,7 +50,7 @@ export class ResumeFetcher {
   };
 
   public readonly create = (payload: { url: string }) => {
-    const socket = new Socket(import.meta.env.VITE_PY_URL);
+    const socket = new Socket(import.meta.env.VITE_PY_URL || '');
 
     socket.on<{ resume: ResumeType }>('message', (response) => {
       queryClient.invalidateQueries();
