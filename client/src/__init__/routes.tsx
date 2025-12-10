@@ -3,8 +3,8 @@ import { ApplicationInspectPage } from '@client/applications/pages/ApplicationIn
 import { ApplicationPage } from '@client/applications/pages/ApplicationPage';
 import { DashboardLayout } from '@client/dashboard/DashboardLayout';
 import { HeroPage } from '@client/hero/HeroPage';
-import { CoverLettersPage } from '@client/resources/cover-letter/CoverLettersPage';
-import { CoverLetterInspectPage } from '@client/resources/cover-letter/CoverletterInspectPage';
+import { CoverLettersPage } from '@client/resources/cover-letter/pages/CoverLettersPage';
+import { CoverLetterInspectPage } from '@client/resources/cover-letter/pages/CoverletterInspectPage';
 import { FeatureNotImplemented } from '@client/resources/FeatureNotImplementedYet';
 import { ResourceLayout } from '@client/resources/ResourceLayout';
 import { ResumeInspectPage } from '@client/resources/resumes/ResumeInspectPage';

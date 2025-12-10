@@ -12,6 +12,7 @@ import { MessageIcon } from '@client/common/icons/MessageIcon';
 import { MoreIcon } from '@client/common/icons/MoreIcon';
 import { ThinkingIcon } from '@client/common/icons/ThinkingIcon';
 import type { EditorRefType } from '@client/common/types';
+import { FeatureNotImplemented } from '@client/resources/FeatureNotImplementedYet';
 import { backend } from '@client/shared/backend';
 import { useAuth } from '@client/shared/hooks';
 import { Avatar, cn, ScrollShadow, Tab, Tabs } from '@heroui/react';
@@ -22,20 +23,11 @@ import { formatDate } from '@shared/utils';
 import { useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { FeatureNotImplemented } from '../FeatureNotImplementedYet';
-import { useCoverLetterChatStore } from './coverLetterStore';
-import { DeleteCoverLetterModal } from './DeleteCoverLetterModal';
-import { RenameCoverLetterModal } from './RenameCoverLetterModal';
+import { useCoverLetterChatStore } from '../coverLetterStore';
+import { DeleteCoverLetterModal } from '../modals/DeleteCoverLetterModal';
+import { RenameCoverLetterModal } from '../modals/RenameCoverLetterModal';
 
 const items: DropdownItemDataType[] = [
-  // {
-  //   key: 'edit',
-  //   label: 'Edit',
-  //   className:
-  //     'text-coverletter data-[hover=true]:bg-coverletter/20 data-[hover=true]:text-coverletter',
-  //   icon: <Icon icon="heroicons:pencil" className="size-4" />,
-  //   shortcut: '⌘E',
-  // },
   {
     key: 'rename',
     label: 'Rename',

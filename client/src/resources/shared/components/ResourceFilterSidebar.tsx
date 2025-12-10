@@ -1,10 +1,17 @@
 import { Button } from '@client/common/components/button';
+import type { InputEmailRefType } from '@client/common/components/input/InputSearch';
 import { InputSearch } from '@client/common/components/input/InputSearch';
 import { Selector } from '@client/common/components/select/Selector';
+import {
+  useFilterCoverletters,
+  useFilterResumes,
+} from '@client/resources/hooks';
+import { useAuth } from '@client/shared/hooks';
 import {
   AdjustmentsHorizontalIcon,
   CalendarDaysIcon,
 } from '@heroicons/react/24/outline';
+import { useRef, useState } from 'react';
 import { useFilterStore } from '../filterStore';
 import { buildServerParams } from '../filterUtils';
 import type {
@@ -34,41 +41,98 @@ export const ResourceFilterSidebar = ({
     resumeFilters,
     coverLetterFilters,
     setResumeFilters,
+    setFilteredResumes,
+    setFilteredCoverLetters,
     setCoverLetterFilters,
+    setIsFilteringResumes,
+    setIsFilteringCoverLetters,
   } = useFilterStore();
 
-  // Get the appropriate state based on resource type
-  const filters =
-    config.resourceType === 'resume' ? resumeFilters : coverLetterFilters;
-  const setFilters =
-    config.resourceType === 'resume' ? setResumeFilters : setCoverLetterFilters;
+  const { data: user } = useAuth();
+  const { mutateAsync: filterResumes, isPending: isFilteringResumes } =
+    useFilterResumes(user?.id || '');
+  const {
+    mutateAsync: filterCoverLetters,
+    isPending: isFilteringCoverLetters,
+  } = useFilterCoverletters(user?.id || '');
 
-  const handleFilterChange = (key: keyof ResourceFilters, value: string) => {
-    const newFilters = { ...filters, [key]: value };
-    setFilters(newFilters);
+  const storeFilters =
+    config.resourceType === 'resumes' ? resumeFilters : coverLetterFilters;
+  const setStoreFilters =
+    config.resourceType === 'resumes'
+      ? setResumeFilters
+      : setCoverLetterFilters;
+
+  const [localFilters, setLocalFilters] =
+    useState<ResourceFilters>(storeFilters);
+
+  const searchInputRef = useRef<InputEmailRefType | null>(null);
+
+  const handleLocalFilterChange = (
+    key: keyof ResourceFilters,
+    value: string,
+  ) => {
+    setLocalFilters((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleApplyFilters = async () => {
+    const searchQuery = searchInputRef.current?.getValue() || '';
+    const newFilters = { ...localFilters, searchQuery };
+
+    setStoreFilters(newFilters);
+
+    if (config.resourceType === 'resumes') {
+      setIsFilteringResumes(true);
+      try {
+        const res = await filterResumes({ filters: newFilters });
+        setFilteredResumes(res.data?.resumes || []);
+      } catch (error) {
+        console.error('Error filtering resumes:', error);
+      } finally {
+        setIsFilteringResumes(false);
+      }
+    } else {
+      setIsFilteringCoverLetters(true);
+      try {
+        const res = await filterCoverLetters({ filters: newFilters });
+        setFilteredCoverLetters(res.data?.coverletters || []);
+      } catch (error) {
+        console.error('Error filtering cover letters:', error);
+      } finally {
+        setIsFilteringCoverLetters(false);
+      }
+    }
+
     onServerFilterChange?.(
       buildServerParams(newFilters, config.defaultFilters),
     );
   };
 
   const handleReset = () => {
-    setFilters(config.defaultFilters);
+    setLocalFilters(config.defaultFilters);
+    searchInputRef.current?.setValue('');
+    setStoreFilters(config.defaultFilters);
+    if (config.resourceType === 'resumes') {
+      setFilteredResumes(null);
+    } else {
+      setFilteredCoverLetters(null);
+    }
     onServerFilterChange?.({});
   };
 
   const hasActiveFilters =
-    filters.searchQuery !== '' ||
-    filters.sortBy !== config.defaultFilters.sortBy ||
-    filters.sortOrder !== config.defaultFilters.sortOrder ||
-    filters.dateRange !== config.defaultFilters.dateRange ||
-    filters.state !== config.defaultFilters.state;
+    localFilters.searchQuery !== '' ||
+    localFilters.sortBy !== config.defaultFilters.sortBy ||
+    localFilters.sortOrder !== config.defaultFilters.sortOrder ||
+    localFilters.dateRange !== config.defaultFilters.dateRange ||
+    localFilters.state !== config.defaultFilters.state;
 
   const activeFilterCount = [
-    filters.searchQuery !== '',
-    filters.sortBy !== config.defaultFilters.sortBy ||
-      filters.sortOrder !== config.defaultFilters.sortOrder,
-    filters.dateRange !== config.defaultFilters.dateRange,
-    filters.state !== config.defaultFilters.state,
+    localFilters.searchQuery !== '',
+    localFilters.sortBy !== config.defaultFilters.sortBy ||
+      localFilters.sortOrder !== config.defaultFilters.sortOrder,
+    localFilters.dateRange !== config.defaultFilters.dateRange,
+    localFilters.state !== config.defaultFilters.state,
   ].filter(Boolean).length;
 
   const sortOrderItems = [
@@ -76,34 +140,34 @@ export const ResourceFilterSidebar = ({
     { value: 'desc', label: 'Descending' },
   ];
 
+  const isApplying = isFilteringResumes || isFilteringCoverLetters;
+
   return (
-    <div className="w-72 flex flex-col bg-light rounded-xl border border-border/40 h-fit shadow-sm overflow-hidden">
+    <div className="my-2 w-72 flex flex-col bg-background rounded border border-border h-fit overflow-hidden">
       <FilterHeader
         activeFilterCount={activeFilterCount}
         hasActiveFilters={hasActiveFilters}
         onReset={handleReset}
         totalCount={filteredCount}
-        isLoading={isLoading}
+        isLoading={isLoading || isApplying}
         resourceLabel={config.resourceLabel}
         resourceLabelPlural={config.resourceLabelPlural}
         accentColor={config.accentColor}
       />
 
-      {/* Search */}
       <div className="p-4 border-b border-border/50">
         <InputSearch
+          ref={searchInputRef}
           name={`${config.resourceType}-search`}
           placeholder={`Search ${config.resourceLabelPlural}...`}
           className="w-full"
           size="sm"
-          value={filters.searchQuery}
-          onChange={(value) => handleFilterChange('searchQuery', value)}
+          value={localFilters.searchQuery}
+          onChange={(value) => handleLocalFilterChange('searchQuery', value)}
         />
       </div>
 
-      {/* Collapsible Sections */}
       <div className="flex-1 overflow-y-auto">
-        {/* Sort Section */}
         <CollapsibleSection
           title="Sort"
           icon={<AdjustmentsHorizontalIcon className="size-4" />}
@@ -112,24 +176,25 @@ export const ResourceFilterSidebar = ({
           <Selector
             label="Sort by"
             placeholder="Select field"
-            selectedKeys={[filters.sortBy]}
-            onSelectionChange={(value) => handleFilterChange('sortBy', value)}
+            selectedKeys={[localFilters.sortBy]}
+            onSelectionChange={(value) =>
+              handleLocalFilterChange('sortBy', value)
+            }
             items={config.sortByOptions}
             size="sm"
           />
           <Selector
             label="Order"
             placeholder="Select order"
-            selectedKeys={[filters.sortOrder]}
+            selectedKeys={[localFilters.sortOrder]}
             onSelectionChange={(value) =>
-              handleFilterChange('sortOrder', value as 'asc' | 'desc')
+              handleLocalFilterChange('sortOrder', value as 'asc' | 'desc')
             }
             items={sortOrderItems}
             size="sm"
           />
         </CollapsibleSection>
 
-        {/* Date Range Filter */}
         <CollapsibleSection
           title="Date Range"
           icon={<CalendarDaysIcon className="size-4" />}
@@ -137,12 +202,11 @@ export const ResourceFilterSidebar = ({
         >
           <DateRangeFilter
             options={config.dateRangeOptions}
-            selectedValue={filters.dateRange}
-            onSelect={(value) => handleFilterChange('dateRange', value)}
+            selectedValue={localFilters.dateRange}
+            onSelect={(value) => handleLocalFilterChange('dateRange', value)}
           />
         </CollapsibleSection>
 
-        {/* Status Filter */}
         <CollapsibleSection
           title="Status"
           icon={
@@ -154,30 +218,23 @@ export const ResourceFilterSidebar = ({
         >
           <StateFilter
             options={config.stateOptions}
-            selectedValue={filters.state}
-            onSelect={(value) => handleFilterChange('state', value)}
+            selectedValue={localFilters.state}
+            onSelect={(value) => handleLocalFilterChange('state', value)}
           />
         </CollapsibleSection>
       </div>
 
-      {/* Footer - Apply button for server-side filtering */}
-      {onServerFilterChange && (
-        <div className="p-4 border-t border-border/40 bg-primary-50/30">
-          <Button
-            className="w-full font-semibold"
-            color="primary"
-            size="sm"
-            isLoading={isLoading}
-            onPress={() =>
-              onServerFilterChange(
-                buildServerParams(filters, config.defaultFilters),
-              )
-            }
-          >
-            Apply Filters
-          </Button>
-        </div>
-      )}
+      <div className="p-4 border-t border-border/40 bg-primary-50/30">
+        <Button
+          className="w-full font-semibold"
+          color="primary"
+          size="sm"
+          isLoading={isApplying}
+          onPress={handleApplyFilters}
+        >
+          Apply Filters
+        </Button>
+      </div>
     </div>
   );
 };

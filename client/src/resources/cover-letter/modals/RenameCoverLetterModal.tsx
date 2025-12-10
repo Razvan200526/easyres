@@ -9,7 +9,7 @@ import { H5 } from '@client/common/components/typography';
 import { useAuth } from '@client/shared/hooks';
 import type { CoverLetterType } from '@sdk/types';
 import { useRef } from 'react';
-import { useRenameCoverLetter } from '../resumes/hooks';
+import { useRenameCoverLetter } from '../../resumes/hooks';
 
 interface RenameCoverLetterModalProps {
   modalRef: React.RefObject<ModalRefType | null>;

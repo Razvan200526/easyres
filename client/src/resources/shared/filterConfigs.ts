@@ -25,7 +25,7 @@ const commonStateOptions = [
 ];
 
 export const resumeFilterConfig: FilterConfig = {
-  resourceType: 'resume',
+  resourceType: 'resumes',
   resourceLabel: 'resume',
   resourceLabelPlural: 'resumes',
   accentColor: 'resume',
@@ -40,7 +40,7 @@ export const resumeFilterConfig: FilterConfig = {
 };
 
 export const coverLetterFilterConfig: FilterConfig = {
-  resourceType: 'coverLetter',
+  resourceType: 'coverLetters',
   resourceLabel: 'cover letter',
   resourceLabelPlural: 'cover letters',
   accentColor: 'coverletter',

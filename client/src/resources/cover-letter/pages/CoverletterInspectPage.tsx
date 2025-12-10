@@ -2,11 +2,13 @@ import { PdfViewer } from '@client/common/components/pdf/PDFViewer';
 import { PageLoader } from '@client/shared/components/PageLoader';
 import { useAuth } from '@client/shared/hooks';
 import { Skeleton } from '@heroui/react';
-import { useGetCoverLetter } from '../resumes/hooks';
-import { CoverLetterChat } from './CoverLetterChat';
-import { NoCoverLetters } from './NoCoverLetters';
+import { useGetCoverLetter } from '../../resumes/hooks';
+import { CoverLetterChat } from '../chat/CoverLetterChat';
+import { NoCoverLetters } from './../NoCoverLetters';
+
 export const CoverLetterInspectPage = () => {
   const { data: user } = useAuth();
+
   const {
     data: coverLetterData,
     isFetching,
@@ -14,12 +16,14 @@ export const CoverLetterInspectPage = () => {
   } = useGetCoverLetter(user?.id || '');
 
   if (isFetching) return <PageLoader />;
+
   if (isError) {
     console.error('There was an error');
   }
   if (!coverLetterData) {
     return <NoCoverLetters />;
   }
+
   return (
     <div className="m-4 border border-border rounded h-[calc(100dvh-7rem)] flex flex-row">
       <div className="m-4 rounded-xl flex-1">

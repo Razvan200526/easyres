@@ -1,9 +1,8 @@
 import { Button } from '@client/common/components/button';
 import { Modal, type ModalRefType } from '@client/common/components/Modal';
+import { CreateCoverLetterCard } from '@client/resources/cover-letter/cards/CreateCoverLetterCard';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import { useRef } from 'react';
-import { CreateCoverLetterCard } from '../../cover-letter/CreateCoverLetterCard';
-// import { CreatePortfolioCard } from '../portfolio/CreatePortfolioCard';
 import { CreateResumeCard } from '../cards/CreateResumeCard';
 
 export const CreateResourceModal = () => {

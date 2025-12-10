@@ -1,6 +1,6 @@
 import { Card } from '@client/common/components/card';
 import { H6 } from '@client/common/components/typography';
-import { CreateCoverLetterButton } from './CreateCoverLetterButton';
+import { CreateCoverLetterButton } from '../buttons/CreateCoverLetterButton';
 
 export const CreateCoverLetterCard = () => {
   return (

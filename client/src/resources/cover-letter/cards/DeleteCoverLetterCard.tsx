@@ -8,7 +8,7 @@ import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import type { CoverLetterType } from '@sdk/types';
 import type { RefObject } from 'react';
 import { useNavigate } from 'react-router';
-import { useDeleteCoverLetters } from '../resumes/hooks';
+import { useDeleteCoverLetters } from '../../resumes/hooks';
 
 export const DeleteCoverLetterCard = ({
   modalRef,

@@ -175,3 +175,7 @@ export type CreateApplicationType = {
     updatedAt: Date;
   };
 };
+
+export type SortOrder = 'asc' | 'desc';
+export type DateRange = 'all' | 'today' | 'week' | 'month' | '3months' | 'year';
+export type ResumeState = 'all' | 'ready' | 'processing' | 'failed';
