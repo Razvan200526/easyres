@@ -1,7 +1,7 @@
 import { Modal, type ModalRefType } from '@client/common/components/Modal';
 import type { CoverLetterType } from '@sdk/types';
 import type { RefObject } from 'react';
-import { DeleteCoverLetterCard } from './DeleteCoverLetterCard';
+import { DeleteCoverLetterCard } from '../cards/DeleteCoverLetterCard';
 
 type DeleteResourceModalProps = {
   modalRef: RefObject<ModalRefType | null>;

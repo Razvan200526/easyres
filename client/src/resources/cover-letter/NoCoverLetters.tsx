@@ -1,6 +1,6 @@
 import { H6 } from '@client/common/components/typography';
 import { PdfIcon } from '@client/common/icons/PdfIcon';
-import { CreateCoverLetterButton } from './CreateCoverLetterButton';
+import { CreateCoverLetterButton } from './buttons/CreateCoverLetterButton';
 
 export const NoCoverLetters = () => {
   return (

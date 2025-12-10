@@ -25,6 +25,7 @@ import { GetChatMessagesController } from './controllers/messages/GetChatMessage
 import { DeleteResumeController } from './controllers/resumes/DeleteResumesController';
 import { GetResumeController } from './controllers/resumes/GetResumeController';
 import { RenameResumeController } from './controllers/resumes/RenameResumeController';
+import { RetrieveFilteredResumesController } from './controllers/resumes/RetrieveFilteredResumes';
 import { UploadResumeController } from './controllers/resumes/UploadResumeController';
 import { GetUserCoverlettersController } from './controllers/users/GetUserCoverlettersController';
 import { GetUserResumeController } from './controllers/users/GetUserResumesController';
@@ -63,6 +64,7 @@ registerController(app, UploadAvatarController);
 registerController(app, UploadResumeController);
 registerController(app, GetUserResumeController);
 registerController(app, DeleteResumeController);
+registerController(app, RetrieveFilteredResumesController);
 registerController(app, GetUserCoverlettersController);
 registerController(app, UploadCoverLetterController);
 registerController(app, DeleteCoverletterController);

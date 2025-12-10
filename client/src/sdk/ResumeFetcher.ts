@@ -1,3 +1,4 @@
+import type { ResourceFilters } from '@client/resources/shared';
 import { Toast } from '../common/components/toast';
 import { queryClient } from '../shared/QueryClient';
 import type { Fetcher } from './Fetcher';
@@ -11,6 +12,18 @@ export class ResumeFetcher {
     retrieve: async (payload: { userId: string }): Promise<ResponseType> => {
       return this.fetcher.get(`/api/resumes/${payload.userId}`);
     },
+    filter: async (payload: {
+      filters: ResourceFilters;
+      userId: string;
+    }): Promise<ResponseType<{ resumes: ResumeType[] }>> => {
+      const params = new URLSearchParams(
+        Object.entries(payload.filters).map(([k, v]) => [k, String(v)]),
+      );
+      return this.fetcher.get(
+        `/api/resumes/${payload.userId}/filter?${params.toString()}`,
+      );
+    },
+
     delete: async (payload: {
       resumeIds: string[];
       userId: string;

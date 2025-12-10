@@ -34,7 +34,7 @@ import {
 } from './shared';
 import { useDeleteStore } from './store';
 
-type ResourceOutletContext = {
+export type ResourceOutletContext = {
   filteredResumes: ResumeType[];
   filteredCoverLetters: CoverLetterType[];
   resumesLoading: boolean;
@@ -83,7 +83,7 @@ export const ResourceLayout = () => {
   }, [coverletters, coverLetterFilters]);
 
   const handleUploadResume = async (urls: string[]) => {
-    await backend.resume.create({
+    backend.resume.create({
       url: urls[0],
     });
   };
@@ -281,6 +281,7 @@ export const ResourceLayout = () => {
               config={currentFilterConfig}
               filteredCount={sidebarFilteredCount}
               isLoading={sidebarLoading}
+              onServerFilterChange={() => {}}
             />
           </div>
         )}

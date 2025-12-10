@@ -9,7 +9,7 @@ export type BaseResource = {
   createdAt?: Date;
 };
 
-export type ResourceType = 'resume' | 'coverLetter';
+export type ResourceType = 'resumes' | 'coverLetters';
 
 export type SortByOption = {
   value: string;

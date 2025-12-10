@@ -90,6 +90,7 @@ export class AuthService {
         },
       },
       database: this.pool,
+
       advanced: {
         database: {
           generateId: () => random.nanoid(15),

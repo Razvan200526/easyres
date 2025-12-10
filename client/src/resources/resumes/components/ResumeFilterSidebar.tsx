@@ -61,7 +61,7 @@ const CollapsibleSection = ({
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-b border-border/50">
+    <div className="border border-border">
       <Button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
