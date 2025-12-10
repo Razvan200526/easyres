@@ -9,9 +9,11 @@
     "allowJs": true,
     // Path resolution
     "paths": {
+      "@common/*": ["./client/src/common/*"],
       "@server/*": ["./server/src/*"],
       "@client/*": ["./client/src/*"],
-      "@shared/*": ["./shared/src/*"]
+      "@shared/*": ["./shared/src/*"],
+      "@sdk/*": ["./client/src/sdk/*"]
     },
     // Module resolution
     "moduleResolution": "bundler",

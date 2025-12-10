@@ -101,7 +101,10 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
         if (response.data.status === 'progress') {
           setIsThinking(true);
           setMessages((prev) => {
-            if (prev.length > 0 && prev[prev.length - 1].role === 'assistant') {
+            if (
+              prev.length > 0 &&
+              prev[prev.length - 1]?.role === 'assistant'
+            ) {
               return [
                 ...prev.slice(0, -1),
                 { role: 'assistant', content: response.data.text },
@@ -119,7 +122,10 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
         if (response.data.status === 'completed') {
           setIsThinking(false);
           setMessages((prev) => {
-            if (prev.length > 0 && prev[prev.length - 1].role === 'assistant') {
+            if (
+              prev.length > 0 &&
+              prev[prev.length - 1]?.role === 'assistant'
+            ) {
               return [
                 ...prev.slice(0, -1),
                 { role: 'assistant', content: response.data.text },
@@ -167,7 +173,7 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
             classNames={{
               base: 'w-full px-4 py-1 flex justify-end',
               tabContent: 'text-primary',
-              cursor: cn('rounded border-none', tabItems[0].activeClassname),
+              cursor: cn('rounded border-none', tabItems[0]?.activeClassname),
               tab: cn(
                 'rounded py-4 shadow-none',
                 'border-none transition-all duration-300 data-[hover-unselected=true]:opacity-100',

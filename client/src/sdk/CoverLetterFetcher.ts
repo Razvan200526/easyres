@@ -20,7 +20,7 @@ export class CoverLetterFetcher {
     filter: async (payload: {
       filters: ResourceFilters;
       userId: string;
-    }): Promise<ResponseType<{ resumes: CoverLetterType[] }>> => {
+    }): Promise<ResponseType<{ coverletters: CoverLetterType[] }>> => {
       const params = new URLSearchParams(
         Object.entries(payload.filters).map(([k, v]) => [k, String(v)]),
       );

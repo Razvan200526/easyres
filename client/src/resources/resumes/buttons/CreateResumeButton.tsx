@@ -1,8 +1,10 @@
 import { Button } from '@client/common/components/button';
 import { Modal, type ModalRefType } from '@client/common/components/Modal';
 import { PdfUploader } from '@client/common/components/pdf/PdfUploader';
+import { Toast } from '@client/common/components/toast';
 import { PdfIcon } from '@client/common/icons/PdfIcon';
 import { backend } from '@client/shared/backend';
+import { isUrlValid } from '@shared/validators/isUrlValid';
 import { useRef } from 'react';
 
 export const CreateResumeButton = () => {
@@ -10,8 +12,11 @@ export const CreateResumeButton = () => {
   const uploadPdfModalRef = useRef<ModalRefType>(null);
 
   const uploadResume = async (urls: string[]) => {
+    if (!isUrlValid(urls[0])) {
+      Toast.error({ description: 'Invalid pdf URL' });
+    }
     backend.resume.create({
-      url: urls[0],
+      url: urls[0] || '',
     });
   };
 

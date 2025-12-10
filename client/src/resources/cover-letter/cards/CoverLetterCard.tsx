@@ -37,7 +37,7 @@ export const CoverLetterCard = ({ coverLetter }: CoverLetterCardProps) => {
       </div>
       <div className="absolute bottom-0 left-0 z-10 w-full flex flex-col space-y-1 bg-background rounded-b-lg border-t border-border transition-all duration-300 hover:border-book/50 h-1/3 p-4">
         <div className="flex text-center justify-center">
-          <H6 className='truncate'>{coverLetter.name.split('.')[0]}</H6>
+          <H6 className="truncate">{coverLetter.name.split('.')[0]}</H6>
         </div>
         <div className="flex items-center justify-center">
           <p className="text-secondary-text text-sm">
