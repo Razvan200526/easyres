@@ -1,8 +1,8 @@
+import { H3 } from '@client/common/components/typography';
+import { ResourceIcon } from '@client/common/icons/ResourceIcon';
+import { ResumeIcon } from '@client/common/icons/ResumeIcon';
 import { Card, CardBody, cn } from '@heroui/react';
 import { Icon } from '@iconify/react';
-import { H3 } from '@shared/components/typography';
-import { ResourceIcon } from '@shared/icons/ResourceIcon';
-import { ResumeIcon } from '@shared/icons/ResumeIcon';
 import { formatDate } from '@shared/utils';
 import type { ChatSession } from '../hooks';
 

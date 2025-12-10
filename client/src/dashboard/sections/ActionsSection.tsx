@@ -1,6 +1,6 @@
+import { AiChatIcon } from '@client/common/icons/AiChatIcon';
+import { ResumeIcon } from '@client/common/icons/ResumeIcon';
 import { PlusIcon } from '@heroicons/react/24/outline';
-import { AiChatIcon } from '@shared/icons/AiChatIcon';
-import { ResumeIcon } from '@shared/icons/ResumeIcon';
 import { ActionCard } from '../components/ActionCard';
 
 export const ActionsSection = () => {

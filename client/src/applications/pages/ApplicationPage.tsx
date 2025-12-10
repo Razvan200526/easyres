@@ -1,10 +1,10 @@
+import { Button } from '@client/common/components/button';
+import { InputSearch } from '@client/common/components/input/InputSearch';
+import { H4 } from '@client/common/components/typography';
 import { useAuth } from '@client/shared/hooks';
 import { cn, ScrollShadow, Spinner, Tab, Tabs } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import type { ApplicationType } from '@sdk/types';
-import { Button } from '@shared/components/button';
-import { InputSearch } from '@shared/components/input/InputSearch';
-import { H4 } from '@shared/components/typography';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { ApplicationCard } from '../components/ApplicationCard';

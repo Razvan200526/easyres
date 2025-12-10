@@ -1,4 +1,4 @@
-import { Card } from '@shared/components/card';
+import { Card } from '@client/common/components/card';
 
 export const StatsCardSkeleton = () => {
   return (

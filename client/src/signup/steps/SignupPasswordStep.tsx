@@ -1,12 +1,12 @@
+import { Button } from '@client/common/components/button';
+import { InputPassword } from '@client/common/components/input';
+import { InputConfirmPassword } from '@client/common/components/input/InputConfirmPassword';
+import { Toast } from '@client/common/components/toast';
 import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Form } from '@heroui/react';
-import { Button } from '@shared/components/button';
-import { InputPassword } from '@shared/components/input';
-import { InputConfirmPassword } from '@shared/components/input/InputConfirmPassword';
-import { Toast } from '@shared/components/toast';
 import { isUserPasswordValid } from '@shared/validators/isUserPasswordValid';
 
 import type React from 'react';

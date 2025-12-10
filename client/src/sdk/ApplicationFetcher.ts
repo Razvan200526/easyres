@@ -3,17 +3,20 @@ import type { Fetcher } from './Fetcher';
 import type { ApplicationType, ResponseType } from './types';
 
 export class ApplicationFetcher {
-  constructor(readonly fetcher: Fetcher) { }
+  constructor(readonly fetcher: Fetcher) {}
 
   public readonly apps = {
-    retrieve: async (payload: { userId: string }): Promise<ResponseType<ApplicationType[]>> => {
+    retrieve: async (payload: {
+      userId: string;
+    }): Promise<ResponseType<ApplicationType[]>> => {
       return this.fetcher.get(`/api/applications/${payload.userId}`);
     },
 
-    getApp: async (payload: { applicationId: string }): Promise<ResponseType<ApplicationType>> => {
+    getApp: async (payload: {
+      applicationId: string;
+    }): Promise<ResponseType<ApplicationType>> => {
       return this.fetcher.get(`/api/application/${payload.applicationId}`);
     },
-
     create: async (payload: {
       data: CreateApplicationFormData;
       userId: string;

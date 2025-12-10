@@ -1,16 +1,16 @@
-import { backend } from '@client/shared/backend';
-import { Form } from '@heroui/react';
-import { Button } from '@shared/components/button';
-import { Card } from '@shared/components/card';
+import { Button } from '@client/common/components/button';
+import { Card } from '@client/common/components/card';
 import {
   InputEmail,
   type InputEmailRefType,
   InputPassword,
   type InputPasswordRefType,
-} from '@shared/components/input';
-import { Link } from '@shared/components/Link';
-import { Toast } from '@shared/components/toast';
-import { H3, H6 } from '@shared/components/typography';
+} from '@client/common/components/input';
+import { Link } from '@client/common/components/Link';
+import { Toast } from '@client/common/components/toast';
+import { H3, H6 } from '@client/common/components/typography';
+import { backend } from '@client/shared/backend';
+import { Form } from '@heroui/react';
 import type React from 'react';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';

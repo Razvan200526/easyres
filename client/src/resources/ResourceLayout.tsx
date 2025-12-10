@@ -1,25 +1,65 @@
+import { Button } from '@client/common/components/button';
+import { NumberChip } from '@client/common/components/chips/NumberChip';
+import {
+  Dropdown,
+  type DropdownItemDataType,
+} from '@client/common/components/dropdown/Dropdown';
+import type { ModalRefType } from '@client/common/components/Modal';
+import { Modal } from '@client/common/components/Modal';
+import { PdfUploader } from '@client/common/components/pdf/PdfUploader';
+import { Toast } from '@client/common/components/toast';
+import { H4 } from '@client/common/components/typography';
+import { CoverLetterIcon } from '@client/common/icons/CoverletterIcon';
+import { ResumeIcon } from '@client/common/icons/ResumeIcon';
+import { backend } from '@client/shared/backend';
 import { useAuth } from '@client/shared/hooks';
-import { TrashIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { cn, Tab, Tabs } from '@heroui/react';
-import { Button } from '@shared/components/button';
-import { NumberChip } from '@shared/components/chips/NumberChip';
-import type { ModalRefType } from '@shared/components/Modal';
-import { H4 } from '@shared/components/typography';
-import { useQueryState } from 'nuqs';
-import { useRef } from 'react';
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router';
+import type { CoverLetterType, ResumeType } from '@sdk/types';
+import { isUrlValid } from '@shared/validators/isUrlValid';
+import { useMemo, useRef } from 'react';
+import {
+  Outlet,
+  useLocation,
+  useNavigate,
+  useOutletContext,
+} from 'react-router';
 import { useChatSessions } from './hooks';
-import { CreateResourceModal } from './resumes/CreateResourceModal';
-import { DeleteResourceModal } from './resumes/DeleteResourceModal';
 import { useCoverLetters, useResumes } from './resumes/hooks';
+import { DeleteResourceModal } from './resumes/modals/DeleteResourceModal';
+import {
+  coverLetterFilterConfig,
+  filterAndSortResources,
+  ResourceFilterSidebar,
+  resumeFilterConfig,
+  useFilterStore,
+} from './shared';
 import { useDeleteStore } from './store';
+
+export type ResourceOutletContext = {
+  filteredResumes: ResumeType[];
+  filteredCoverLetters: CoverLetterType[];
+  resumesLoading: boolean;
+  coverlettersLoading: boolean;
+  totalResumes: number;
+  totalCoverLetters: number;
+};
+
+export const useResourceContext = () =>
+  useOutletContext<ResourceOutletContext>();
+
 export const ResourceLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { data: user } = useAuth();
   const deleteModalRef = useRef<ModalRefType | null>(null);
-  const { data: resumes } = useResumes(user?.id || '');
-  const { data: coverletters } = useCoverLetters(user?.id || '');
+  const uploadResumeRef = useRef<ModalRefType | null>(null);
+  const uploadCoverLetterRef = useRef<ModalRefType | null>(null);
+  const { data: resumes, isLoading: resumesLoading } = useResumes(
+    user?.id || '',
+  );
+  const { data: coverletters, isLoading: coverlettersLoading } =
+    useCoverLetters(user?.id || '');
   const { data: chats } = useChatSessions(user?.id || '');
   const {
     state,
@@ -29,16 +69,65 @@ export const ResourceLayout = () => {
     deletingCoverletterIds,
   } = useDeleteStore();
 
-  const [tab, setTab] = useQueryState('resourceTab', {
-    defaultValue: 'resume',
-  });
+  const resumeFilters = useFilterStore((state) => state.resumeFilters);
+  const coverLetterFilters = useFilterStore(
+    (state) => state.coverLetterFilters,
+  );
 
-  const fakeItems = [
+  const filteredResumes = useMemo(() => {
+    if (!resumes) return [];
+    return filterAndSortResources(resumes, resumeFilters);
+  }, [resumes, resumeFilters]);
+
+  const filteredCoverLetters = useMemo(() => {
+    if (!coverletters) return [];
+    return filterAndSortResources(coverletters, coverLetterFilters);
+  }, [coverletters, coverLetterFilters]);
+
+  const handleUploadResume = async (urls: string[]) => {
+    if (!isUrlValid(urls[0])) {
+      Toast.error({ description: 'Invalid pdf URL' });
+      return;
+    }
+    backend.resume.create({
+      url: urls[0] || '',
+    });
+  };
+
+  const handleUploadCoverLetter = async (urls: string[]) => {
+    if (!isUrlValid(urls[0])) {
+      Toast.error({ description: 'Invalid pdf URL' });
+      return;
+    }
+    await backend.coverLetter.create({
+      url: urls[0] || '',
+    });
+  };
+
+  const dropdownItems: DropdownItemDataType[] = [
+    {
+      key: 'resume',
+      label: 'Resume',
+      className:
+        'text-resume data-[hover=true]:bg-resume/10 data-[hover=true]:text-secondary-text',
+      icon: <ResumeIcon className="size-4" />,
+      onAction: () => uploadResumeRef.current?.open(),
+    },
+    {
+      key: 'cover-letter',
+      label: 'Cover Letter',
+      className:
+        'text-coverletter data-[hover=true]:bg-coverletter/10 data-[hover=true]:text-secondary-text',
+      icon: <CoverLetterIcon className="size-4" />,
+      onAction: () => uploadCoverLetterRef.current?.open(),
+    },
+  ];
+
+  const resourceItems = [
     {
       key: 'resume',
       label: 'Resumes',
       href: '.',
-      content: 'Resume content',
       className: 'text-resume data-[hover=true]:bg-resume/10',
       activeClassName: 'bg-resume/15 border-resume',
       count: resumes?.length || 0,
@@ -47,7 +136,6 @@ export const ResourceLayout = () => {
       key: 'cover',
       label: 'Cover Letters',
       href: 'coverletter',
-      content: 'Cover Letter content',
       className: 'text-coverletter data-[hover=true]:bg-coverletter/10 ',
       activeClassName: 'bg-coverletter/15 border-coverletter',
       count: coverletters?.length || 0,
@@ -56,31 +144,44 @@ export const ResourceLayout = () => {
       key: 'chats',
       label: 'Chats',
       href: 'chats',
-      content: 'All chats',
       className: 'text-chats data-[hover=true]:bg-chats/10',
       activeClassName: 'bg-chats/15 border-chats',
       count: chats?.length || 0,
     },
   ];
 
+  const activeTabKey = useMemo(() => {
+    const pathEnd = location.pathname.split('/').pop();
+    if (pathEnd === 'resources') return 'resume';
+    if (pathEnd === 'coverletter') return 'cover';
+    if (pathEnd === 'chats') return 'chats';
+    return 'resume';
+  }, [location.pathname]);
+
+  const activeTabItem = resourceItems.find((item) => item.key === activeTabKey);
+
   const handleSelectionChange = (key: string | number) => {
-    const item = fakeItems.find((i) => i.key === key);
+    const item = resourceItems.find((i) => i.key === key);
     if (item) {
-      setTab(item.key);
       navigate(item.href);
     }
   };
 
-  const activeTabKey =
-    fakeItems.find((item) => {
-      const pathEnd = location.pathname.split('/').pop();
-      if (item.href === '.') {
-        return pathEnd === 'resources';
-      }
-      return item.href === pathEnd;
-    })?.key || 'Resume';
+  const isInspectPage =
+    location.pathname.includes('/resumes/') ||
+    location.pathname.includes('/coverletters/');
+  const showFilterSidebar =
+    !isInspectPage && (activeTabKey === 'resume' || activeTabKey === 'cover');
+  const currentFilterConfig =
+    activeTabKey === 'resume' ? resumeFilterConfig : coverLetterFilterConfig;
 
-  const activeTabItem = fakeItems.find((item) => item.key === tab);
+  const sidebarFilteredCount =
+    activeTabKey === 'resume'
+      ? filteredResumes.length
+      : filteredCoverLetters.length;
+  const sidebarLoading =
+    activeTabKey === 'resume' ? resumesLoading : coverlettersLoading;
+
   return (
     <div className="h-[calc(100dvh)] bg-background flex flex-col">
       <nav className="px-4 py-2 flex flex-row items-center justify-between w-full border-b border-border bg-background">
@@ -103,7 +204,7 @@ export const ResourceLayout = () => {
           radius="sm"
           size="sm"
         >
-          {fakeItems.map((item) => (
+          {resourceItems.map((item) => (
             <Tab
               key={item.key}
               title={
@@ -113,7 +214,7 @@ export const ResourceLayout = () => {
                     item.className,
                   )}
                 >
-                  <NavLink to={item.href}>{item.label}</NavLink>
+                  <span>{item.label}</span>
                   {item.count !== undefined && item.count !== null && (
                     <NumberChip
                       className={cn(item.activeClassName, `text-${item.key}`)}
@@ -155,13 +256,71 @@ export const ResourceLayout = () => {
           </Button>
         ) : null}
         <div className="px-1">
-          <CreateResourceModal />
+          <Dropdown
+            items={dropdownItems}
+            onAction={(key) => {
+              const item = dropdownItems.find((i) => i.key === key);
+              item?.onAction?.();
+            }}
+            trigger={
+              <Button variant="flat" isIconOnly={true} radius="md">
+                <PlusIcon className="size-4" />
+              </Button>
+            }
+          />
         </div>
       </nav>
-      <div className="flex-1 overflow-y-scroll">
-        <Outlet />
+      <div className="flex-1 flex overflow-hidden">
+        <div className="flex-1 overflow-y-scroll">
+          <Outlet
+            context={
+              {
+                filteredResumes,
+                filteredCoverLetters,
+                resumesLoading,
+                coverlettersLoading: coverlettersLoading,
+                totalResumes: resumes?.length || 0,
+                totalCoverLetters: coverletters?.length || 0,
+              } satisfies ResourceOutletContext
+            }
+          />
+        </div>
+        {showFilterSidebar && (
+          <div className="py-2 pr-2">
+            <ResourceFilterSidebar
+              config={currentFilterConfig}
+              filteredCount={sidebarFilteredCount}
+              isLoading={sidebarLoading}
+              onServerFilterChange={() => { }}
+            />
+          </div>
+        )}
       </div>
       <DeleteResourceModal modalRef={deleteModalRef} />
+      <Modal
+        modalRef={uploadResumeRef}
+        isDismissable={true}
+        isKeyboardDismissDisabled={false}
+        hideCloseButton={true}
+        className="bg-light p-4 rounded"
+      >
+        <PdfUploader
+          type="resume"
+          onUpload={(urls) => handleUploadResume(urls)}
+        />
+      </Modal>
+      <Modal
+        modalRef={uploadCoverLetterRef}
+        isDismissable={true}
+        isKeyboardDismissDisabled={false}
+        hideCloseButton={true}
+        className="bg-light p-4 rounded"
+      >
+        <PdfUploader
+          type="coverLetter"
+          onUpload={(urls) => handleUploadCoverLetter(urls)}
+        />
+      </Modal>
     </div>
   );
 };

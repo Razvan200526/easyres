@@ -1,5 +1,5 @@
 import type { ResumeType } from '@sdk/types';
-import type { ResumeFilters } from './ResumeFilterSidebar';
+import type { ResumeFilters } from './components/ResumeFilterSidebar';
 
 /**
  * Filters and sorts resumes based on the provided filters

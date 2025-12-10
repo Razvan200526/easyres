@@ -1,13 +1,13 @@
+import { Button } from '@client/common/components/button';
+import { InputAvatar } from '@client/common/components/input/InputAvatar';
+import { InputName } from '@client/common/components/input/InputFirstName';
+import { Toast } from '@client/common/components/toast';
 import { backend } from '@client/shared/backend';
 import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Form } from '@heroui/react';
-import { Button } from '@shared/components/button';
-import { InputAvatar } from '@shared/components/input/InputAvatar';
-import { InputName } from '@shared/components/input/InputFirstName';
-import { Toast } from '@shared/components/toast';
 import { isNameValid } from '@shared/validators/isNameValid';
 import { useSignupStore } from '../signUpStore';
 

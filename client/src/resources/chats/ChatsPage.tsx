@@ -1,9 +1,9 @@
+import { Button } from '@client/common/components/button';
+import { AiChatIcon } from '@client/common/icons/AiChatIcon';
 import { PageLoader } from '@client/shared/components/PageLoader';
 import { useAuth } from '@client/shared/hooks';
 import { ScrollShadow } from '@heroui/react';
 import { Icon } from '@iconify/react';
-import { Button } from '@shared/components/button';
-import { AiChatIcon } from '@shared/icons/AiChatIcon';
 import { useNavigate } from 'react-router';
 import { EmptyState } from '../EmptyState';
 import { useChatSessions } from '../hooks';

@@ -33,6 +33,9 @@ export class ResumeEntity {
   @Column({ type: 'int', nullable: true })
   filesize: number;
 
+  @Column({ enum: ['processing', 'ready', 'failed'], default: 'processing' })
+  state: 'processing' | 'ready' | 'failed';
+
   @CreateDateColumn()
   uploadedAt: Date;
 

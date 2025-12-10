@@ -1,8 +1,8 @@
+import { Button } from '@client/common/components/button';
+import { InputOTP } from '@client/common/components/input/InputOTP';
 import { Toast } from '@client/common/components/toast';
 import { backend } from '@client/shared/backend';
 import { Form, Spinner } from '@heroui/react';
-import { Button } from '@shared/components/button';
-import { InputOTP } from '@shared/components/input/InputOTP';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useSignupStore } from '../signUpStore';

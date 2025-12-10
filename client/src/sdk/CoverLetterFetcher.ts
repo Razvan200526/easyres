@@ -1,3 +1,4 @@
+import type { ResourceFilters } from '@client/resources/shared';
 import { Toast } from '../common/components/toast';
 import { queryClient } from '../shared/QueryClient';
 import type { Fetcher } from './Fetcher';
@@ -16,15 +17,18 @@ export class CoverLetterFetcher {
     retrieve: async (payload: { userId: string }): Promise<ResponseType> => {
       return this.fetcher.get(`/api/coverletters/${payload.userId}`);
     },
-    // upload: async (payload: {
-    //   userId: string;
-    //   url: string;
-    // }): Promise<ResponseType> => {
-    //   return this.fetcher.post(
-    //     `/api/coverletter/${payload.userId}/upload`,
-    //     payload,
-    //   );
-    // },
+    filter: async (payload: {
+      filters: ResourceFilters;
+      userId: string;
+    }): Promise<ResponseType<{ coverletters: CoverLetterType[] }>> => {
+      const params = new URLSearchParams(
+        Object.entries(payload.filters).map(([k, v]) => [k, String(v)]),
+      );
+      return this.fetcher.get(
+        `/api/resumes/${payload.userId}/filter?${params.toString()}`,
+      );
+    },
+
     get: async (payload: { id: string }): Promise<ResponseType> => {
       return this.fetcher.get(`/api/coverletter/${payload.id}`);
     },
@@ -54,7 +58,7 @@ export class CoverLetterFetcher {
     },
   };
 
-  public readonly create = (payload: { url: string }) => {
+  public readonly create = async (payload: { url: string }) => {
     const socket = new Socket(import.meta.env.VITE_PY_URL as string);
 
     socket.on<{ coverletter: CoverLetterType }>('message', (response) => {

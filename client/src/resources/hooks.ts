@@ -1,6 +1,8 @@
+import { Toast } from '@client/common/components/toast';
 import { backend } from '@client/shared/backend';
 import { queryClient } from '@client/shared/QueryClient';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import type { ResourceFilters } from './shared';
 
 export interface ChatSession {
   id: string;
@@ -18,8 +20,6 @@ export interface ChatMessage {
   sender: 'user' | 'ai';
   timestamp: Date;
 }
-
-// Add these new hooks to the existing hooks.ts file
 
 export const useChatSessions = (userId: string) => {
   return useQuery({
@@ -120,6 +120,49 @@ export const useSaveChatMessage = () => {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['chatMessages', variables.sessionId],
+      });
+    },
+  });
+};
+
+export const useFilterResumes = (userId: string) => {
+  return useMutation({
+    mutationFn: async (data: { filters: ResourceFilters }) => {
+      const response = await backend.resume.resumes.filter({
+        filters: data.filters,
+        userId,
+      });
+      if (!response.success) {
+        Toast.error({
+          description: response?.message || 'Could not filter resumes',
+        });
+      }
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['resumes', userId],
+      });
+    },
+  });
+};
+export const useFilterCoverletters = (userId: string) => {
+  return useMutation({
+    mutationFn: async (data: { filters: ResourceFilters }) => {
+      const response = await backend.coverLetter.coverletter.filter({
+        filters: data.filters,
+        userId,
+      });
+      if (!response.success) {
+        Toast.error({
+          description: response.message || 'Could not filter coverletters',
+        });
+      }
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['coverletters', userId],
       });
     },
   });

@@ -33,6 +33,9 @@ export class CoverletterEntity {
   @Column({ type: 'int', nullable: true })
   filesize: number;
 
+  @Column({ enum: ['ready', 'processing', 'failed'], default: 'processing' })
+  state: 'ready' | 'processing' | 'failed';
+
   @CreateDateColumn()
   uploadedAt: Date;
 

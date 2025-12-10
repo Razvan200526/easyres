@@ -1,4 +1,4 @@
-import { Logo } from '@shared/icons/Logo';
+import { Logo } from '@client/common/icons/Logo';
 import { Link } from 'react-router';
 
 export const HeaderMinimize = () => {

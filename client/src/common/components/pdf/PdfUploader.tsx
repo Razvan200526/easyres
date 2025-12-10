@@ -1,10 +1,10 @@
+import { PdfIcon } from '@client/common/icons/PdfIcon';
 import {
   useAddCoverLetter,
-  useAddResume,
+  useCreateResume,
 } from '@client/resources/resumes/hooks';
 import { useAuth } from '@client/shared/hooks';
 import { cn, Progress, ScrollShadow } from '@heroui/react';
-import { PdfIcon } from '@shared/icons/PdfIcon';
 import * as React from 'react';
 import { useState } from 'react';
 import { Button } from '../button';
@@ -46,7 +46,7 @@ export const PdfUploader = React.forwardRef<HTMLDivElement, PdfUploaderProps>(
     const [isLoading, setIsLoading] = useState(false);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const { data: user } = useAuth();
-    const { mutateAsync: addResume } = useAddResume(user?.id || '');
+    const { mutateAsync: addResume } = useCreateResume(user?.id || '');
     const { mutateAsync: addCoverLetter } = useAddCoverLetter(user?.id || '');
     if (!user || !user.id) {
       Toast.error({ description: 'Please login to upload files' });

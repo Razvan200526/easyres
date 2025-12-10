@@ -52,7 +52,7 @@ export const useRenameCoverLetter = (userId: string) => {
   });
 };
 
-export const useAddResume = (userId: string) => {
+export const useCreateResume = (userId: string) => {
   return useMutation({
     mutationFn: async (data: FormData) => {
       return backend.upload.resume.uploadResume(data);
@@ -75,7 +75,6 @@ export const useRenameResume = (userId: string) => {
       });
     },
     onSuccess: () => {
-      // Invalidate both the resume list and the individual resume
       queryClient.invalidateQueries({
         queryKey: ['resumes', userId],
       });

@@ -4,6 +4,6 @@ const urlSchema = z.object({
   url: z.url(),
 });
 
-export const isUrlValid = (url: string) => {
+export const isUrlValid = (url: string | undefined) => {
   return urlSchema.safeParse(url).success;
 };

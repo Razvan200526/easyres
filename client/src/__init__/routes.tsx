@@ -3,8 +3,8 @@ import { ApplicationInspectPage } from '@client/applications/pages/ApplicationIn
 import { ApplicationPage } from '@client/applications/pages/ApplicationPage';
 import { DashboardLayout } from '@client/dashboard/DashboardLayout';
 import { HeroPage } from '@client/hero/HeroPage';
-import { CoverLettersPage } from '@client/resources/cover-letter/CoverLettersPage';
-import { CoverLetterInspectPage } from '@client/resources/cover-letter/CoverletterInspectPage';
+import { CoverLettersPage } from '@client/resources/cover-letter/pages/CoverLettersPage';
+import { CoverLetterInspectPage } from '@client/resources/cover-letter/pages/CoverletterInspectPage';
 import { FeatureNotImplemented } from '@client/resources/FeatureNotImplementedYet';
 import { ResourceLayout } from '@client/resources/ResourceLayout';
 import { ResumeInspectPage } from '@client/resources/resumes/ResumeInspectPage';
@@ -19,11 +19,10 @@ import { SettingsLayout } from '@client/settings/SettingsLayout';
 import { AuthLayout } from '@client/shared/components/layout/AuthLayout';
 import { SigninPage } from '@client/signin/SignInPage';
 import { SignupPage } from '@client/signup/SignUpPage';
-import { ErrorFallback } from '@shared/components/ErrorFallback';
-import { NotFoundPage } from '@shared/NotFoundPage';
+import { ErrorFallback } from '@common/components/pages/ErrorFallback';
+import { NotFoundPage } from '@common/components/pages/NotFoundPage';
 import { ErrorBoundary } from 'react-error-boundary';
 import { createBrowserRouter, Outlet } from 'react-router';
-
 export const ErrorBoundaryLayout = () => (
   <ErrorBoundary FallbackComponent={ErrorFallback}>
     <Outlet />

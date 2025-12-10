@@ -1,5 +1,5 @@
+import { PdfIcon } from '@client/common/icons/PdfIcon';
 import { cn } from '@heroui/react';
-import { PdfIcon } from '@shared/icons/PdfIcon';
 import { isNameValid } from '@shared/validators/isNameValid';
 import { useImperativeHandle, useState } from 'react';
 import { Input } from './Input';

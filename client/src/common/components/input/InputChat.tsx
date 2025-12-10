@@ -1,6 +1,8 @@
+import { Button } from '@client/common/components/button';
+import { MessageIcon } from '@client/common/icons/MessageIcon';
+import { StopIcon } from '@heroicons/react/20/solid';
 import { cn, Input as HeroInput, type InputProps } from '@heroui/react';
-import { Icon } from '@iconify/react';
-import { Button } from '@shared/components/button';
+import { SendIcon } from 'lucide-react';
 import { forwardRef } from 'react';
 
 export type InputChatProps = Omit<
@@ -14,8 +16,43 @@ export type InputChatProps = Omit<
   onEnter: (value: string) => void;
   onStop: () => void;
   isPending?: boolean;
-  theme?: 'resume' | 'coverletter' | 'portfolio';
+  theme?: 'resume' | 'coverletter' | 'portfolio' | 'default';
   showStopButton?: boolean;
+};
+
+type ThemeColorsType = {
+  default: {
+    text: string;
+    placeholder: string;
+    border: string;
+    borderHover: string;
+    borderFocus: string;
+    button: string;
+  };
+  resume: {
+    text: string;
+    placeholder: string;
+    border: string;
+    borderHover: string;
+    borderFocus: string;
+    button: string;
+  };
+  coverletter: {
+    text: string;
+    placeholder: string;
+    border: string;
+    borderHover: string;
+    borderFocus: string;
+    button: string;
+  };
+  portfolio: {
+    text: string;
+    placeholder: string;
+    border: string;
+    borderHover: string;
+    borderFocus: string;
+    button: string;
+  };
 };
 
 export const InputChat = forwardRef<HTMLInputElement, InputChatProps>(
@@ -29,13 +66,21 @@ export const InputChat = forwardRef<HTMLInputElement, InputChatProps>(
       onEnter,
       isPending,
       onStop,
-      theme = 'coverletter',
+      theme = 'default',
       value,
       showStopButton = false,
       ...rest
     } = props;
 
-    const themeColors = {
+    const themeColors: ThemeColorsType = {
+      default: {
+        text: 'text-primary',
+        placeholder: 'placeholder-primary/50',
+        border: 'border-primary/20',
+        borderHover: 'data-[hover=true]:border-primary',
+        borderFocus: 'data-[focus=true]:border-primary',
+        button: 'text-primary',
+      },
       resume: {
         text: 'text-resume',
         placeholder: 'placeholder-resume/50',
@@ -62,7 +107,12 @@ export const InputChat = forwardRef<HTMLInputElement, InputChatProps>(
       },
     };
 
-    const colors = themeColors[theme];
+    var colors: any;
+    if (!theme) {
+      colors = themeColors.default;
+    } else {
+      colors = themeColors[theme];
+    }
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
       if (e.key === 'Enter' && !e.shiftKey) {
@@ -85,10 +135,7 @@ export const InputChat = forwardRef<HTMLInputElement, InputChatProps>(
         value={value}
         onKeyDown={handleKeyDown}
         startContent={
-          <Icon
-            icon="heroicons:chat-bubble-oval-left"
-            className={cn('size-4', `${colors.text}`)}
-          />
+          <MessageIcon className={cn('size-4', `${colors.text}`)} />
         }
         endContent={
           showStopButton ? (
@@ -96,19 +143,16 @@ export const InputChat = forwardRef<HTMLInputElement, InputChatProps>(
               type="button"
               isIconOnly
               size="sm"
+              radius="sm"
               variant="light"
-              className={cn(
-                colors.button,
-                'bg-danger/10 text-danger hover:bg-danger/20',
-              )}
               onPress={onStop}
             >
-              <Icon icon="heroicons:stop" className="size-4" />
+              <StopIcon className="size-4" />
             </Button>
           ) : (
             <Button
               type="button"
-              isIconOnly={true}
+              isIconOnly
               radius="full"
               size="sm"
               variant="light"
@@ -116,7 +160,7 @@ export const InputChat = forwardRef<HTMLInputElement, InputChatProps>(
               className={colors.button}
               onPress={() => (isPending ? onStop() : onEnter(value || ''))}
             >
-              <Icon icon="heroicons:paper-airplane" className="size-4" />
+              <SendIcon className="size-4" />
             </Button>
           )
         }

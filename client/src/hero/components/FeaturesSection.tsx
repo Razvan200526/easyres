@@ -1,10 +1,10 @@
+import { H2, P } from '@client/common/components/typography';
 import {
   ChartBarIcon,
   DocumentMagnifyingGlassIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline';
 import { Card, CardBody, CardHeader } from '@heroui/react';
-import { H2, P } from '@shared/components/typography';
 
 const features = [
   {

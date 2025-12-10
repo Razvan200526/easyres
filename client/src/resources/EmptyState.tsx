@@ -1,5 +1,5 @@
+import { H6 } from '@client/common/components/typography';
 import { cn } from '@heroui/react';
-import { H6 } from '@shared/components/typography';
 
 interface EmptyStateProps {
   icon: React.ComponentType<{ className?: string }>;

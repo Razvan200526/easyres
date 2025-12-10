@@ -1,11 +1,11 @@
+import { Button } from '@client/common/components/button';
+import { Input } from '@client/common/components/input';
+import { Selector } from '@client/common/components/select/Selector';
+import { Toast } from '@client/common/components/toast';
 import { useCoverLetters, useResumes } from '@client/resources/resumes/hooks';
 import { useAuth } from '@client/shared/hooks';
+import { H4 } from '@common/components/typography';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { Button } from '@shared/components/button';
-import { Input } from '@shared/components/input';
-import { Selector } from '@shared/components/select/Selector';
-import { Toast } from '@shared/components/toast';
-import { H4 } from '@shared/components/typography';
 import { useState } from 'react';
 import { useCreateApplication } from '../hooks/applicationHooks';
 

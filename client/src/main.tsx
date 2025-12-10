@@ -9,15 +9,15 @@ import './tailwind.css';
 import * as Sentry from '@sentry/react';
 import { ToastProvider } from './common/components/toast';
 
-Sentry.init({
-  dsn: import.meta.env.VITE_SENTRY_URL,
-  sendDefaultPii: true,
-  integrations: [Sentry.replayIntegration()],
-  replaysSessionSampleRate: 0.1,
-  replaysOnErrorSampleRate: 1.0,
-  enableLogs: true,
-  tracePropagationTargets: ['localhost', /^https:\/\/yourserver\.io\/api/],
-});
+// Sentry.init({
+//   dsn: import.meta.env.VITE_SENTRY_URL,
+//   sendDefaultPii: true,
+//   integrations: [Sentry.replayIntegration()],
+//   replaysSessionSampleRate: 0.1,
+//   replaysOnErrorSampleRate: 1.0,
+//   enableLogs: true,
+//   tracePropagationTargets: ['localhost', /^https:\/\/yourserver\.io\/api/],
+// });
 
 try {
   const elem = document.getElementById('root');

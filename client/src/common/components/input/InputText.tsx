@@ -1,5 +1,5 @@
+import { KeyboardIcon } from '@client/common/icons/KeyboardIcon';
 import { cn } from '@heroui/react';
-import { KeyboardIcon } from '@shared/icons/KeyboardIcon';
 import { useImperativeHandle, useState } from 'react';
 import { Input } from './Input';
 

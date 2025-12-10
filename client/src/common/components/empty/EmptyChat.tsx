@@ -1,11 +1,11 @@
-import { MessageIcon } from '@shared/icons/MessageIcon';
+import { MessageIcon } from '@client/common/icons/MessageIcon';
 import { H6 } from '../typography';
 
 export const EmptyChat = () => {
   return (
     <div className="h-full flex items-center justify-center">
       <div className="flex items-center gap-2">
-        <MessageIcon className="size-8 text-primary-400" />
+        <MessageIcon className="size-8 text-primary" />
         <H6>Chat about your resume</H6>
       </div>
     </div>

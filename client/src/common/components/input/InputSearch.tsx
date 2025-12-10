@@ -1,5 +1,5 @@
+import { SearchIcon } from '@client/common/icons/SearchIcon';
 import { cn } from '@heroui/react';
-import { SearchIcon } from '@shared/icons/SearchIcon';
 import { useImperativeHandle, useState } from 'react';
 import { Input } from './Input';
 
