@@ -30,17 +30,14 @@ export class ApplicationEntity {
   })
   id: string = random.nanoid(15);
 
-  // Relationship with User - Many applications belong to one user
   @ManyToOne(() => UserEntity, { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
-  // Relationship with Resume - Optional, an application can have a resume
   @ManyToOne(() => ResumeEntity, { nullable: true })
   @JoinColumn({ name: 'resume_id' })
   resume?: ResumeEntity;
 
-  // Relationship with Cover Letter - Optional, an application can have a cover letter
   @ManyToOne(() => CoverletterEntity, { nullable: true })
   @JoinColumn({ name: 'coverletter_id' })
   coverletter?: CoverletterEntity;

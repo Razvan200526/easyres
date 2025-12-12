@@ -24,10 +24,9 @@ export const ResumeInspectPage = () => {
   }
   return (
     <div className="m-4 border border-border rounded h-[calc(100dvh-7rem)] flex flex-row">
-      <div className="m-4 rounded-xl flex-1">
+      <div className="m-4 rounded-xl flex-1 w-1/2">
         {!isFetching ? (
           <PdfViewer
-            toolbar={true}
             src={resumeData.url}
             initialPage={0}
             className="rounded border border-border"
@@ -36,7 +35,7 @@ export const ResumeInspectPage = () => {
           <Skeleton />
         )}
       </div>
-      <div className="m-4 flex-1">
+      <div className="m-4 flex-1 max-w-1/2">
         <ResumeChat resume={resumeData} />
       </div>
     </div>

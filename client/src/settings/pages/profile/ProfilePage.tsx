@@ -16,7 +16,6 @@ import { Avatar } from '@heroui/react';
 import { useRef, useState } from 'react';
 import { SettingsCard } from '../../components/SettingsCard';
 import { SettingsField } from '../../components/SettingsField';
-// import type { SettingsStoreType } from './settingsProfileStore';
 
 export const ProfilePage = () => {
   const { data: user, refetch } = useAuth();
@@ -46,7 +45,7 @@ export const ProfilePage = () => {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
-        picture: formData.image,
+        image: formData.image,
       });
 
       if (response.success) {

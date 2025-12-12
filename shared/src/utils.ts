@@ -152,7 +152,6 @@ export function formatDate(
 }
 
 export const pe = new PrettyError();
-
 pe.skipNodeFiles();
 pe.skipPackage('bun', 'zod');
 
@@ -162,11 +161,10 @@ export function printEnvErrors(errors: any[]) {
   errors.forEach((err) => {
     const variable = err.path[0];
     const cleaned = err.message.replace(/\s+/g, ' ');
-
     message += `${color.yellow('•')} ${color.white(variable)} ${color.gray('→')} ${color.red(cleaned)}\n`;
+
+    const e = new Error(message);
+
+    console.error(pe.render(e));
   });
-
-  const e = new Error(message);
-
-  console.error(pe.render(e));
 }

@@ -72,11 +72,11 @@ export class UserFetcher {
       name?: string;
       firstName?: string;
       lastName?: string;
-      picture?: string;
+      image?: string;
       isEmailVerified?: boolean;
     },
   ): Promise<ResponseType<UserType>> => {
-    return await this.fetcher.put(`/users/${id}`, payload);
+    return await this.fetcher.put(`/api/update/users/${id}`, payload);
   };
 
   public readonly delete = async (id: string): Promise<ResponseType<any>> => {

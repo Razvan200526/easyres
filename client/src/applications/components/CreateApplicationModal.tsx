@@ -111,7 +111,7 @@ export const CreateApplicationModal = ({
     onClose();
   };
   return (
-    <div className="bg-light rounded-lg p-8 shadow-sm border border-border">
+    <div className="bg-background rounded-lg p-8 shadow-sm border border-border">
       <div className="mb-6 flex items-center justify-between">
         <H4>Create New Application</H4>
         <Button variant="light" isIconOnly onPress={handleCancel}>

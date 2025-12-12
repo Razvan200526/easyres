@@ -269,17 +269,17 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
                                 remarkPlugins={[remarkGfm]}
                                 components={{
                                   h1: ({ children }) => (
-                                    <H1 className="text-xl font-semibold text-secondary-text mt-4 mb-2">
+                                    <H1 className="text-xl font-semibold text-primary mt-4 mb-2">
                                       {children}
                                     </H1>
                                   ),
                                   h2: ({ children }) => (
-                                    <H2 className="text-lg font-semibold text-secondary-text mt-3 mb-2">
+                                    <H2 className="text-lg font-semibold text-primary mt-3 mb-2">
                                       {children}
                                     </H2>
                                   ),
                                   h3: ({ children }) => (
-                                    <H3 className="text-base text-secondary-text font-semibold mt-2 mb-1">
+                                    <H3 className="text-base text-primary font-semibold mt-2 mb-1">
                                       {children}
                                     </H3>
                                   ),

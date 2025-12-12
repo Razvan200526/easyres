@@ -20,9 +20,7 @@ export default defineConfig({
           'react-vendor': ['react', 'react-dom', 'react-router'],
           'query-vendor': ['@tanstack/react-query'],
           charts: ['recharts'],
-          'pdf-viewer': [
-            'pdfjs-dist',
-          ],
+          'pdf-viewer': ['pdfjs-dist'],
           icons: ['lucide-react', '@heroicons/react'],
         },
       },

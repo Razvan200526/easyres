@@ -11,7 +11,6 @@ type FilterHeaderProps = {
   isLoading: boolean;
   resourceLabel: string;
   resourceLabelPlural: string;
-  accentColor: string;
 };
 
 export const FilterHeader = ({
@@ -22,7 +21,6 @@ export const FilterHeader = ({
   isLoading,
   resourceLabel,
   resourceLabelPlural,
-  accentColor,
 }: FilterHeaderProps) => {
   return (
     <div className="p-4 bg-linear-to-br from-primary-50 to-primary-100/50 border-b border-border/40">
@@ -53,12 +51,11 @@ export const FilterHeader = ({
         )}
       </div>
 
-      {/* Results count */}
       <div className="mt-3 flex items-center gap-2">
         <div
           className={cn(
             'h-1.5 w-1.5 rounded-full',
-            isLoading ? 'bg-amber-500 animate-pulse' : `bg-${accentColor}`,
+            isLoading ? 'bg-amber-500 animate-pulse' : 'bg-primary',
           )}
         />
         <p className="text-xs text-primary-700 font-medium">
@@ -66,7 +63,7 @@ export const FilterHeader = ({
             'Loading...'
           ) : (
             <>
-              <span className="font-bold text-primary">{totalCount}</span>{' '}
+              <span className="font-bold text-secondary">{totalCount}</span>{' '}
               {totalCount === 1 ? resourceLabel : resourceLabelPlural} found
             </>
           )}
