@@ -1,4 +1,3 @@
-// Generic resource type that covers common fields between Resume and CoverLetter
 export type BaseResource = {
   id: string;
   name: string;
@@ -9,7 +8,7 @@ export type BaseResource = {
   createdAt?: Date;
 };
 
-export type ResourceType = 'resumes' | 'coverLetters';
+export type ResourceType = 'resumes' | 'coverLetters' | 'applications';
 
 export type SortByOption = {
   value: string;

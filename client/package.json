@@ -42,7 +42,6 @@
     "nuqs": "^2.4.5",
     "pdfjs-dist": "5.4.394",
     "pg": "^8.15.6",
-    "pretty-error": "^4.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-error-boundary": "^6.0.0",

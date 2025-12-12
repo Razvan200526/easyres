@@ -73,7 +73,7 @@ export const SettingsLayout = () => {
 
   return (
     <div className="bg-background h-[calc(100dvh)] w-full flex-col">
-      <nav className="p-4 flex flex-row items-center justify-between w-full border-b border-border bg-background">
+      <nav className="py-2 px-4 flex flex-row items-center justify-between w-full border-b border-border bg-background">
         <div className="flex items-center justify-center gap-2">
           <SettingsIcon className="text-primary size-6" />
           <H4>Settings</H4>

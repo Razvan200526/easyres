@@ -37,7 +37,6 @@ export const PdfViewer = ({
   const zoomIn = () => setScale((prev) => Math.min(prev + 0.2, 3.0));
   const zoomOut = () => setScale((prev) => Math.max(prev - 0.2, 0.5));
 
-  // Determine which pages to render
   const pagesToRender: number[] = [];
   if (render) {
     const { startPage, endPage } = render();

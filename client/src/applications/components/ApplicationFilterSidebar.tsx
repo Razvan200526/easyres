@@ -3,73 +3,58 @@ import type { InputEmailRefType } from '@client/common/components/input/InputSea
 import { InputSearch } from '@client/common/components/input/InputSearch';
 import { Selector } from '@client/common/components/select/Selector';
 import {
-  useFilterCoverletters,
-  useFilterResumes,
-} from '@client/resources/hooks';
+  CollapsibleSection,
+  DateRangeFilter,
+  FilterHeader,
+  type ResourceFilterParams,
+  StateFilter,
+} from '@client/resources/shared';
+import {
+  type ApplicationFilters,
+  buildApplicationServerParams,
+} from '@client/resources/shared/filterUtils';
 import { useAuth } from '@client/shared/hooks';
 import {
   AdjustmentsHorizontalIcon,
   CalendarDaysIcon,
 } from '@heroicons/react/24/outline';
 import { useRef, useState } from 'react';
-import { useFilterStore } from '../filterStore';
-import { buildServerParams } from '../filterUtils';
-import type {
-  FilterConfig,
-  ResourceFilterParams,
-  ResourceFilters,
-} from '../types';
-import { CollapsibleSection } from './CollapsibleSection';
-import { DateRangeFilter } from './DateRangeFilter';
-import { FilterHeader } from './FilterHeader';
-import { StateFilter } from './StateFilter';
+import { useApplicationFilterStore } from '../applicationStore';
+import { useFilterApplications } from '../hooks/applicationHooks';
 
 type ResourceFilterSidebarProps = {
-  config: FilterConfig;
+  config: typeof import('@client/resources/shared/filterConfigs').applicationFilterConfig;
   filteredCount: number;
   isLoading?: boolean;
   onServerFilterChange?: (params: ResourceFilterParams) => void;
 };
 
-export const ResourceFilterSidebar = ({
+export const ApplicationFilterSidebar = ({
   config,
   filteredCount,
   isLoading = false,
   onServerFilterChange,
 }: ResourceFilterSidebarProps) => {
   const {
-    resumeFilters,
-    coverLetterFilters,
-    setResumeFilters,
-    setFilteredResumes,
-    setFilteredCoverLetters,
-    setCoverLetterFilters,
-    setIsFilteringResumes,
-    setIsFilteringCoverLetters,
-  } = useFilterStore();
+    applicationFilters,
+    setApplicationFilters,
+    setFilteredApplications,
+    setIsFilteringApplications,
+  } = useApplicationFilterStore();
 
   const { data: user } = useAuth();
-  const { mutateAsync: filterResumes, isPending: isFilteringResumes } =
-    useFilterResumes(user?.id || '');
   const {
-    mutateAsync: filterCoverLetters,
-    isPending: isFilteringCoverLetters,
-  } = useFilterCoverletters(user?.id || '');
-
-  const storeFilters =
-    config.resourceType === 'resumes' ? resumeFilters : coverLetterFilters;
-  const setStoreFilters =
-    config.resourceType === 'resumes'
-      ? setResumeFilters
-      : setCoverLetterFilters;
+    mutateAsync: filterApplications,
+    isPending: isFilteringApplications,
+  } = useFilterApplications(user?.id || '');
 
   const [localFilters, setLocalFilters] =
-    useState<ResourceFilters>(storeFilters);
+    useState<ApplicationFilters>(applicationFilters);
 
   const searchInputRef = useRef<InputEmailRefType | null>(null);
 
   const handleLocalFilterChange = (
-    key: keyof ResourceFilters,
+    key: keyof ApplicationFilters,
     value: string,
   ) => {
     setLocalFilters((prev) => ({ ...prev, [key]: value }));
@@ -79,44 +64,26 @@ export const ResourceFilterSidebar = ({
     const searchQuery = searchInputRef.current?.getValue() || '';
     const newFilters = { ...localFilters, searchQuery };
 
-    setStoreFilters(newFilters);
+    setApplicationFilters(newFilters);
 
-    if (config.resourceType === 'resumes') {
-      setIsFilteringResumes(true);
-      try {
-        const res = await filterResumes({ filters: newFilters });
-        setFilteredResumes(res.data?.resumes || []);
-      } catch (error) {
-        console.error('Error filtering resumes:', error);
-      } finally {
-        setIsFilteringResumes(false);
-      }
-    } else {
-      setIsFilteringCoverLetters(true);
-      try {
-        const res = await filterCoverLetters({ filters: newFilters });
-        setFilteredCoverLetters(res.data?.coverletters || []);
-      } catch (error) {
-        console.error('Error filtering cover letters:', error);
-      } finally {
-        setIsFilteringCoverLetters(false);
-      }
+    setIsFilteringApplications(true);
+    try {
+      const res = await filterApplications({ filters: newFilters });
+      setFilteredApplications(res.data || []);
+    } catch (error) {
+      console.error('Error filtering applications:', error);
+    } finally {
+      setIsFilteringApplications(false);
     }
 
-    onServerFilterChange?.(
-      buildServerParams(newFilters, config.defaultFilters),
-    );
+    onServerFilterChange?.(buildApplicationServerParams(newFilters));
   };
 
   const handleReset = () => {
     setLocalFilters(config.defaultFilters);
     searchInputRef.current?.setValue('');
-    setStoreFilters(config.defaultFilters);
-    if (config.resourceType === 'resumes') {
-      setFilteredResumes(null);
-    } else {
-      setFilteredCoverLetters(null);
-    }
+    setApplicationFilters(config.defaultFilters);
+    setFilteredApplications(null);
     onServerFilterChange?.({});
   };
 
@@ -125,14 +92,14 @@ export const ResourceFilterSidebar = ({
     localFilters.sortBy !== config.defaultFilters.sortBy ||
     localFilters.sortOrder !== config.defaultFilters.sortOrder ||
     localFilters.dateRange !== config.defaultFilters.dateRange ||
-    localFilters.state !== config.defaultFilters.state;
+    localFilters.status !== config.defaultFilters.status;
 
   const activeFilterCount = [
     localFilters.searchQuery !== '',
     localFilters.sortBy !== config.defaultFilters.sortBy ||
       localFilters.sortOrder !== config.defaultFilters.sortOrder,
     localFilters.dateRange !== config.defaultFilters.dateRange,
-    localFilters.state !== config.defaultFilters.state,
+    localFilters.status !== config.defaultFilters.status,
   ].filter(Boolean).length;
 
   const sortOrderItems = [
@@ -140,7 +107,7 @@ export const ResourceFilterSidebar = ({
     { value: 'desc', label: 'Descending' },
   ];
 
-  const isApplying = isFilteringResumes || isFilteringCoverLetters;
+  const isApplying = isFilteringApplications;
 
   return (
     <div className="my-2 w-72 flex flex-col bg-background rounded border border-border h-fit overflow-hidden">
@@ -216,9 +183,9 @@ export const ResourceFilterSidebar = ({
           defaultOpen={false}
         >
           <StateFilter
-            options={config.stateOptions}
-            selectedValue={localFilters.state}
-            onSelect={(value) => handleLocalFilterChange('state', value)}
+            options={config.statusOptions}
+            selectedValue={localFilters.status}
+            onSelect={(value) => handleLocalFilterChange('status', value)}
           />
         </CollapsibleSection>
       </div>

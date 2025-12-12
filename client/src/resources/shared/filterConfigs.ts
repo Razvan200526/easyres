@@ -1,3 +1,4 @@
+import { defaultApplicationFilters } from './filterUtils';
 import type { FilterConfig, ResourceFilters } from './types';
 
 const defaultFilters: ResourceFilters = {
@@ -24,6 +25,14 @@ const commonStateOptions = [
   { value: 'failed', label: 'Failed', color: 'bg-red-500' },
 ];
 
+const applicationStatusOptions = [
+  { value: 'all', label: 'All Statuses', color: 'bg-primary' },
+  { value: 'applied', label: 'Applied', color: 'bg-blue-500' },
+  { value: 'interviewing', label: 'Interviewing', color: 'bg-amber-500' },
+  { value: 'accepted', label: 'Accepted', color: 'bg-green-500' },
+  { value: 'rejected', label: 'Rejected', color: 'bg-red-500' },
+];
+
 export const resumeFilterConfig: FilterConfig = {
   resourceType: 'resumes',
   resourceLabel: 'resume',
@@ -39,6 +48,22 @@ export const resumeFilterConfig: FilterConfig = {
   defaultFilters,
 };
 
+export const applicationFilterConfig = {
+  resourceType: 'applications' as const,
+  resourceLabel: 'application',
+  resourceLabelPlural: 'applications',
+  accentColor: 'application',
+  sortByOptions: [
+    { value: 'jobTitle', label: 'Job Title' },
+    { value: 'employer', label: 'Employer' },
+    { value: 'location', label: 'Location' },
+    { value: 'createdAt', label: 'Created Date' },
+    { value: 'status', label: 'Status' },
+  ],
+  dateRangeOptions: commonDateRangeOptions,
+  statusOptions: applicationStatusOptions,
+  defaultFilters: defaultApplicationFilters,
+};
 export const coverLetterFilterConfig: FilterConfig = {
   resourceType: 'coverLetters',
   resourceLabel: 'cover letter',

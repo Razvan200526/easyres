@@ -291,7 +291,7 @@ export const ResourceLayout = () => {
               config={currentFilterConfig}
               filteredCount={sidebarFilteredCount}
               isLoading={sidebarLoading}
-              onServerFilterChange={() => { }}
+              onServerFilterChange={() => {}}
             />
           </div>
         )}
